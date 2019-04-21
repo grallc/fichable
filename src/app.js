@@ -3,8 +3,14 @@ const app = express();
 const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
-const firebase = require("firebase");
 
+// Firebase relative imports
+const firebase = require("firebase");
+const firebaseConfig = require('../config/keys.js')
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// Application the port run in
 const port = 8000;
 
 // Partials' folder

@@ -12,3 +12,7 @@ package-lock.json
 # VSCode
 .vscode
 .vs
+
+# Config
+config/keys_prod.js
+config/keys_dev.js
