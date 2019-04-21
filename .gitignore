@@ -7,8 +7,8 @@ package-lock.json
 
 
 # PHPStorm
-.idea/
+.idea
 
 # VSCode
 .vscode
-.vs/
+.vs
