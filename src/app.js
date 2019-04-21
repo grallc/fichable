@@ -16,8 +16,19 @@ app.set("view engine", "hbs");
 // Where are views located ?
 app.use(express.static(__dirname + "/public"));
 
+// index.html page
 app.get("/", function(req, res) {
     res.render(path.join(__dirname + "/views/layout/index.hbs"));
+});
+
+// create.html page
+app.get('/create', (req, res) => {
+    res.render(path.join(__dirname + "/views/layout/create.hbs"));
+});
+
+// profile.html page
+app.get('/profile', (req, res) => {
+    res.render(path.join(__dirname + "/views/layout/profile.hbs"));
 });
 
 
