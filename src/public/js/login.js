@@ -1,5 +1,5 @@
 (function() {
-    var config = {
+    const config = {
         apiKey: "AIzaSyBvPlLMs4diePZNleDq4LgM-8fMUazrgnI",
         authDomain: "fichable-dev.firebaseapp.com",
         databaseURL: "https://fichable-dev.firebaseio.com",
@@ -9,13 +9,36 @@
       };
     firebase.initializeApp(config);
 
-    var txtEmail = document.getElementById('txtEmail');
-    var txtPassword = document.getElementById('txtPassword');
-    var btnLogin = document.getElementById('btnLogin');
+    const loginUser = document.getElementById('loginUser');
+    const loginPassword = document.getElementById('loginPassword');
+    const btnLogin = document.getElementById('btnLogin');
 
     btnLogin.addEventListener('click', e => {
-        console.log('caca');
+        const email = loginUser.value;
+        const password = loginPassword.value;
+        const auth = firebase.auth();
+
+        auth.signinwith
+        auth.signInWithEmailAndPassword(email, password).catch(e => {
+            console.log(e.message);
+        });
     });
+
+    const registerEmail = document.getElementById('registerEmail');
+    const registerPassword = document.getElementById('registerPassword');
+    const registerConfirmPassword = document.getElementById('registerConfirmPassword');
+    const btnRegister = document.getElementById('btnRegister');
+
+    btnRegister.addEventListener('click', e => {
+        const email = registerEmail.value;
+        const password = registerPassword.value;
+        const auth = firebase.auth();
+
+        auth.signInWithEmailAndPassword(email, password).catch(e => {
+            console.log(e.message);
+        });
+    });
+
 
 
 }());

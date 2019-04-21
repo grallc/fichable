@@ -1,40 +1,32 @@
-<form>
+<div class="container register">
+  <h3>Enregistrement</h3>
+  {{!-- <label><b>Nom d'utilisateur</b></label>
+  <input type="text" placeholder="Nom d'utilisateur" id="registerUsername" required> --}}
 
-  <div class="container">
-    <h3>Enregistrement</h3>
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" required>
+  <label><b>Adresse Email</b></label>
+  <input type="text" placeholder="Adresse Email" id="registerEmail" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="psw" required>
+  <label ><b>Mot de Passe</b></label>
+  <input type="password" placeholder="Mot de Passe" id="registerPassword" required>
 
-    <label for="psw-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
-    <hr>
+  <label ><b>Confirmation du Mot de Passe</b></label>
+  <input type="password" placeholder="Confirmez le mot de passe" id="registerConfirmPassword" required>
 
-    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
-    <button type="submit" class="registerbtn">Register</button>
-  </div>
-</form>
+  <button id="btnRegister">S'enregistrer</button>
+</div>
 
 
-<form>
- <div class="container">
-    <h3>Connexion</h3>
-    <label for="uname"><b>Username</b></label>
-    <input type="text" placeholder="Enter Username" id="txtEmail" required>
+<div class="container login">
+  <h3>Connexion</h3>
+  <label><b>Adresse Email</b></label>
+  <input type="text" placeholder="Adresse Email" id="loginUser" required>
 
-    <label for="psw"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" id="txtPassword" required>
+  <label ><b>Mot de Passe</b></label>
+  <input type="password" placeholder="Mot de Passe" id="loginPassword" required>
 
-    <button id="btnLogin">Login</button>
-    <label>
-      <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
-  </div>
+  <button id="btnLogin">Se connecter</button>
+</div>
 
-  <div class="container" style="background-color:#f1f1f1">
-    <button type="button" class="cancelbtn">Cancel</button>
-    <span class="psw">Forgot <a href="#">password?</a></span>
-  </div>
-</form>
+<div class="container" style="background-color:#f1f1f1">
+  <span><a href="#">Mot de passe oublié</a></span>
+</div>
