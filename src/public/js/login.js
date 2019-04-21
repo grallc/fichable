@@ -9,6 +9,11 @@
       };
     firebase.initializeApp(config);
 
+    const btnNavbarProfile = document.getElementById('navbarProfile');
+    btnNavbarProfile.addEventListener('click', e => {
+        console.log('debug');
+    });
+
     const loginUser = document.getElementById('loginUser');
     const loginPassword = document.getElementById('loginPassword');
     const btnLogin = document.getElementById('btnLogin');
@@ -38,8 +43,4 @@
             console.log(e.message);
         });
     });
-
-
-
 }());
-console.log('index.js is working.');
