@@ -1,4 +1,5 @@
-(function() {
+(function () {
+
     const config = {
         apiKey: "AIzaSyBvPlLMs4diePZNleDq4LgM-8fMUazrgnI",
         authDomain: "fichable-dev.firebaseapp.com",
@@ -6,7 +7,7 @@
         projectId: "fichable-dev",
         storageBucket: "fichable-dev.appspot.com",
         messagingSenderId: "327394286391"
-      };
+    };
     firebase.initializeApp(config);
 
     const btnNavbarProfile = document.getElementById('navbarProfile');
@@ -43,4 +44,18 @@
             console.log(e.message);
         });
     });
+
+    // Test
+    // firebase.auth().onAuthStateChanged(firebaseUser => {
+    //     if (firebaseUser) {
+    //         var newPostKey = firebase.database().ref().child('fiches').push().key;
+    //         const post = {
+    //             userId: firebaseUser.uid,
+    //             content: 'dzedzedz's
+    //         }
+        
+    //         firebase.database().ref('/fiches/' + newPostKey).set(post);
+        
+    //     }
+    // })
 }());

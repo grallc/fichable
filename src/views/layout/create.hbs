@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Fichable</title>
 </head>
+
 <body>
     {{> header}}
     <h4>Créer une fiche</h4>
+    <div class="container create">
+        <label><b>Titre</b></label>
+        <input type="text" placeholder="Titre" id="submitTitle" required>
+
+        <label><b>Contenu (texte)</b></label>
+        <textarea placeholder="Contenu" id="submitTextContent" required></textarea>
+
+        <button id="btnRegister">Soumettre</button>
+    </div>
+
     {{> footer}}
 </body>
+
 </html>
