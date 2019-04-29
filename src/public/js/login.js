@@ -24,7 +24,6 @@
         const password = loginPassword.value;
         const auth = firebase.auth();
 
-        auth.signinwith
         auth.signInWithEmailAndPassword(email, password).catch(e => {
             console.log(e.message);
         });
@@ -40,7 +39,7 @@
         const password = registerPassword.value;
         const auth = firebase.auth();
 
-        auth.signInWithEmailAndPassword(email, password).catch(e => {
+        auth.createUserWithEmailAndPassword(email, password).catch(e => {
             console.log(e.message);
         });
     });
