@@ -24,8 +24,10 @@
         const password = loginPassword.value;
         const auth = firebase.auth();
 
-        auth.signInWithEmailAndPassword(email, password).catch(e => {
-            console.log(e.message);
+        auth.signInWithEmailAndPassword(email, password).then(() => {
+            document.getElementById('loginInfoMessage').innerHTML = "Vous vous êtes connecté avec succès";            
+        }).catch(error => {
+            document.getElementById('loginInfoMessage').innerHTML = error.message;
         });
     });
 
@@ -39,8 +41,10 @@
         const password = registerPassword.value;
         const auth = firebase.auth();
 
-        auth.createUserWithEmailAndPassword(email, password).catch(e => {
-            console.log(e.message);
+        auth.createUserWithEmailAndPassword(email, password).then(() => {
+            document.getElementById('loginInfoMessage').innerHTML = "Vous vous êtes enregistré avec succès";            
+        }).catch(e => {
+            document.getElementById('loginInfoMessage').innerHTML = e.message;            
         });
     });
 
