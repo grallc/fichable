@@ -5,7 +5,7 @@ const hbs = require("hbs");
 const fs = require("fs");
 
 // Application the port run in
-const port = 8000;
+const port = 8080;
 
 // Partials' folder
 hbs.registerPartials(__dirname + "/views/layout/partials");
