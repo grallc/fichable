@@ -3,7 +3,7 @@
     const config = {
         apiKey: "AIzaSyBvPlLMs4diePZNleDq4LgM-8fMUazrgnI",
         authDomain: "fichable-dev.firebaseapp.com",
-        databaseURL: "https://fichable-dev.firebaseio.com",
+        databaseURL: "https:fichable-dev.firebaseio.com",
         projectId: "fichable-dev",
         storageBucket: "fichable-dev.appspot.com",
         messagingSenderId: "327394286391"
@@ -47,18 +47,4 @@
             document.getElementById('loginInfoMessage').innerHTML = e.message;            
         });
     });
-
-    // Test
-    // firebase.auth().onAuthStateChanged(firebaseUser => {
-    //     if (firebaseUser) {
-    //         var newPostKey = firebase.database().ref().child('fiches').push().key;
-    //         const post = {
-    //             userId: firebaseUser.uid,
-    //             content: 'dzedzedz's
-    //         }
-        
-    //         firebase.database().ref('/fiches/' + newPostKey).set(post);
-        
-    //     }
-    // })
 }());
