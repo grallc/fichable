@@ -15,13 +15,10 @@ if (process.env.NODE_ENV === 'production') {
     mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-prod';
 }
 
-console.log(`MongoDB connecting to "${mongoURI}"...`)
-
 mongoose
   .connect(mongoURI, { useNewUrlParser: true })
   .then(() => console.log(`MongoDB Connected`))
   .catch(err => console.log(err));
-
 
 
 // Partials' folder
