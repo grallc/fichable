@@ -3,9 +3,22 @@ const app = express();
 const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
+const mongoose = require('mongoose');
 
 // Application the port run in
 const port = 8080;
+
+mongoose.Promise = global.Promise;
+let mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-dev';
+
+if (process.env.NODE_ENV === 'production') {
+    mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-prod';
+}
+
+mongoose
+  .connect(mongoURI, { useNewUrlParser: true })
+  .then(() => console.log('MongoDB Connected'))
+  .catch(err => console.log(err));
 
 // Partials' folder
 hbs.registerPartials(__dirname + "/views/layout/partials");
@@ -36,3 +49,4 @@ app.get('/profile', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);
 });
+
