@@ -11,6 +11,9 @@
 <body>
     {{> header}}
     <h4>Acceuil - Toutes les fiches  ({{ posts.length }})</h4>
+    {{#if postsError}}
+        <p>Une erreur est survenue : {{postsError}}</p>
+    {{/if}}
     {{#each posts}}
         <li>{{ this.title }} : {{ this.description }}</li>
     {{/each}}  
