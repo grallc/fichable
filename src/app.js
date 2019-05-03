@@ -17,8 +17,10 @@ if (process.env.NODE_ENV === 'production') {
 
 mongoose
   .connect(mongoURI, { useNewUrlParser: true })
-  .then(() => console.log('MongoDB Connected'))
+  .then(() => console.log(`MongoDB Connected to ${mongoURI}`))
   .catch(err => console.log(err));
+
+
 
 // Partials' folder
 hbs.registerPartials(__dirname + "/views/layout/partials");
