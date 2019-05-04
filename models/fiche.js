@@ -7,9 +7,9 @@ var Fiche = mongoose.model('Fiche', {
         minlength: 3,
         trim: true
     },
-    content: {
+    description: {
         type: String,
-        required: false,
+        required: true,
         minlength: 3,
         trim: true
     },

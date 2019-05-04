@@ -59,25 +59,22 @@ app.get('/fiches/:ficheId', (req, res) => {
             res.render("fiches/new", {
                 pageTitle: "Nouvelle fiche"
             });
-        } else if(ficheId === 'submit') {
-            Fiche.create({
-                ...req.body,
-                _creator: 'currentUserId'
-            }, (error, fiche) => {
-                res.redirect('/');
-                if(error) {
-                    console.log(error.message);
-                }
-            });
-        } 
+        }
     }
 });
 
 
 // add a Fiche to the Database
 app.post("/fiches/submit", (req, res) => {
-    console.log(req.body)
-    
+    Fiche.create({
+        ...req.body,
+        _creator: 'currentUserId'
+    }, (error, fiche) => {
+        res.redirect('/');
+        if(error) {
+            console.log(error.message);
+        }
+    });
 });
 
 // profile.html page - login/signup/profile
