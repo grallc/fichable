@@ -8,10 +8,10 @@
 
 <body>
     {{> header}}
-        <script src="../js/create.js"></script>
+        <script src="../js/fiches/new.js"></script>
     <h4>Créer une fiche</h4>
     <div class="container create">
-        <form action="/posts/store" method="POST" id="createFicheForm">
+        <form action="/fiches/submit" method="POST" id="createFicheForm">
             <input type="text" placeholder="Titre" id="submitTitle" required>
             <textarea placeholder="Contenu" id="submitTextContent" required></textarea>
             <input type="submit" value="Send" />

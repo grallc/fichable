@@ -10,11 +10,11 @@
 
 <body>
     {{> header}}
-    <h4>Acceuil - Toutes les fiches  ({{ posts.length }})</h4>
-    {{#if postsError}}
-        <p>Une erreur est survenue : {{postsError}}</p>
+    <h4>Acceuil - Toutes les fiches  ({{ fiches.length }})</h4>
+    {{#if fichesError}}
+        <p>Une erreur est survenue : {{fichesError}}</p>
     {{/if}}
-    {{#each posts}}
+    {{#each fiches}}
         <li>{{ this.title }} : {{ this.description }}</li>
     {{/each}}  
     <p>Hello World</p>

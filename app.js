@@ -5,7 +5,7 @@ const hbs = require("hbs");
 const fs = require("fs");
 
 const mongoose = require('mongoose');
-var { Post } = require('./models/post');
+var { Fiche } = require('./models/fiche');
 
 // Application the port run in
 const port = 8080;
@@ -35,31 +35,31 @@ app.set("view engine", "hbs");
 
 // index.html page
 app.get("/", function (req, res) {
-    Post.find({}).then((posts) => {
-        res.render("index", {posts});
+    Fiche.find({}).then((fiches) => {
+        res.render("index", {fiches});
     }, (e) => {
-        res.render("index", {postsError : e.message})
+        res.render("index", {fichesError : e.message})
     });
     
 });
 
 // create.html page
-app.get('/posts/new', (req, res) => {
-    res.render("create");
+app.get('/fiches/new', (req, res) => {
+    res.render("fiches/new");
 });
 
-app.post("/posts/store", (req, res) => {
+app.post("/fiches/submit", (req, res) => {
     console.log(req.body)
-    Post.create({
+    Fiche.create({
         ...req.body
-    }, (error, post) => {
+    }, (error, fiche) => {
         res.redirect('/');
     });
 });
 
 // profile.html page
 app.get('/profile', (req, res) => {
-    res.render("profile");
+    res.render("users/profile");
 });
 
 

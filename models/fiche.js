@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var Post = mongoose.model('Post', {
+var Fiche = mongoose.model('Fiche', {
     title: {
         type: String,
         required: true,
@@ -23,6 +23,4 @@ var Post = mongoose.model('Post', {
     }
 });
 
-module.exports = {
-    Post
-};
+module.exports = { Fiche };
