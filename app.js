@@ -10,6 +10,7 @@ var { Fiche } = require('./models/fiche');
 // Application the port run in
 const port = 8080;
 
+// Define MongoURI
 mongoose.Promise = global.Promise;
 let mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-dev';
 
@@ -20,6 +21,7 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.urlencoded())
 app.use(express.static(__dirname + '/public'))
 
+// Connect the App to the Database
 mongoose
     .connect(mongoURI, {
         useNewUrlParser: true
@@ -43,11 +45,12 @@ app.get("/", function (req, res) {
     
 });
 
-// create.html page
+// /fiches/new page
 app.get('/fiches/new', (req, res) => {
     res.render("fiches/new");
 });
 
+// add a Fiche to the Database
 app.post("/fiches/submit", (req, res) => {
     console.log(req.body)
     Fiche.create({
@@ -57,7 +60,7 @@ app.post("/fiches/submit", (req, res) => {
     });
 });
 
-// profile.html page
+// profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
     res.render("users/profile");
 });
