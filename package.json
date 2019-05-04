@@ -19,7 +19,9 @@
   "homepage": "https://github.com/grallc/fichable#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
+    "express-session": "^1.16.1",
     "firebase": "^5.10.0",
     "firebase-admin": "^7.3.0",
     "handlebars": "^4.1.2",
