@@ -17,6 +17,9 @@ if (process.env.NODE_ENV === 'production') {
     mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-prod';
 }
 
+app.use(express.urlencoded())
+app.use(express.static(__dirname + '/public'))
+
 mongoose
     .connect(mongoURI, {
         useNewUrlParser: true
@@ -41,8 +44,17 @@ app.get("/", function (req, res) {
 });
 
 // create.html page
-app.get('/create', (req, res) => {
+app.get('/posts/new', (req, res) => {
     res.render("create");
+});
+
+app.post("/posts/store", (req, res) => {
+    console.log(req.body)
+    Post.create({
+        ...req.body
+    }, (error, post) => {
+        res.redirect('/');
+    });
 });
 
 // profile.html page

@@ -8,15 +8,14 @@
 
 <body>
     {{> header}}
+        <script src="../js/create.js"></script>
     <h4>Créer une fiche</h4>
     <div class="container create">
-        <label><b>Titre</b></label>
-        <input type="text" placeholder="Titre" id="submitTitle" required>
-
-        <label><b>Contenu (texte)</b></label>
-        <textarea placeholder="Contenu" id="submitTextContent" required></textarea>
-
-        <button id="btnRegister">Soumettre</button>
+        <form action="/posts/store" method="POST" id="createFicheForm">
+            <input type="text" placeholder="Titre" id="submitTitle" required>
+            <textarea placeholder="Contenu" id="submitTextContent" required></textarea>
+            <input type="submit" value="Send" />
+        </form>
     </div>
 
     {{> footer}}
