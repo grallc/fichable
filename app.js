@@ -5,6 +5,11 @@ const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
 
+// Authentication relative imports
+const session = require('express-session');
+const cors = require('cors');
+
+// MongoDB relative imports
 const mongoose = require('mongoose');
 var { Fiche } = require('./models/fiche');
 
