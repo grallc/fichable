@@ -44,31 +44,45 @@ app.set("view engine", "hbs");
 // index.html page
 app.get("/", function (req, res) {
     Fiche.find({}).then((fiches) => {
-        res.render("index", {fiches});
+        res.render("index", {fiches, pageTitle: 'Accueil' });
     }, (e) => {
-        res.render("index", {fichesError : e.message})
+        res.render("index", {fichesError : e.message, pageTitle: 'Accueil'})
     });
     
 });
 
-// /fiches/new page
-app.get('/fiches/new', (req, res) => {
-    res.render("fiches/new");
+// /fiches/ pages
+app.get('/fiches/:ficheId', (req, res) => {
+    if(req.params.ficheId) {
+        const ficheId = req.params.ficheId
+        if(ficheId === 'new') {
+            res.render("fiches/new", {
+                pageTitle: "Nouvelle fiche"
+            });
+        } else if(ficheId === 'submit') {
+            Fiche.create({
+                ...req.body,
+                _creator: 'currentUserId'
+            }, (error, fiche) => {
+                res.redirect('/');
+                if(error) {
+                    console.log(error.message);
+                }
+            });
+        } 
+    }
 });
+
 
 // add a Fiche to the Database
 app.post("/fiches/submit", (req, res) => {
     console.log(req.body)
-    Fiche.create({
-        ...req.body
-    }, (error, fiche) => {
-        console.log(error.message);
-    });
+    
 });
 
 // profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
-    res.render("users/profile");
+    res.render("users/profile", pageTitle: 'Profil');
 });
 
 
