@@ -2,13 +2,7 @@
 
 <body>
     {{> header}}
-    <h4>Accueil - Toutes les fiches  ({{ fiches.length }})</h4>
-    {{#if fichesError}}
-        <p>Une erreur est survenue : {{fichesError}}</p>
-    {{/if}}
-    {{#each fiches}}
-        <li>{{ this.title }} : {{ this.description }}</li>
-    {{/each}}  
+    <h4>Accueil</h4>
     {{> footer}}
 </body>
 

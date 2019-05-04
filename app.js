@@ -59,8 +59,18 @@ app.get('/fiches/:ficheId', (req, res) => {
             res.render("fiches/new", {
                 pageTitle: "Nouvelle fiche"
             });
-        }
-    }
+        } 
+    } 
+});
+
+// /fiches/ pages
+app.get('/fiches', (req, res) => {
+    Fiche.find({}).then((fiches) => {
+        res.render("fiches/fiches", {fiches, pageTitle: 'Toutes les fiches' });
+    }, (e) => {
+
+        res.render("fiches/fiches", {fichesError : e.message, pageTitle: 'Toutes les fiches'})
+    });
 });
 
 
