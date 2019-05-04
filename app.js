@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser');
 const app = express();
 const path = require("path");
 const hbs = require("hbs");
@@ -18,8 +19,13 @@ if (process.env.NODE_ENV === 'production') {
     mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-prod';
 }
 
-app.use(express.urlencoded())
 app.use(express.static(__dirname + '/public'))
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 // Connect the App to the Database
 mongoose
@@ -56,7 +62,7 @@ app.post("/fiches/submit", (req, res) => {
     Fiche.create({
         ...req.body
     }, (error, fiche) => {
-        res.redirect('/');
+        console.log(error.message);
     });
 });
 
