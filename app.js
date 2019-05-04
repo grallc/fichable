@@ -82,7 +82,7 @@ app.post("/fiches/submit", (req, res) => {
 
 // profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
-    res.render("users/profile", pageTitle: 'Profil');
+    res.render("users/profile", {pageTitle: 'Profil'});
 });
 
 
