@@ -5,7 +5,7 @@ const auth = require('../auth');
 const User = mongoose.model('User');
 
 //POST new user route 
-router.post('/', auth.optional, (req, res, next) => {
+router.post('/register', auth.optional, (req, res, next) => {
     const {
         body: {
             user
@@ -28,17 +28,29 @@ router.post('/', auth.optional, (req, res, next) => {
         });
     }
 
-    const finalUser = new User(user);
-
-    finalUser.setPassword(user.password);
-
-    return finalUser.save()
-        .then(() => res.json({
-            user: finalUser.toAuthJSON()
-        }));
+    User.findOne({
+            email: user.email
+        })
+        .then((userTemp) => {
+            if (userTemp) {
+                return res.status(422).json({
+                    errors: {
+                        email: 'already exists'
+                    },
+                });
+            } else {
+                const finalUser = new User(user);
+                finalUser.setPassword(user.password);
+                
+                return finalUser.save()
+                    .then(() => res.json({
+                        user: finalUser.toAuthJSON()
+                    }));
+            }
+        });
 });
 
-//POST login route (optional, everyone has access)
+//POST login route
 router.post('/login', auth.optional, (req, res, next) => {
     const {
         body: {
