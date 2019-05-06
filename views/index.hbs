@@ -11,7 +11,9 @@
                 </div>
             </div>
             <div class="title">
-                <a href='index.html'><p><strong>ÌFICHABLEÍ</strong></p></a>
+                <a href='#'>
+                    <p><strong>ÌFICHABLEÍ</strong></p>
+                </a>
             </div>
             <div class="connect">
                 <div class="dropdown">
@@ -47,44 +49,48 @@
         <div class="container" id="grid">
             {{> fiches }}
         </div>
-    <section id='signup'>
-        <div class='state'>
-            <a href='#'><h3 class='activeLink link' id='inboxRegister'>S'inscrire</h3></a>
-            <a href='#'><h3 class='inactiveLink link' id='inboxLogin'>Se connecter</h3></a>
-        </div>
-        <div class='form' id='registerForm'>
-            <form method="POST">
-                <div class='formItem'>
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="email@domaine.com">
-                </div>
-                <div class="formItem">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="password" placeholder="8 caractères min.">
-                </div>
-                <div class="formItem">
-                    <label for="confirmPassword">Confirmer le mot de passe</label>
-                    <input type="password" name="confirmPassword" id="confirmPassword">
-                    <span id='isValid'></span>
-                </div>
-                <input type="submit" value="S'inscrire !">
-            </form>
-        </div>
-        <div class='form' id='loginForm'>
-            <form method="POST">
-                <div class='formItem'>
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="loginEmail" placeholder="email@domaine.com">
-                </div>
-                <div class="formItem">
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" id="loginPassword" placeholder="Votre mot de passe">
-                </div>
-                <p><em><a href='#'>Mot de passe oublié ?</a></em></p>
-                <input type="submit" value="Se connecter !">
-            </form>
-        </div>
-    </section>
+        <section id='signup'>
+            <div class='state'>
+                <a href='#'>
+                    <h3 class='activeLink link' id='inboxRegister'>S'inscrire</h3>
+                </a>
+                <a href='#'>
+                    <h3 class='inactiveLink link' id='inboxLogin'>Se connecter</h3>
+                </a>
+            </div>
+            <div class='form' id='registerForm'>
+                <form method="POST" action="/api/users/register">
+                    <div class='formItem'>
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="email@domaine.com">
+                    </div>
+                    <div class="formItem">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="password" id="password" placeholder="8 caractères min.">
+                    </div>
+                    <div class="formItem">
+                        <label for="confirmPassword">Confirmer le mot de passe</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword">
+                        <span id='isValid'></span>
+                    </div>
+                    <input type="submit" value="S'inscrire !">
+                </form>
+            </div>
+            <div class='form' id='loginForm'>
+                <form method="POST" action="/api/users/login">
+                    <div class='formItem'>
+                        <label for="email">Email</label>
+                        <input type="email" name="username" id="loginEmail" placeholder="email@domaine.com">
+                    </div>
+                    <div class="formItem">
+                        <label for="password">Mot de passe</label>
+                        <input type="password" name="password" id="loginPassword" placeholder="Votre mot de passe">
+                    </div>
+                    <p><em><a href='#'>Mot de passe oublié ?</a></em></p>
+                    <input type="submit" value="Se connecter !">
+                </form>
+            </div>
+        </section>
 </body>
 
 </html>

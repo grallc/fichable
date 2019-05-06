@@ -1,39 +1,42 @@
 {{#each fiches}}
-    <a href="" class="btn btn-primary stretched-link" data-toggle="modal" data-target="#fiche-modal-{{ this.id }}">
-        <div class="card border-primary mb-3" style="width: 18rem;">
-            <div className="row">
-                <div className="col-2">
-                    <div class="card-body">
-                        <div className="row">
-                            <div className="col-lg6 col-md-4 col-8">
-                                <h5>{{ this.title }} </h5>
-                            </div>
-                            <div className="col-md-4 d-none d-md-block">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </a>
+<div class="card mb-3" style="max-width: 540px; min-height: 250px;">
+	<div class="row no-gutters">
+		<div class="col-md-4">
+			<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
+		</div>
+		<div class="col-md-8">
+			<div class="card-body">
+				<h5 class="card-title">{{ this.title }}</h5>
+				<p class="card-text">{{ this.description }}</p>
+				{{!-- <p class="card-text"><small class="text-muted">{{ this.submittedAt }}</small></p> --}}
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+					Voir la fiche
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 
-
-    <!-- Modal -->
-    <div class="modal fade" id="fiche-modal-{{ this.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ this.title }}</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    {{ this.description }}
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">{{ this.title }}</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
+				<br>
+				{{ this.description }} </div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer la fenêtre</button>
+			</div>
+		</div>
+	</div>
+</div>
 {{/each}}

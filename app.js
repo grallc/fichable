@@ -42,14 +42,14 @@ app.use(bodyParser.json())
 
 app.use(cors());
 app.use(session({
-    secret: 'fichable-passport',
+    key: 'fichable_login',
+    secret: (process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6'),
     cookie: {
         maxAge: 60000
     },
     resave: false,
     saveUninitialized: false
 }));
-
 
 // Connect the App to the Database
 mongoose
@@ -94,38 +94,52 @@ app.get('/fiches/:ficheId', (req, res) => {
 });
 
 // /fiches/ pages
+app.get('/fiches/test', (req, res) => {
+    console.log(req.isAuthenticated());
+    return res.status(422).json({
+        login: req.isAuthenticated()
+    });
+});
+
+// /fiches/ pages
 app.get('/fiches', (req, res) => {
     Fiche.find({}).then((fiches) => {
-        res.render("fiches/fiches", {
+        res.render("fiches", {
             fiches,
             pageTitle: 'Toutes les fiches'
         });
     }, (e) => {
-
-        res.render("fiches/fiches", {
+        res.render("fiches", {
             fichesError: e.message,
             pageTitle: 'Toutes les fiches'
         })
     });
 });
 
-
-// add a Fiche to the Database
-app.post("/fiches/submit", (req, res) => {
-    Fiche.create({
-        ...req.body,
-        _creator: 'currentUserId'
-    }, (error, fiche) => {
-        res.redirect('/');
-        if (error) {
-            console.log(error.message);
-        }
-    });
+// /fiches/ pages
+app.get('/test', (req, res) => {
+    res.render("test", {
+        pageTitle: 'Toutes les fiches'
+    })
 });
+
+hbs.registerHelper('isLogin', () => {
+    return User.findById(id)
+    .then((user) => {
+        if (!user) {
+            return res.sendStatus(400);
+        }
+
+        return res.json({
+            user: user.toAuthJSON()
+        });
+    });
+})
+
 
 // profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
-    res.render("users/profile", {
+    res.render("profile", {
         pageTitle: 'Profil'
     });
 });

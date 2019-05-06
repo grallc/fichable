@@ -1,6 +1,6 @@
 @font-face {
   font-family: York;
-  src: url(yorkwhiteletter.ttf);
+  src: url(../yorkwhiteletter.ttf);
 }
 * {
   margin: 0;
@@ -71,8 +71,9 @@ header .burger .wrapbar .bar {
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 header .title p strong {
-  font-family: "York";
+  font-family: "York", "Monserrat";
   font-size: 3.3em;
+  text-decoration: none;
   color: #031303;
   font-weight: normal;
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -190,6 +191,10 @@ header .connect .dropdown:hover div {
   height: 90%;
   width: 30%;
   margin: 0 10px;
+}
+
+.form {
+  background: #fafafa;
 }
 
 #signup {

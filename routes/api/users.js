@@ -1,117 +1,378 @@
+
+const express = require('express');
+const router = express.Router();
+const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
 const passport = require('passport');
-const router = require('express').Router();
-const auth = require('../auth');
+
+const ObjectId = require('mongoose').Types.ObjectId;
+const Validator = require('validator');
+
+const validateLoginInput = require('../../validation/login');
+const validateRegisterInput = require('../../validation/register');
+
+// Load Email Reset utilities
+//const sendResetEmail = require('../../utils/forget_password/send-email');
+
+const key = process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6';
+
+// Load models
 const User = mongoose.model('User');
+const PasswordToken = require('../../models/PasswordToken.js');
 
-//POST new user route 
-router.post('/register', auth.optional, (req, res, next) => {
-    const {
-        body: {
-            user
+// @desc    Tests users route
+// @access  Public
+router.get('/test', (req, res) => res.json({msg: getText('api.users.test')}));
+
+// @route   POST api/users/register
+// @desc    Register user
+// @access  Public
+router.post('/register', (req, res) => {
+    console.log('12355');
+    const { errors, isValid } = validateRegisterInput(req.body);
+
+    // check validation
+    if (!isValid) {
+        return res.status(404).json(errors);
+    }
+
+    User.findOne({name: req.body.name}).exec().then(user => {
+        if (user) {
+            errors.username = "Username already exists";
         }
-    } = req;
+        User.findOne({email: req.body.email}).then(user => {
+            if (user) {
+                errors.email = "Email already exists";
+            } 
+            if(errors.email || errors.username) {
+                return res.status(404).json(errors);
+            }
+            // User's URL
+            const newUser = new User({
+                name: req.body.name,
+                email: req.body.email,
+                password: req.body.password
+            });
 
-    if (!user.email) {
-        return res.status(422).json({
-            errors: {
-                email: 'is required',
-            },
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    if (err) throw err;
+                    newUser.password = hash;
+                    newUser.save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
+                });
+            });
         });
+    });  
+});
+
+
+// @route   GET api/users/login
+// @desc    Login User / returning JWT Token
+// @access  Public
+router.post('/login', (req, res) => {
+
+    const { errors, isValid } = validateLoginInput(req.body);
+
+    const username = req.body.username;
+    const password = req.body.password;
+    var credentials = {};
+    if(username.includes("@")) {
+        credentials.email = username;
+    } else {
+        credentials.name = username;
     }
 
-    if (!user.password) {
-        return res.status(422).json({
-            errors: {
-                password: 'is required',
-            },
-        });
-    }
+    // Find user by email or username
+    User.findOne(credentials)
+        .then(user => {
+            // check for user
+            if (!user) {
+                errors.not_found = "Incorrect credentials";
+                return res.status(404).json(errors);
+            }
+            // check password
+            bcrypt.compare(password, user.password)
+                .then(isMatch => {
+                    if(isMatch) {
+                        // user matched
 
-    User.findOne({
-            email: user.email
+                        const payload = { id: user.id, name: user.name }; // create JWT payload
+
+                        // sign Token
+                        jwt.sign(payload,
+                            key,
+                            { expiresIn: 86404 },
+                            (err, token) => {
+                            res.json({
+                                success:true,
+                                token: 'Bearer ' + token
+                            })
+                            });
+                    } else {
+                        errors.password = "Incorrect password";
+                        return res.status(404).json(errors);
+                    }
+                })
+
+
+
         })
-        .then((userTemp) => {
-            if (userTemp) {
-                return res.status(422).json({
-                    errors: {
-                        email: 'already exists'
-                    },
+});
+
+// @route   GET api/users/current
+// @desc    Return current user
+// @access  Private
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
+    });
+});
+
+// @route   GET api/users/
+// @desc    List all users
+// @access  Private
+router.get('/', (req, res)=> {
+    const errors = {};
+
+     User.find()
+         .then(users => {
+             if(!users) {
+                errors.no_user = getText("api.users.get-user.no-user");
+                return res.status(404).json(errors);
+             }
+             res.json({users});
+         })
+         .catch(err => res.status(404).json(err));
+});
+
+
+
+// @route   GET api/users/:id
+// @desc    Get a user from its ID
+// @access  Private
+router.get('/:id', (req, res)=> {
+    const errors = {};
+
+    if(!req.params.id || !ObjectId.isValid(req.params.id)) {
+        errors.invalid_id = getText("api.users.get-user.invalid-id");
+        return res.status(404).json(errors);
+
+    }
+
+     User.findById(req.params.id)
+         .then(user => {
+             if(!user) {
+                errors.no_user = getText("api.users.get-user.no-user");
+                return res.status(404).json(errors);
+             }
+             res.json({
+                id: user.id,
+                username: user.name,
+                email: user.email,
+                registerDate: user.registerDate
+            });
+         })
+         .catch(err => res.status(404).json(err));
+});
+
+
+
+// @route   GET api/users/current
+// @desc    Return current user
+// @access  Private
+router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+    res.json({
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
+    });
+});
+
+
+// @route   GET api/users/reset
+// @desc    Send a reset password email
+// @access  Private
+// router.post('/send-mail',/*  passport.authenticate('jwt', { session: false }), */ (req, res) => {
+//     const email = req.body.email;
+//     const ip = req.body.ip;
+
+//     const errors = {};
+
+//     if(!Validator.isEmail(req.body.email)) {
+//         errors.invalid_email = getText("api.users.reset-password.invalid-email");
+//         return res.status(404).json(errors);
+//     }
+
+
+//     sendResetEmail(email, ip, (error) => {
+//         if(error) {
+//             console.log(error);
+//             return res.status(404).json({cannot_send: error});
+//          }
+//         return res.status(200).json({info: getText("api.users.reset-password.mail-sent")});
+//     });
+// });
+
+
+// @route   GET api/users/
+// @desc    Get user by provided ID and change he's password
+// @access  Private
+router.patch('/', (req, res) => {
+
+
+    const { errors, isValid } = validateChangePasswordInput(req.body);
+    // check validation
+
+    if (!isValid) {
+        return res.status(404).json(errors);
+    }
+
+    const _id = req.body.id;
+    const password = req.body.password;
+
+    User.findById(_id).then((user) => {
+        if (!user) {
+            errors.no_user = getText('api.users.notfound');
+            return res.status(404).json(errors);
+        }
+        bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+            if (err) throw err;
+                user.password = hash;
+                user.save()
+                    .then(user => res.json(user))
+                    .catch(err => console.log(err));
+            });
+        });
+    });
+});
+
+// @route   GET api/users/change
+// @desc    Change my password
+// @access  Private
+router.patch('/change',/*  passport.authenticate('jwt', { session: false }), */ (req, res) => {
+
+
+    const { errors, isValid } = validateChangePasswordInput(req.body);
+    // check validation
+
+    if (!isValid) {
+        return res.status(404).json(errors);
+    }
+
+    const _id = req.body.id;
+    const currentPassword = req.body.currentPassword;
+    const newPassword = req.body.newPassword;
+
+    User.findById(_id).then((user) => {
+        if (!user) {
+            errors.no_user = getText('api.users.notfound');
+            return res.status(404).json(errors);
+        }
+
+        bcrypt.compare(currentPassword, user.password).then(isMatch => {
+            if(isMatch) {
+                bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(newPassword, salt, (err, hash) => {
+                    if (err) throw err;
+                        user.password = hash;
+                        user.save()
+                            .then(user => res.json(user))
+                            .catch(err => console.log(err));
+                    });
                 });
             } else {
-                const finalUser = new User(user);
-                finalUser.setPassword(user.password);
-                
-                return finalUser.save()
-                    .then(() => res.json({
-                        user: finalUser.toAuthJSON()
-                    }));
+                errors.incorrect_password = getText('api.users.change-password.incorrect-password');
+                return res.status(404).json(errors);
             }
         });
+    });
 });
 
-//POST login route
-router.post('/login', auth.optional, (req, res, next) => {
-    const {
-        body: {
-            user
-        }
-    } = req;
 
-    if (!user.email) {
-        return res.status(422).json({
-            errors: {
-                email: 'is required',
-            },
-        });
-    }
+// @route   DELETE api/user
+// @desc    Delete user and server
+// @access  Private
+router.delete('/',
+    passport.authenticate('jwt', { session: false }),
+    (req,res) => {
+    User.findOneAndRemove({ user: req.user.id })
+        .then(() => {
+            User.findOneAndRemove({ _id: req.user.id })
+                .then(() => res.json({success: true }))
+    });
 
-    if (!user.password) {
-        return res.status(422).json({
-            errors: {
-                password: 'is required',
-            },
-        });
-    }
-
-    return passport.authenticate('local', {
-        session: false
-    }, (err, passportUser, info) => {
-        if (err) {
-            return next(err);
-        }
-
-        if (passportUser) {
-            const user = passportUser;
-            user.token = passportUser.generateJWT();
-
-            return res.json({
-                user: user.toAuthJSON()
-            });
-        }
-
-        return status(400).info;
-    })(req, res, next);
 });
 
-//GET current route (required, only authenticated users have access)
-router.get('/current', auth.required, (req, res, next) => {
-    const {
-        payload: {
-            id
-        }
-    } = req;
 
-    return User.findById(id)
-        .then((user) => {
+// @route   GET api/users/reset
+// @desc    Get user by provided ID, verify the token and change he's password
+// @access  Private
+router.patch('/reset', (req, res) => {
+
+
+    const { errors, isValid } = validateResetPasswordInput(req.body);
+    // check validation
+
+    if (!isValid) {
+        return res.status(404).json(errors);
+    }
+
+    const token = req.body.token;
+    const password = req.body.password;
+
+
+
+    PasswordToken.findById(token).then((token) => {
+        if (!token) {
+            errors.unknown_token = getText('api.users.reset-password.token-not-found');
+            return res.status(404).json(errors);
+        } else if(((new Date().getTime() - token.creationDate.getTime())/1000) > 86400) {
+            token.remove();
+            errors.token_expired = getText('api.users.reset-password.token-not-found');
+            return res.status(404).json(errors);
+        }
+        User.findById(token.tokenUserId).then((user) => {
             if (!user) {
-                return res.sendStatus(400);
+                errors.unknown_user = getText('api.users.reset-password.nouser');
+                token.remove();
+                return res.status(404).json(errors);
             }
+            bcrypt.genSalt(10, (err, salt) => {
+                bcrypt.hash(password, salt, (err, hash) => {
+                    if (err) throw err;
+                        user.password = hash;
+                        token.remove();
 
-            return res.json({
-                user: user.toAuthJSON()
-            });
+                        PasswordToken.find().then((tokens) => {
+                            tokens.forEach(tempToken => {
+                                if((((new Date().getTime() - tempToken.creationDate.getTime())/1000) > 86400) || tempToken.tokenUserId === user._id) {
+                                    tempToken.remove();
+                                }
+                            });
+                        });
+
+                        PasswordToken.deleteMany({tokenUserId: user._id}, (err) => {
+                            if(err) {
+                                console.log(err);
+                            }
+                        });
+
+                        user.save()
+                            .then(user => res.json(user))
+                            .catch(err => console.log(err));
+                    });
+                });
         });
+
+    });
+
+
 });
 
 module.exports = router;

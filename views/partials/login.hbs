@@ -6,10 +6,10 @@
   <label><b>Adresse Email</b></label>
   <input type="text" placeholder="Adresse Email" id="registerEmail" required>
 
-  <label ><b>Mot de Passe</b></label>
+  <label><b>Mot de Passe</b></label>
   <input type="password" placeholder="Mot de Passe" id="registerPassword" required>
 
-  <label ><b>Confirmation du Mot de Passe</b></label>
+  <label><b>Confirmation du Mot de Passe</b></label>
   <input type="password" placeholder="Confirmez le mot de passe" id="registerConfirmPassword" required>
 
   <button id="btnRegister">S'enregistrer</button>
@@ -17,14 +17,16 @@
 
 
 <div class="container login">
-  <h3>Connexion</h3>
-  <label><b>Adresse Email</b></label>
-  <input type="text" placeholder="Adresse Email" id="loginUser" required>
+  <form method="POST" action="/api/users/login">
+    <h3>Connexion</h3>
+    <label><b>Adresse Email</b></label>
+    <input type="text" placeholder="Adresse Email" id="loginUser" name="email" required>
 
-  <label ><b>Mot de Passe</b></label>
-  <input type="password" placeholder="Mot de Passe" id="loginPassword" required>
+    <label><b>Mot de Passe</b></label>
+    <input type="password" placeholder="Mot de Passe" id="loginPassword" name="password" required>
 
-  <button id="btnLogin">Se connecter</button>
+    <input id="btnLogin" type="submit">Se connecter</input>
+  </form>
 </div>
 
 <div class="container" style="background-color:#f1f1f1">
