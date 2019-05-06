@@ -29,7 +29,6 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(express.static(__dirname + '/public'))
-app.use('/api', require('./routes/api/index'));
 app.use(require('morgan')('dev'));
 
 
@@ -124,13 +123,6 @@ app.post("/fiches/submit", (req, res) => {
     });
 });
 
-
-// add a Fiche to the Database
-app.post("/fiches/test", (req, res) => {
-    console.log(req.body)
-});
-
-
 // profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
     res.render("users/profile", {
@@ -138,7 +130,7 @@ app.get('/profile', (req, res) => {
     });
 });
 
-
+app.use('/api', require('./routes/api/index'));
 // Run the App' !
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);

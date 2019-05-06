@@ -2,24 +2,16 @@
   font-family: York;
   src: url(./yorkwhiteletter.ttf);
 }
-
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
 }
 
 #wrapper {
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: flex-start;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
   height: 100%;
   width: 100vw;
 }
@@ -33,18 +25,6 @@ a {
   text-decoration: none;
 }
 
-@-webkit-keyframes shine {
-  0% {
-    text-shadow: 0px 0px 0px #ffe200c9;
-  }
-  50% {
-    text-shadow: 0px 0px 10px #ffe200c9;
-  }
-  100% {
-    text-shadow: 0px 0px 0px #ffe200c9;
-  }
-}
-
 @keyframes shine {
   0% {
     text-shadow: 0px 0px 0px #ffe200c9;
@@ -56,56 +36,31 @@ a {
     text-shadow: 0px 0px 0px #ffe200c9;
   }
 }
-
 header {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-items: center;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: row;
+  justify-content: center;
   height: 10vh;
   width: 100vw;
   z-index: 20;
 }
-
 header .burger {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1;
   z-index: 20;
 }
-
 header .burger .wrapbar {
   height: 100%;
   width: 40px;
   cursor: pointer;
   margin-left: 110px;
   z-index: 30;
-  -webkit-transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
 header .burger .wrapbar .bar {
   background: #188fa7;
   border-radius: 50px;
@@ -113,61 +68,41 @@ header .burger .wrapbar .bar {
   margin: 6px 0;
   width: 40px;
   z-index: 40px;
-  -webkit-transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
 header .title p strong {
-  font-family: 'York';
+  font-family: "York";
   font-size: 3.3em;
   color: #031303;
   font-weight: normal;
-  -webkit-transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
 header .title p strong:hover {
   color: #188fa7;
   font-size: 3.5em;
 }
-
 header .connect {
   height: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  justify-content: flex-end;
+  align-items: center;
   text-align: center;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  flex-direction: row;
+  flex: 1;
 }
-
 header .connect .dropdown {
   display: inline-block;
   position: relative;
   margin-right: 100px;
 }
-
 header .connect .dropdown .button {
   border: none;
   padding: 8px 16px;
   color: #188fa7;
   font-size: 40px;
-  -webkit-transition: .3s;
-  transition: .3s;
+  transition: 0.3s;
   cursor: pointer;
 }
-
 header .connect .dropdown div {
   z-index: 1;
   visibility: hidden;
@@ -176,10 +111,8 @@ header .connect .dropdown div {
   min-width: 100%;
   opacity: 0;
   padding: 5px;
-  -webkit-transition: .5s ease-out;
-  transition: .5s ease-out;
+  transition: 0.5s ease-out;
 }
-
 header .connect .dropdown div a {
   display: block;
   text-decoration: none;
@@ -187,15 +120,12 @@ header .connect .dropdown div a {
   color: #031303;
   font-size: 1.2em;
   font-weight: 500;
-  -webkit-transition: .1s;
-  transition: .1s;
+  transition: 0.1s;
   white-space: nowrap;
 }
-
 header .connect .dropdown div a:hover {
   color: #188fa7;
 }
-
 header .connect .dropdown:hover div {
   visibility: visible;
   opacity: 1;
@@ -209,29 +139,16 @@ header .connect .dropdown:hover div {
   top: 0;
   left: 0;
   z-index: 10;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transform: translateX(-240px);
-          transform: translateX(-240px);
-  -webkit-transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-240px);
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
 #navbar nav ul {
   list-style-type: none;
 }
-
 #navbar nav ul a {
   text-decoration: none;
   color: #fff;
@@ -241,55 +158,32 @@ header .connect .dropdown:hover div {
   margin-top: 50px;
   margin-bottom: 50px;
 }
-
 #navbar nav ul a:hover {
   text-decoration: underline;
 }
-
 #navbar nav ul u {
   color: #e2ca0f;
-  -webkit-animation: shine 2s infinite;
-          animation: shine 2s infinite;
+  animation: shine 2s infinite;
 }
 
 .container {
   width: 90%;
   margin: 0 auto;
   height: 200vh;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
-
 .container .row {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   height: 30%;
   margin: 10px 0;
   width: 100%;
 }
-
 .container .row .gridItem {
   border: 1px solid #031303;
   border-radius: 10px;
@@ -308,94 +202,52 @@ header .connect .dropdown:hover div {
   width: 400px;
   height: 450px;
   top: 200px;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   border-radius: 10px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-transform: translateX(1200px);
-          transform: translateX(1200px);
-  -webkit-transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(1200px);
   transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
-
 #signup .state {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  flex-direction: row;
 }
-
 #signup .state h3 {
   font-size: 1.8em;
   margin: 0 5px;
   font-weight: 800;
 }
-
 #signup .state .link {
-  -webkit-transition: cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
 #signup .state .activeLink {
   color: #067086;
   border-bottom: 5px solid #067086;
 }
-
 #signup .state .inactiveLink {
   color: #63a9b7;
 }
-
 #signup form {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   height: 300px;
   margin-top: 30px;
   width: 350px;
 }
-
 #signup form .formItem {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 }
-
 #signup form label {
   font-size: 1.2em;
   font-weight: 600;
   color: #031303;
 }
-
 #signup form input {
   width: 300px;
   margin: 5px 0;
@@ -408,8 +260,7 @@ header .connect .dropdown:hover div {
   font-size: 1em;
   font-weight: 500;
 }
-
-#signup form input[type='submit'] {
+#signup form input[type=submit] {
   width: 10rem;
   margin-top: 25px;
   padding: 5px;
@@ -420,37 +271,29 @@ header .connect .dropdown:hover div {
   font-weight: 700;
   font-size: 1.3em;
   cursor: pointer;
-  -webkit-transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
-#signup form input[type='submit']:hover {
+#signup form input[type=submit]:hover {
   background: #067086;
   color: #fff;
 }
-
 #signup form p {
   font-size: 0.9em;
 }
-
 #signup form p a {
   color: #031303;
 }
-
 #signup #registerForm {
   display: block;
-  -webkit-transition: cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
-
 #signup #loginForm {
   display: none;
-  -webkit-transition: cubic-bezier(0.215, 0.61, 0.355, 1);
   transition: cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
 .visible {
-  -webkit-transform: translateX(200px);
-          transform: translateX(200px);
+  transform: translateX(200px);
 }
-/*# sourceMappingURL=styles.css.map */
+
+/*# sourceMappingURL=index.css.map */
