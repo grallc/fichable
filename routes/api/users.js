@@ -5,21 +5,14 @@ const router = require('express').Router();
 const auth = require('../auth');
 const User = mongoose.model('User');
 
-
-router.get("/", (req, res) => {
-    return res.send(JSON.stringify({
-        code: 404,
-        error: 'Incorrect ID'
-    }));
-})
-
-//POST new user route (optional, everyone has access)
+//POST new user route 
 router.post('/', auth.optional, (req, res, next) => {
+    console.log(req.body)
   const { body: { user } } = req;
 
   if(!user.email) {
     return res.status(422).json({
-      errors: {
+      errors: { 
         email: 'is required',
       },
     });

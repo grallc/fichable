@@ -1,0 +1,361 @@
+// VARIABLES & MIXINS
+
+$mainColor: #d8315b;
+$secondaryColor: #188fa7;
+$secondaryLight: #63a9b7;
+$secondaryDark: #067086;
+$black: #031303;
+$green: #9bc53d;
+$red: #c3423f;
+
+@font-face {
+	font-family: York;
+	src: url(./yorkwhiteletter.ttf);
+}
+
+// GLOBAL
+
+* {
+	margin: 0;
+	padding: 0;
+	font-family: 'Montserrat';
+}
+
+#wrapper {
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	width: 100vw;
+}
+
+body {
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+a {
+	text-decoration: none;
+}
+
+@keyframes shine {
+	0% {
+		text-shadow: 0px 0px 0px #ffe200c9;
+	}
+
+	50% {
+		text-shadow: 0px 0px 10px #ffe200c9;
+	}
+
+	100% {
+		text-shadow: 0px 0px 0px #ffe200c9;
+	}
+}
+
+// HEADER
+
+header {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	height: 10vh;
+	width: 100vw;
+	z-index: 20;
+
+	.burger {
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		flex: 1;
+		z-index: 20;
+		.wrapbar {
+			height: 100%;
+			width: 40px;
+			cursor: pointer;
+			margin-left: 110px;
+			z-index: 30;
+			transition: .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+
+			.bar {
+				background: $secondaryColor;
+				border-radius: 50px;
+				height: 5px;
+				margin: 6px 0;
+				width: 40px;
+				z-index: 40px;
+				transition: .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+			}
+		}
+	}
+
+	.title {
+		p {
+			strong {
+				font-family: 'York';
+				font-size: 3.3em;
+				color: $black;
+				font-weight: normal;
+				transition: .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+			}
+
+			strong:hover {
+				color: $secondaryColor;
+				font-size: 3.5em;
+			}
+		}
+	}
+
+	.connect {
+		height: 100%;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+		text-align: center;
+		flex-direction: row;
+		flex: 1;
+
+		.dropdown {
+			display: inline-block;
+			position: relative;
+			margin-right: 100px;
+
+			.button {
+				border: none;
+				padding: 8px 16px;
+				color: $secondaryColor;
+				font-size: 40px;
+				transition: .3s;
+				cursor: pointer;
+			}
+
+			div {
+				z-index: 1;
+				visibility: hidden;
+				position: absolute;
+				right: -40px;
+				min-width: 100%;
+				opacity: 0;
+				padding: 5px;
+				transition: .5s ease-out;
+
+				a {
+					display: block;
+					text-decoration: none;
+					padding: 8px;
+					color: $black;
+					font-size: 1.2em;
+					font-weight: 500;
+					transition: .1s;
+					white-space: nowrap;
+				}
+
+				a:hover {
+					color: $secondaryColor;
+				}
+			}
+		}
+
+		.dropdown:hover {
+			div {
+				visibility: visible;
+				opacity: 1;
+			}
+		}
+	}
+}
+
+// NAVBAR
+
+#navbar {
+	height: 100vh;
+	width: 240px;
+	background: $secondaryColor;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	transform: translateX(-240px);
+	transition: .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+
+	nav {
+		ul {
+			list-style-type: none;
+
+			a {
+				text-decoration: none;
+				color: #fff;
+				font-size: 1.5em;
+				font-weight: 600;
+				display: block;
+				margin-top: 50px;
+				margin-bottom: 50px;
+			}
+
+			a:hover {
+				text-decoration: underline;
+			}
+
+			u {
+				color: #e2ca0f;
+				animation: shine 2s infinite;
+			}
+		}
+	}
+}
+
+// CONTENU DE LA PAGE
+
+.container {
+	width: 90%;
+	margin: 0 auto;
+	height: 200vh;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	.row {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: center;
+		height: 30%;
+		margin: 10px 0;
+		width: 100%;
+		
+		.gridItem {
+			border: 1px solid $black;
+			border-radius: 10px;
+			height: 90%;
+			width: 30%;
+			margin: 0 10px;
+		}
+	}
+}
+
+// S'inscrire et Se Connecter
+
+#signup {
+	border: 3px solid $secondaryColor;
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	width: 400px;
+	height: 450px;
+	top: 200px;
+	display: flex;
+	border-radius: 10px;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	transform: translateX(1200px);
+	transition: .8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+
+	.state {
+		display: flex;
+		flex-direction: row;
+
+		h3 {
+			font-size: 1.8em;
+			margin: 0 5px;
+			font-weight: 800;
+		}
+
+		.link {
+			transition: cubic-bezier(0.215, 0.610, 0.355, 1);
+		}
+
+		.activeLink {
+			color: $secondaryDark;
+			border-bottom: 5px solid $secondaryDark;
+		}
+
+		.inactiveLink {
+			color: $secondaryLight;
+		}
+	}
+
+	form {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		height: 300px;
+		margin-top: 30px;
+		width: 350px;
+
+		.formItem {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+
+		label {
+			font-size: 1.2em;
+			font-weight: 600;
+			color: $black;
+		}
+
+		input {
+			width: 300px;
+			margin: 5px 0;
+			height: 20px;
+			border: 2px solid $secondaryLight;
+			border-radius: 20px;
+			outline: none;
+			padding: 5px;
+			padding-left: 15px;
+			font-size: 1em;
+			font-weight: 500;
+		}
+
+		input[type='submit'] {
+			width: 10rem;
+			margin-top: 25px;
+			padding: 5px;
+			color: $secondaryDark;
+			border: 3px solid $secondaryDark;
+			height: 44px;
+			background: #fff;
+			font-weight: 700;
+			font-size: 1.3em;
+			cursor: pointer;
+			transition: .3s cubic-bezier(0.215, 0.610, 0.355, 1);
+		}
+
+		input[type='submit']:hover {
+			background: $secondaryDark;
+			color: #fff;
+		}
+
+		p {
+			font-size: 0.9em;
+
+			a {
+				color: $black;
+			}
+		}
+	}
+
+	#registerForm {
+		display: block;
+		transition: cubic-bezier(0.215, 0.610, 0.355, 1);
+	}
+	
+	#loginForm {
+		display: none;
+		transition: cubic-bezier(0.215, 0.610, 0.355, 1);
+	}
+}
+
+.visible {
+	transform: translateX(200px);
+}

@@ -15,9 +15,7 @@ const session = require('express-session');
 const cors = require('cors');
 const auth = require('./routes/auth');
 require('./models/user');
-const User = mongoose.model('User');
 require('./config/passport');
-
 
 // Application the port run in
 const port = 8080;
@@ -32,11 +30,16 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use(express.static(__dirname + '/public'))
 app.use('/api', require('./routes/api/index'));
+app.use(require('morgan')('dev'));
+
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
-    extended: true
+    extended: false
 }))
+
+// parse application/json
+app.use(bodyParser.json())
 
 app.use(cors());
 app.use(session({
@@ -48,8 +51,6 @@ app.use(session({
     saveUninitialized: false
 }));
 
-// parse application/json
-app.use(bodyParser.json())
 
 // Connect the App to the Database
 mongoose
@@ -121,6 +122,12 @@ app.post("/fiches/submit", (req, res) => {
             console.log(error.message);
         }
     });
+});
+
+
+// add a Fiche to the Database
+app.post("/fiches/test", (req, res) => {
+    console.log(req.body)
 });
 
 
