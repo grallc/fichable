@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-var Fiche = mongoose.model('Fiche', {
+var Fiche = new Schema({
     title: {
         type: String,
         required: true,
@@ -23,4 +24,4 @@ var Fiche = mongoose.model('Fiche', {
     }
 });
 
-module.exports = { Fiche };
+module.exports = { "Fiche", Fiche };
