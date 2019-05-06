@@ -13,11 +13,10 @@ const Fiche = mongoose.model('Fiche');
 // Authentication relative imports
 const session = require('express-session');
 const cors = require('cors');
-const auth = require('./auth');
+const auth = require('./routes/auth');
 require('./models/user');
 const User = mongoose.model('User');
 require('./config/passport');
-
 
 
 // Application the port run in
@@ -32,12 +31,22 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use(express.static(__dirname + '/public'))
+app.use('/api', require('./routes/api/index'));
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({
+    extended: true
+}))
 
 app.use(cors());
-app.use(session({ secret: 'fichable-passport', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
+app.use(session({
+    secret: 'fichable-passport',
+    cookie: {
+        maxAge: 60000
+    },
+    resave: false,
+    saveUninitialized: false
+}));
 
 // parse application/json
 app.use(bodyParser.json())
@@ -59,32 +68,44 @@ app.set("view engine", "hbs");
 // index.html page
 app.get("/", function (req, res) {
     Fiche.find({}).then((fiches) => {
-        res.render("index", {fiches, pageTitle: 'Accueil' });
+        res.render("index", {
+            fiches,
+            pageTitle: 'Accueil'
+        });
     }, (e) => {
-        res.render("index", {fichesError : e.message, pageTitle: 'Accueil'})
+        res.render("index", {
+            fichesError: e.message,
+            pageTitle: 'Accueil'
+        })
     });
-    
+
 });
 
 // /fiches/ pages
 app.get('/fiches/:ficheId', (req, res) => {
-    if(req.params.ficheId) {
+    if (req.params.ficheId) {
         const ficheId = req.params.ficheId
-        if(ficheId === 'new') {
+        if (ficheId === 'new') {
             res.render("fiches/new", {
                 pageTitle: "Nouvelle fiche"
             });
-        } 
-    } 
+        }
+    }
 });
 
 // /fiches/ pages
 app.get('/fiches', (req, res) => {
     Fiche.find({}).then((fiches) => {
-        res.render("fiches/fiches", {fiches, pageTitle: 'Toutes les fiches' });
+        res.render("fiches/fiches", {
+            fiches,
+            pageTitle: 'Toutes les fiches'
+        });
     }, (e) => {
 
-        res.render("fiches/fiches", {fichesError : e.message, pageTitle: 'Toutes les fiches'})
+        res.render("fiches/fiches", {
+            fichesError: e.message,
+            pageTitle: 'Toutes les fiches'
+        })
     });
 });
 
@@ -96,29 +117,18 @@ app.post("/fiches/submit", (req, res) => {
         _creator: 'currentUserId'
     }, (error, fiche) => {
         res.redirect('/');
-        if(error) {
+        if (error) {
             console.log(error.message);
         }
     });
 });
 
-//GET current route
-app.get('/current', auth.required, (req, res, next) => {
-    const { payload: { id } } = req;
-  
-    return Users.findById(id)
-      .then((user) => {
-        if(!user) {
-          return res.sendStatus(400);
-        }
-  
-        return res.json({ user: user.toAuthJSON() });
-      });
-  });
 
 // profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
-    res.render("users/profile", {pageTitle: 'Profil'});
+    res.render("users/profile", {
+        pageTitle: 'Profil'
+    });
 });
 
 
