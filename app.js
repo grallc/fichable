@@ -29,6 +29,9 @@ app.use(express.static(__dirname + '/public'))
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 
+require('./config/passport');
+require('./models/user');
+
 app.use(cors());
 app.use(session({ secret: 'fichable-passport', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 
