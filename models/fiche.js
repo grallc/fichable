@@ -24,4 +24,4 @@ var Fiche = new Schema({
     }
 });
 
-module.exports = { "Fiche", Fiche };
+mongoose.model('Fiche', Fiche);

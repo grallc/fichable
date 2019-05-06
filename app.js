@@ -5,13 +5,20 @@ const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
 
+// MongoDB relative imports
+const mongoose = require('mongoose');
+require('./models/fiche');
+const Fiche = mongoose.model('Fiche');
+
 // Authentication relative imports
 const session = require('express-session');
 const cors = require('cors');
+const auth = require('./auth');
+require('./models/user');
+const User = mongoose.model('User');
+require('./config/passport');
 
-// MongoDB relative imports
-const mongoose = require('mongoose');
-var { Fiche } = require('./models/fiche');
+
 
 // Application the port run in
 const port = 8080;
@@ -28,9 +35,6 @@ app.use(express.static(__dirname + '/public'))
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
-
-require('./config/passport');
-require('./models/user');
 
 app.use(cors());
 app.use(session({ secret: 'fichable-passport', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
@@ -97,6 +101,20 @@ app.post("/fiches/submit", (req, res) => {
         }
     });
 });
+
+//GET current route
+app.get('/current', auth.required, (req, res, next) => {
+    const { payload: { id } } = req;
+  
+    return Users.findById(id)
+      .then((user) => {
+        if(!user) {
+          return res.sendStatus(400);
+        }
+  
+        return res.json({ user: user.toAuthJSON() });
+      });
+  });
 
 // profile.html page - login/signup/profile
 app.get('/profile', (req, res) => {
