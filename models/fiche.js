@@ -19,6 +19,10 @@ var Fiche = new Schema({
         type: Date,
         default: Date.now()
     },
+    level: {
+        type: String,
+        default: 'Terminale S'
+    },
     img: {
         type: String,
         default: 'https://cdn.pixabay.com/photo/2015/01/08/18/26/write-593333_960_720.jpg'

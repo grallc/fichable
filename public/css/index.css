@@ -1,6 +1,7 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900|Raleway:100,200,300,400,500,600,700,800");
 @font-face {
-  font-family: York;
-  src: url(../yorkwhiteletter.ttf);
+  font-family: "York";
+  src: url(yorkwhiteletter.ttf) format("truetype"), url(yorkwhiteletter.otf) format("opentype");
 }
 * {
   margin: 0;
@@ -25,6 +26,40 @@ a {
   text-decoration: none;
 }
 
+a:hover {
+  text-decoration: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 35px 0;
+}
+.card .col-md-8 .card-body .card-title {
+  font-weight: 700;
+  font-size: 2.5vw;
+  color: #067086;
+}
+.card .col-md-8 .card-body .card-text {
+  font-size: 0.8vw;
+  color: #031303;
+}
+
+.closeModal {
+  color: #188fa7;
+}
+
+.thumbFiche {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  background: #F9A200;
+}
+
 @keyframes shine {
   0% {
     text-shadow: 0px 0px 0px #ffe200c9;
@@ -41,7 +76,7 @@ header {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  height: 10vh;
+  height: 12vh;
   width: 100vw;
   z-index: 20;
 }
@@ -71,16 +106,17 @@ header .burger .wrapbar .bar {
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 header .title p strong {
-  font-family: "York", "Monserrat";
+  font-family: "York", "Montserrat";
   font-size: 3.3em;
+  font-weight: 700;
   text-decoration: none;
   color: #031303;
-  font-weight: normal;
   transition: 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 header .title p strong:hover {
   color: #188fa7;
-  font-size: 3.5em;
+  transform: translateY(5px);
+  text-decoration: none;
 }
 header .connect {
   height: 100%;
@@ -168,7 +204,7 @@ header .connect .dropdown:hover div {
 }
 
 .container {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
   height: 200vh;
   display: flex;
@@ -193,19 +229,17 @@ header .connect .dropdown:hover div {
   margin: 0 10px;
 }
 
-.form {
-  background: #fafafa;
-}
-
 #signup {
   border: 3px solid #188fa7;
+  background: #fafafa;
   position: absolute;
   margin-left: auto;
   margin-right: auto;
   left: 0;
   right: 0;
-  width: 400px;
-  height: 450px;
+  width: 30vw;
+  height: 60vh;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
   top: 200px;
   display: flex;
   border-radius: 10px;
@@ -214,6 +248,14 @@ header .connect .dropdown:hover div {
   justify-content: center;
   transform: translateX(1200px);
   transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+}
+#signup .cross {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  flex-direction: row;
+  padding: 0 20px;
+  cursor: pointer;
 }
 #signup .state {
   display: flex;
@@ -226,6 +268,10 @@ header .connect .dropdown:hover div {
 }
 #signup .state .link {
   transition: cubic-bezier(0.215, 0.61, 0.355, 1);
+  text-decoration: none;
+}
+#signup .state a:hover {
+  text-decoration: none;
 }
 #signup .state .activeLink {
   color: #067086;
@@ -248,6 +294,19 @@ header .connect .dropdown:hover div {
   flex-direction: column;
   align-items: flex-start;
 }
+#signup form .remember {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+}
+#signup form .remember .stayConnect {
+  font-size: 1em;
+  flex: 1;
+  margin-top: 7px;
+}
+#signup form .remember input[type=checkbox] {
+  flex: 1;
+}
 #signup form label {
   font-size: 1.2em;
   font-weight: 600;
@@ -260,7 +319,7 @@ header .connect .dropdown:hover div {
   border: 2px solid #63a9b7;
   border-radius: 20px;
   outline: none;
-  padding: 5px;
+  padding: 10px;
   padding-left: 15px;
   font-size: 1em;
   font-weight: 500;
@@ -284,6 +343,7 @@ header .connect .dropdown:hover div {
 }
 #signup form p {
   font-size: 0.9em;
+  margin-top: 20px;
 }
 #signup form p a {
   color: #031303;

@@ -68,8 +68,11 @@ $(function() {
 		$('#loginForm').css('display', 'none')
 	})
 
-	$('input[type=submit]').click((e) => {
-		e.preventDefault()
+	var closed = false
+
+	$('.cross').click(() => {
+			$('#signup').css('opactiy', '0')
+			$('#signup').css('transform', 'translateX(2000px)')
 	})
 	
 }) 

@@ -2,29 +2,7 @@
 
 <body>
     <div id="wrapper">
-        <header>
-            <div class="burger" id='burger'>
-                <div class='wrapbar'>
-                    <div class="bar" id='bar1'></div>
-                    <div class="bar" id='bar2'></div>
-                    <div class="bar" id='bar3'></div>
-                </div>
-            </div>
-            <div class="title">
-                <a href='#'>
-                    <p><strong>ÌFICHABLEÍ</strong></p>
-                </a>
-            </div>
-            <div class="connect">
-                <div class="dropdown">
-                    <i class="fas fa-user-circle button"></i>
-                    <div>
-                        <a href="#" id='register'>S'inscrire</a>
-                        <a href="#" id='login'>Se connecter</a>
-                    </div>
-                </div>
-            </div>
-        </header>
+        {{> header }}
         <div id="navbar">
             <nav>
                 <ul>
@@ -50,6 +28,9 @@
             {{> fiches }}
         </div>
         <section id='signup'>
+            <div class='cross'>
+                <h5><i class="fas fa-times"></i></h5>
+            </div>
             <div class='state'>
                 <a href='#'>
                     <h3 class='activeLink link' id='inboxRegister'>S'inscrire</h3>
@@ -86,6 +67,10 @@
                     <div class="formItem">
                         <label for="password">Mot de passe</label>
                         <input type="password" name="password" id="loginPassword" placeholder="Votre mot de passe">
+                    </div>
+                    <div class='formItem remember'>
+                        <label for="remember" class='stayConnect'>Rester connecté</label>
+                        <input type="checkbox" id="rememberUser" name="remember">
                     </div>
                     <p><em><a href='#'>Mot de passe oublié ?</a></em></p>
                     <input id="signInButton" type="submit" value="Se connecter !">

@@ -18,32 +18,41 @@ const key = process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6';
 
 // Load models
 const User = mongoose.model('User');
-const PasswordToken = require('../../models/PasswordToken.js');
+const PasswordToken = require('../../models/passwordToken.js');
 
 // @desc    Tests users route
 // @access  Public
-router.get('/test', (req, res) => res.json({msg: getText('api.users.test')}));
+router.get('/test', (req, res) => res.json({
+    msg: getText('api.users.test')
+}));
 
 // @route   POST api/users/register
 // @desc    Register user
 // @access  Public
 router.post('/register', (req, res) => {
-    const { errors, isValid } = validateRegisterInput(req.body);
+    const {
+        errors,
+        isValid
+    } = validateRegisterInput(req.body);
 
     // check validation
     if (!isValid) {
         return res.status(403).json(errors);
     }
 
-    User.findOne({name: req.body.name}).exec().then(user => {
+    User.findOne({
+        name: req.body.name
+    }).exec().then(user => {
         if (user) {
             errors.username = "Username already exists";
         }
-        User.findOne({email: req.body.email}).then(user => {
+        User.findOne({
+            email: req.body.email
+        }).then(user => {
             if (user) {
                 errors.email = "Email already exists";
-            } 
-            if(errors.email || errors.username) {
+            }
+            if (errors.email || errors.username) {
                 return res.status(403).json(errors);
             }
             // User's URL
@@ -63,7 +72,7 @@ router.post('/register', (req, res) => {
                 });
             });
         });
-    });  
+    });
 });
 
 
@@ -71,12 +80,15 @@ router.post('/register', (req, res) => {
 // @desc    Login User / returning JWT Token
 // @access  Public
 router.post('/login', (req, res) => {
-    const { errors, isValid } = validateLoginInput(req.body);
+    const {
+        errors,
+        isValid
+    } = validateLoginInput(req.body);
 
     const username = req.body.username;
     const password = req.body.password;
     var credentials = {};
-    if(username.includes("@")) {
+    if (username.includes("@")) {
         credentials.email = username;
     } else {
         credentials.name = username;
@@ -93,35 +105,30 @@ router.post('/login', (req, res) => {
             // check password
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
-                    if(isMatch) {
-                        // user matched
-                        const payload = { id: user.id, name: user.name }; // create JWT payload
-
-                        // sign Token
-                        jwt.sign(payload,
-                            key,
-                            { expiresIn: 86400 },
-                            (err, token) => {
-                            res.json({
-                                success:true,
-                                token: 'Bearer ' + token
-                            })
+                    if (isMatch) {
+                        if (req.body.remember && req.body.remember === 'true') {
+                            res.cookie(user.id, new ObjectId(), {
+                                maxAge: 604800000,
+                                httpOnly: true
                             });
+                        } else {
+                            res.cookie(user.id, new ObjectId());
+                        }
+                        return res.status(200);
                     } else {
-                        errors.password = "Incorrect password";
+                        errors.password = "Incorrect credentials 2";
                         return res.status(403).json(errors);
                     }
                 })
-
-
-
         })
 });
 
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/current', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
     res.json({
         id: req.user.id,
         name: req.user.name,
@@ -132,18 +139,20 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 // @route   GET api/users/
 // @desc    List all users
 // @access  Private
-router.get('/', (req, res)=> {
+router.get('/', (req, res) => {
     const errors = {};
 
-     User.find()
-         .then(users => {
-             if(!users) {
+    User.find()
+        .then(users => {
+            if (!users) {
                 errors.no_user = getText("api.users.get-user.no-user");
                 return res.status(404).json(errors);
-             }
-             res.json({users});
-         })
-         .catch(err => res.status(404).json(err));
+            }
+            res.json({
+                users
+            });
+        })
+        .catch(err => res.status(404).json(err));
 });
 
 
@@ -151,29 +160,29 @@ router.get('/', (req, res)=> {
 // @route   GET api/users/:id
 // @desc    Get a user from its ID
 // @access  Private
-router.get('/:id', (req, res)=> {
+router.get('/:id', (req, res) => {
     const errors = {};
 
-    if(!req.params.id || !ObjectId.isValid(req.params.id)) {
+    if (!req.params.id || !ObjectId.isValid(req.params.id)) {
         errors.invalid_id = getText("api.users.get-user.invalid-id");
         return res.status(404).json(errors);
 
     }
 
-     User.findById(req.params.id)
-         .then(user => {
-             if(!user) {
+    User.findById(req.params.id)
+        .then(user => {
+            if (!user) {
                 errors.no_user = getText("api.users.get-user.no-user");
                 return res.status(404).json(errors);
-             }
-             res.json({
+            }
+            res.json({
                 id: user.id,
                 username: user.name,
                 email: user.email,
                 registerDate: user.registerDate
             });
-         })
-         .catch(err => res.status(404).json(err));
+        })
+        .catch(err => res.status(404).json(err));
 });
 
 
@@ -181,7 +190,9 @@ router.get('/:id', (req, res)=> {
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
-router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
+router.get('/current', passport.authenticate('jwt', {
+    session: false
+}), (req, res) => {
     res.json({
         id: req.user.id,
         name: req.user.name,
@@ -221,7 +232,10 @@ router.get('/current', passport.authenticate('jwt', { session: false }), (req, r
 router.patch('/', (req, res) => {
 
 
-    const { errors, isValid } = validateChangePasswordInput(req.body);
+    const {
+        errors,
+        isValid
+    } = validateChangePasswordInput(req.body);
     // check validation
 
     if (!isValid) {
@@ -237,8 +251,8 @@ router.patch('/', (req, res) => {
             return res.status(404).json(errors);
         }
         bcrypt.genSalt(10, (err, salt) => {
-        bcrypt.hash(password, salt, (err, hash) => {
-            if (err) throw err;
+            bcrypt.hash(password, salt, (err, hash) => {
+                if (err) throw err;
                 user.password = hash;
                 user.save()
                     .then(user => res.json(user))
@@ -251,10 +265,13 @@ router.patch('/', (req, res) => {
 // @route   GET api/users/change
 // @desc    Change my password
 // @access  Private
-router.patch('/change',/*  passport.authenticate('jwt', { session: false }), */ (req, res) => {
+router.patch('/change', /*  passport.authenticate('jwt', { session: false }), */ (req, res) => {
 
 
-    const { errors, isValid } = validateChangePasswordInput(req.body);
+    const {
+        errors,
+        isValid
+    } = validateChangePasswordInput(req.body);
     // check validation
 
     if (!isValid) {
@@ -272,10 +289,10 @@ router.patch('/change',/*  passport.authenticate('jwt', { session: false }), */ 
         }
 
         bcrypt.compare(currentPassword, user.password).then(isMatch => {
-            if(isMatch) {
+            if (isMatch) {
                 bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(newPassword, salt, (err, hash) => {
-                    if (err) throw err;
+                    bcrypt.hash(newPassword, salt, (err, hash) => {
+                        if (err) throw err;
                         user.password = hash;
                         user.save()
                             .then(user => res.json(user))
@@ -295,15 +312,23 @@ router.patch('/change',/*  passport.authenticate('jwt', { session: false }), */ 
 // @desc    Delete user and server
 // @access  Private
 router.delete('/',
-    passport.authenticate('jwt', { session: false }),
-    (req,res) => {
-    User.findOneAndRemove({ user: req.user.id })
-        .then(() => {
-            User.findOneAndRemove({ _id: req.user.id })
-                .then(() => res.json({success: true }))
-    });
+    passport.authenticate('jwt', {
+        session: false
+    }),
+    (req, res) => {
+        User.findOneAndRemove({
+                user: req.user.id
+            })
+            .then(() => {
+                User.findOneAndRemove({
+                        _id: req.user.id
+                    })
+                    .then(() => res.json({
+                        success: true
+                    }))
+            });
 
-});
+    });
 
 
 // @route   GET api/users/reset
@@ -312,7 +337,10 @@ router.delete('/',
 router.patch('/reset', (req, res) => {
 
 
-    const { errors, isValid } = validateResetPasswordInput(req.body);
+    const {
+        errors,
+        isValid
+    } = validateResetPasswordInput(req.body);
     // check validation
 
     if (!isValid) {
@@ -328,7 +356,7 @@ router.patch('/reset', (req, res) => {
         if (!token) {
             errors.unknown_token = getText('api.users.reset-password.token-not-found');
             return res.status(404).json(errors);
-        } else if(((new Date().getTime() - token.creationDate.getTime())/1000) > 86400) {
+        } else if (((new Date().getTime() - token.creationDate.getTime()) / 1000) > 86400) {
             token.remove();
             errors.token_expired = getText('api.users.reset-password.token-not-found');
             return res.status(404).json(errors);
@@ -342,28 +370,30 @@ router.patch('/reset', (req, res) => {
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(password, salt, (err, hash) => {
                     if (err) throw err;
-                        user.password = hash;
-                        token.remove();
+                    user.password = hash;
+                    token.remove();
 
-                        PasswordToken.find().then((tokens) => {
-                            tokens.forEach(tempToken => {
-                                if((((new Date().getTime() - tempToken.creationDate.getTime())/1000) > 86400) || tempToken.tokenUserId === user._id) {
-                                    tempToken.remove();
-                                }
-                            });
-                        });
-
-                        PasswordToken.deleteMany({tokenUserId: user._id}, (err) => {
-                            if(err) {
-                                console.log(err);
+                    PasswordToken.find().then((tokens) => {
+                        tokens.forEach(tempToken => {
+                            if ((((new Date().getTime() - tempToken.creationDate.getTime()) / 1000) > 86400) || tempToken.tokenUserId === user._id) {
+                                tempToken.remove();
                             }
                         });
-
-                        user.save()
-                            .then(user => res.json(user))
-                            .catch(err => console.log(err));
                     });
+
+                    PasswordToken.deleteMany({
+                        tokenUserId: user._id
+                    }, (err) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+
+                    user.save()
+                        .then(user => res.json(user))
+                        .catch(err => console.log(err));
                 });
+            });
         });
 
     });

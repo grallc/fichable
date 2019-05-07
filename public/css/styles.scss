@@ -9,9 +9,12 @@ $green: #9bc53d;
 $red: #c3423f;
 
 @font-face {
-	font-family: York;
-	src: url(../yorkwhiteletter.ttf);
+	font-family: 'York';
+	src: url(yorkwhiteletter.ttf) format('truetype'),
+		 url(yorkwhiteletter.otf) format('opentype');
 }
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900|Raleway:100,200,300,400,500,600,700,800');
 
 // GLOBAL
 
@@ -38,6 +41,46 @@ a {
 	text-decoration: none;
 }
 
+a:hover {
+	text-decoration: none;
+}
+
+.card {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	padding: 35px 0;
+
+	.col-md-8 {
+		.card-body {
+			.card-title {
+				font-weight: 700;
+				font-size: 2.5vw;
+				color: $secondaryDark;
+			}
+
+			.card-text {
+				font-size: 0.8vw;
+				color: $black;
+			}
+		}
+	}
+}
+
+.closeModal {
+	color: $secondaryColor;
+}
+
+.thumbFiche {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	justify-content: center;
+	align-items: center;
+	background: #F9A200;
+}
+
 @keyframes shine {
 	0% {
 		text-shadow: 0px 0px 0px #ffe200c9;
@@ -59,7 +102,7 @@ header {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
-	height: 10vh;
+	height: 12vh;
 	width: 100vw;
 	z-index: 20;
 
@@ -93,17 +136,18 @@ header {
 	.title {
 		p {
 			strong {
-				font-family: 'York', 'Monserrat';
+				font-family: 'York', 'Montserrat';
 				font-size: 3.3em;
+				font-weight: 700;
 				text-decoration: none;
 				color: $black;
-				font-weight: normal;
 				transition: .3s cubic-bezier(0.215, 0.610, 0.355, 1);
 			}
 
 			strong:hover {
 				color: $secondaryColor;
-				font-size: 3.5em;
+				transform: translateY(5px);
+				text-decoration: none;
 			}
 		}
 	}
@@ -213,7 +257,7 @@ header {
 // CONTENU DE LA PAGE
 
 .container {
-	width: 90%;
+	width: 100%;
 	margin: 0 auto;
 	height: 200vh;
 	display: flex;
@@ -242,19 +286,17 @@ header {
 
 // S'inscrire et Se Connecter
 
-.form {
-	background: #fafafa;
-}
-
 #signup {
 	border: 3px solid $secondaryColor;
+	background: #fafafa;
 	position: absolute;
 	margin-left: auto;
 	margin-right: auto;
 	left: 0;
 	right: 0;
-	width: 400px;
-	height: 450px;
+	width: 30vw;
+	height: 60vh;
+	box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
 	top: 200px;
 	display: flex;
 	border-radius: 10px;
@@ -263,6 +305,15 @@ header {
 	justify-content: center;
 	transform: translateX(1200px);
 	transition: .8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+
+	.cross {
+		display: flex;
+		width: 100%;
+		justify-content: flex-end;
+		flex-direction: row;
+		padding: 0 20px;
+		cursor: pointer;
+	}
 
 	.state {
 		display: flex;
@@ -276,6 +327,11 @@ header {
 
 		.link {
 			transition: cubic-bezier(0.215, 0.610, 0.355, 1);
+			text-decoration: none;
+		}
+
+		a:hover {
+			text-decoration: none;
 		}
 
 		.activeLink {
@@ -303,6 +359,22 @@ header {
 			align-items: flex-start;
 		}
 
+		.remember {
+			display: flex;
+			flex-direction: row;
+			width: 300px;
+
+			.stayConnect {
+				font-size: 1em;
+				flex: 1;
+				margin-top: 7px;
+			}
+
+			input[type='checkbox'] {
+				flex: 1;
+			}
+		}
+
 		label {
 			font-size: 1.2em;
 			font-weight: 600;
@@ -316,7 +388,7 @@ header {
 			border: 2px solid $secondaryLight;
 			border-radius: 20px;
 			outline: none;
-			padding: 5px;
+			padding: 10px;
 			padding-left: 15px;
 			font-size: 1em;
 			font-weight: 500;
@@ -343,6 +415,7 @@ header {
 
 		p {
 			font-size: 0.9em;
+			margin-top: 20px;
 
 			a {
 				color: $black;

@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const app = express();
 const path = require("path");
 const hbs = require("hbs");
@@ -16,6 +17,8 @@ const cors = require('cors');
 const auth = require('./routes/auth');
 require('./models/user');
 require('./config/passport');
+var {authenticate} = require('./middlewares/authenticate'); 
+app.use(cookieParser());
 
 // Application the port run in
 const port = 8080;
@@ -94,11 +97,8 @@ app.get('/fiches/:ficheId', (req, res) => {
 });
 
 // /fiches/ pages
-app.get('/fiches/test', (req, res) => {
-    console.log(req.isAuthenticated());
-    return res.status(422).json({
-        login: req.isAuthenticated()
-    });
+app.get('/test', (req, res) => {
+    res.sendStatus(200);
 });
 
 // /fiches/ pages
@@ -115,26 +115,6 @@ app.get('/fiches', (req, res) => {
         })
     });
 });
-
-// /fiches/ pages
-app.get('/test', (req, res) => {
-    res.render("test", {
-        pageTitle: 'Toutes les fiches'
-    })
-});
-
-hbs.registerHelper('isLogin', () => {
-    return User.findById(id)
-    .then((user) => {
-        if (!user) {
-            return res.sendStatus(400);
-        }
-
-        return res.json({
-            user: user.toAuthJSON()
-        });
-    });
-})
 
 
 // profile.html page - login/signup/profile
