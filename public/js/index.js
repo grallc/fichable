@@ -71,4 +71,5 @@ $(function() {
 	$('input[type=submit]').click((e) => {
 		e.preventDefault()
 	})
+	
 }) 

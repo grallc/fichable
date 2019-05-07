@@ -1,4 +1,3 @@
-
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -29,12 +28,11 @@ router.get('/test', (req, res) => res.json({msg: getText('api.users.test')}));
 // @desc    Register user
 // @access  Public
 router.post('/register', (req, res) => {
-    console.log('12355');
     const { errors, isValid } = validateRegisterInput(req.body);
 
     // check validation
     if (!isValid) {
-        return res.status(404).json(errors);
+        return res.status(403).json(errors);
     }
 
     User.findOne({name: req.body.name}).exec().then(user => {
@@ -46,7 +44,7 @@ router.post('/register', (req, res) => {
                 errors.email = "Email already exists";
             } 
             if(errors.email || errors.username) {
-                return res.status(404).json(errors);
+                return res.status(403).json(errors);
             }
             // User's URL
             const newUser = new User({
@@ -73,7 +71,6 @@ router.post('/register', (req, res) => {
 // @desc    Login User / returning JWT Token
 // @access  Public
 router.post('/login', (req, res) => {
-
     const { errors, isValid } = validateLoginInput(req.body);
 
     const username = req.body.username;
@@ -91,20 +88,19 @@ router.post('/login', (req, res) => {
             // check for user
             if (!user) {
                 errors.not_found = "Incorrect credentials";
-                return res.status(404).json(errors);
+                return res.status(403).json(errors);
             }
             // check password
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
                     if(isMatch) {
                         // user matched
-
                         const payload = { id: user.id, name: user.name }; // create JWT payload
 
                         // sign Token
                         jwt.sign(payload,
                             key,
-                            { expiresIn: 86404 },
+                            { expiresIn: 86400 },
                             (err, token) => {
                             res.json({
                                 success:true,
@@ -113,7 +109,7 @@ router.post('/login', (req, res) => {
                             });
                     } else {
                         errors.password = "Incorrect password";
-                        return res.status(404).json(errors);
+                        return res.status(403).json(errors);
                     }
                 })
 

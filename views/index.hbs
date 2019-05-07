@@ -77,7 +77,8 @@
                 </form>
             </div>
             <div class='form' id='loginForm'>
-                <form method="POST" action="/api/users/login">
+                <p id="loginInfo"></p>
+                <form>
                     <div class='formItem'>
                         <label for="email">Email</label>
                         <input type="email" name="username" id="loginEmail" placeholder="email@domaine.com">
@@ -87,7 +88,7 @@
                         <input type="password" name="password" id="loginPassword" placeholder="Votre mot de passe">
                     </div>
                     <p><em><a href='#'>Mot de passe oublié ?</a></em></p>
-                    <input type="submit" value="Se connecter !">
+                    <input id="signInButton" type="submit" value="Se connecter !">
                 </form>
             </div>
         </section>
