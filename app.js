@@ -13,11 +13,9 @@ const Fiche = mongoose.model('Fiche');
 
 // Authentication relative imports
 const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
-const auth = require('./routes/auth');
 require('./models/user');
-require('./config/passport');
-var {authenticate} = require('./middlewares/authenticate'); 
 app.use(cookieParser());
 
 // Application the port run in
@@ -62,6 +60,16 @@ mongoose
     .then(() => console.log(`MongoDB Connected`))
     .catch(err => console.log(err));
 
+app.use(session({
+    secret: process.env.AUTH_SECRET || ';tcRLfSKq\KPf^d-5~i\_B"',
+    saveUninitialized: true,
+    resave: false,
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}));
+
+
 // Partials' folder
 hbs.registerPartials(__dirname + "/views/partials");
 
@@ -70,6 +78,12 @@ app.set("view engine", "hbs");
 
 // index.html page
 app.get("/", function (req, res) {
+    const session = req.session;
+    if (session.userId) {
+        console.log(req.session.userId);
+    } else {
+        console.log(`Vous n'êtes pas connecté`)
+    }
     Fiche.find({}).then((fiches) => {
         res.render("index", {
             fiches,
@@ -86,6 +100,7 @@ app.get("/", function (req, res) {
 
 // /fiches/ pages
 app.get('/fiches/:ficheId', (req, res) => {
+
     if (req.params.ficheId) {
         const ficheId = req.params.ficheId
         if (ficheId === 'new') {

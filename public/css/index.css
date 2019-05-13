@@ -39,11 +39,11 @@ a:hover {
 }
 .card .col-md-8 .card-body .card-title {
   font-weight: 700;
-  font-size: 2.5vw;
+  font-size: 2.8em;
   color: #067086;
 }
 .card .col-md-8 .card-body .card-text {
-  font-size: 0.8vw;
+  font-size: 1.2em;
   color: #031303;
 }
 
@@ -57,7 +57,11 @@ a:hover {
   width: 100%;
   justify-content: center;
   align-items: center;
-  background: #F9A200;
+  background: #dc466b;
+}
+.thumbFiche h2 {
+  font-weight: 600;
+  color: #fafafa;
 }
 
 @keyframes shine {

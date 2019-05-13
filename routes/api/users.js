@@ -3,7 +3,6 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 const Validator = require('validator');
@@ -99,24 +98,17 @@ router.post('/login', (req, res) => {
         .then(user => {
             // check for user
             if (!user) {
-                errors.not_found = "Incorrect credentials";
+                errors.not_found = "Identifiants incorrects";
                 return res.status(403).json(errors);
             }
             // check password
             bcrypt.compare(password, user.password)
                 .then(isMatch => {
-                    if (isMatch) {
-                        if (req.body.remember && req.body.remember === 'true') {
-                            res.cookie(user.id, new ObjectId(), {
-                                maxAge: 604800000,
-                                httpOnly: true
-                            });
-                        } else {
-                            res.cookie(user.id, new ObjectId());
-                        }
-                        return res.status(200);
+                    if(isMatch) {
+                        req.session.userId = user._id
+                        return res.status(200).end(('done'));
                     } else {
-                        errors.password = "Incorrect credentials 2";
+                        errors.password = "Identifiants incorrects";
                         return res.status(403).json(errors);
                     }
                 })
@@ -126,9 +118,7 @@ router.post('/login', (req, res) => {
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
-router.get('/current', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+router.get('/current', (req, res) => {
     res.json({
         id: req.user.id,
         name: req.user.name,
@@ -190,9 +180,7 @@ router.get('/:id', (req, res) => {
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
-router.get('/current', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+router.get('/current', (req, res) => {
     res.json({
         id: req.user.id,
         name: req.user.name,
@@ -311,11 +299,7 @@ router.patch('/change', /*  passport.authenticate('jwt', { session: false }), */
 // @route   DELETE api/user
 // @desc    Delete user and server
 // @access  Private
-router.delete('/',
-    passport.authenticate('jwt', {
-        session: false
-    }),
-    (req, res) => {
+router.delete('/', (req, res) => {
         User.findOneAndRemove({
                 user: req.user.id
             })

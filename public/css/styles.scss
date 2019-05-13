@@ -56,12 +56,12 @@ a:hover {
 		.card-body {
 			.card-title {
 				font-weight: 700;
-				font-size: 2.5vw;
+				font-size: 2.8em;
 				color: $secondaryDark;
 			}
 
 			.card-text {
-				font-size: 0.8vw;
+				font-size: 1.2em;
 				color: $black;
 			}
 		}
@@ -78,7 +78,12 @@ a:hover {
 	width: 100%;
 	justify-content: center;
 	align-items: center;
-	background: #F9A200;
+	background: scale-color($mainColor, $lightness: 10%);
+
+	h2 {
+		font-weight: 600;
+		color: #fafafa;
+	}
 }
 
 @keyframes shine {
