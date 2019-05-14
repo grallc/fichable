@@ -42,15 +42,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 app.use(cors());
-app.use(session({
-    key: 'fichable_login',
-    secret: (process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6'),
-    cookie: {
-        maxAge: 60000
-    },
-    resave: false,
-    saveUninitialized: false
-}));
+
 
 // Connect the App to the Database
 mongoose
@@ -79,15 +71,17 @@ app.set("view engine", "hbs");
 // index.html page
 app.get("/", function (req, res) {
     const session = req.session;
-    if (session.userId) {
-        console.log(req.session.userId);
-    } else {
-        console.log(`Vous n'êtes pas connecté`)
-    }
     Fiche.find({}).then((fiches) => {
+        if (!session.userId) {
+            for (let x = 0; x < fiches.length; x++) {
+                fiches[x].content = "";
+                fiches[x].img = "";
+            }
+        }
         res.render("index", {
             fiches,
-            pageTitle: 'Accueil'
+            pageTitle: 'Accueil',
+            userId: session.userId
         });
     }, (e) => {
         res.render("index", {
@@ -100,7 +94,6 @@ app.get("/", function (req, res) {
 
 // /fiches/ pages
 app.get('/fiches/:ficheId', (req, res) => {
-
     if (req.params.ficheId) {
         const ficheId = req.params.ficheId
         if (ficheId === 'new') {

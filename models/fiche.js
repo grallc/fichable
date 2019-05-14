@@ -27,6 +27,13 @@ var Fiche = new Schema({
         type: String,
         default: 'https://cdn.pixabay.com/photo/2015/01/08/18/26/write-593333_960_720.jpg'
     },
+    content: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxLength: 1500,
+        trim: true
+    },
     likes: [String],
     _creator:   {
         type: String,

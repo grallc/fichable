@@ -3,7 +3,7 @@ $(function () {
         event.preventDefault();
 
         var user = {
-            username: $("#loginEmail").val().trim(),
+            username: $("#loginEmail").val().toLowerCase().trim(),
             password: $("#loginPassword").val().trim(),
             remember: document.getElementById('rememberUser').checked
         }
