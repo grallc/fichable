@@ -106,7 +106,7 @@ router.post('/login', (req, res) => {
                 .then(isMatch => {
                     if(isMatch) {
                         req.session.userId = user._id
-                        return res.status(200).end(('done'));
+                        return res.status(200).end(('Vous êtes désormais connecté'));
                     } else {
                         errors.password = "Identifiants incorrects";
                         return res.status(403).json(errors);

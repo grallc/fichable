@@ -38,6 +38,10 @@ var Fiche = new Schema({
     _creator:   {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: 'WAITING'
     }
 });
 

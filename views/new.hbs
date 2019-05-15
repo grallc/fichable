@@ -1,0 +1,25 @@
+{{> head }}
+
+<body>
+    {{> header}}
+    <h4>Créer une fiche</h4>
+    <form method="POST" action="/fiches/submit">
+        <div class='formItem'>
+            <label for="title">Titre</label>
+            <input type="text" name="title" placeholder="Titre" id="submitTitle" required>
+        </div>
+        <div class="formItem">
+            <label for="description">Description de la fiche (quelques lignes)</label>
+            <textarea placeholder="Description" id="submitDescription" name="description" required></textarea>
+        </div <div class="formItem">
+        <label for="content">Contenu de la fiche</label>
+        <textarea placeholder="Contenu" id="submitTextContent" name="content"></textarea>
+        </div>
+
+        <input type="submit" value="Soumettre" />
+    </form>
+    </div>
+    {{> footer}}
+</body>
+
+</html>

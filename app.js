@@ -78,6 +78,7 @@ app.get("/", function (req, res) {
                 fiches[x].img = "";
             }
         }
+        fiches = fiches.filter(item => item.status === 'PUBLISHED')
         res.render("index", {
             fiches,
             pageTitle: 'Accueil',
@@ -97,16 +98,11 @@ app.get('/fiches/:ficheId', (req, res) => {
     if (req.params.ficheId) {
         const ficheId = req.params.ficheId
         if (ficheId === 'new') {
-            res.render("fiches/new", {
+            res.render("new", {
                 pageTitle: "Nouvelle fiche"
             });
         }
     }
-});
-
-// /fiches/ pages
-app.get('/test', (req, res) => {
-    res.sendStatus(200);
 });
 
 // /fiches/ pages
@@ -122,6 +118,17 @@ app.get('/fiches', (req, res) => {
             pageTitle: 'Toutes les fiches'
         })
     });
+});
+
+app.post('/fiches/submit', (req, res) => {
+    const session = req.session;
+    if (session.userId) {
+
+    } else {
+        return res.status(403).json({
+            error: `Vous n'êtes pas connecté`
+        })
+    }
 });
 
 
