@@ -1,4 +1,3 @@
-
 const Validator = require('validator');
 const isEmpty = require('./is-empty');
 
@@ -8,18 +7,21 @@ module.exports = function validateFicheInput(data, isEmail) {
     data.title = !isEmpty(data.title) ? data.title : '';
     data.description = !isEmpty(data.description) ? data.description : '';
     data.content = !isEmpty(data.content) ? data.content : '';
-    data.password = !isEmpty(data.password) ? data.password : '';
 
-    if (Validator.isEmpty(data.username)) {
-        errors.no_username = "Please specify the username";
+    if (Validator.isEmpty(data.title)) {
+        errors.no_title = "Veuillez spéficier le titre";
     }
 
-    if (!isValidUsername(data.username) && !Validator.isEmail(data.username)) {
-        errors.username = "Invalid username";
+    if (Validator.isEmpty(data.description)) {
+        errors.no_description = "Veuillez spéficier la description";
     }
 
-    if (Validator.isEmpty(data.password)) {
-        errors.password = "Invalid password";
+    if (data.title.length > 150) {
+        errors.invalid_title = "Le titre est trop long";
+    }
+
+    if (data.description.length > 150) {
+        errors.invalid_description = "La description est trop longue";
     }
 
     return {

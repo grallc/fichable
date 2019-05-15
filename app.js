@@ -6,6 +6,8 @@ const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
 
+const validateFicheInput = require('./validation/fiche');
+
 // MongoDB relative imports
 const mongoose = require('mongoose');
 require('./models/fiche');
@@ -122,13 +124,33 @@ app.get('/fiches', (req, res) => {
 
 app.post('/fiches/submit', (req, res) => {
     const session = req.session;
-    if (session.userId) {
-
-    } else {
+    if (!session.userId) {
         return res.status(403).json({
             error: `Vous n'êtes pas connecté`
         })
     }
+
+    const {
+        errors,
+        isValid
+    } = validateFicheInput(req.body);
+
+    // check validation
+    if (!isValid) {
+        return res.status(403).json(errors);
+    }
+
+    const newFiche = new Fiche({
+        title: req.body.title,
+        description: req.body.description,
+        _creator: session.userId
+    });
+    newFiche.save()
+
+    return res.status(200).json({
+        success: `La fiche a bien été créée et sera publiée après validation`
+    })
+
 });
 
 

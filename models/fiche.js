@@ -29,7 +29,6 @@ var Fiche = new Schema({
     },
     content: {
         type: String,
-        required: true,
         minlength: 3,
         maxLength: 1500,
         trim: true
