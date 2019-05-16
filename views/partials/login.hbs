@@ -13,6 +13,10 @@
     <div class='form' id='registerForm'>
         <form method="POST" action="/api/users/register">
             <div class='formItem'>
+                <label for="username">Nom d'utilisateur</label>
+                <input type="username" name="username" id="username">
+            </div>
+            <div class='formItem'>
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" placeholder="email@domaine.com">
             </div>
@@ -25,7 +29,7 @@
                 <input type="password" name="confirmPassword" id="confirmPassword">
                 <span id='isValid'></span>
             </div>
-            <div class="g-recaptcha" data-sitekey="6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj"></div>
+        <div class="g-recaptcha" data-sitekey="{{ getRegisterCaptchaKey }}"></div>
             <input type="submit" value="S'inscrire !">
         </form>
     </div>

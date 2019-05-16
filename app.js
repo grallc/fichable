@@ -5,6 +5,7 @@ const app = express();
 const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
+const config = require('./config')
 
 // MongoDB relative imports
 const mongoose = require('mongoose');
@@ -16,15 +17,11 @@ const cors = require('cors');
 app.use(cookieParser());
 
 // Application the port run in
-const port = 8080;
+const port = config.getPort();
 
 // Define MongoURI
 mongoose.Promise = global.Promise;
-let mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-dev';
-
-if (process.env.NODE_ENV === 'production') {
-    mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/fichable-prod';
-}
+let mongoURI = config.getDatabaseURI()
 
 app.use(express.static(__dirname + '/public'))
 app.use(require('morgan')('dev'));
@@ -48,7 +45,7 @@ mongoose
     .catch(err => console.log(err));
 
 app.use(session({
-    secret: process.env.AUTH_SECRET || ';tcRLfSKq\KPf^d-5~i\_B"',
+    secret: config.getAuthSecret(),
     saveUninitialized: true,
     resave: false,
     store: new MongoStore({
@@ -68,10 +65,17 @@ app.get("/", function (req, res) {
 });
 
 
+hbs.registerHelper('getFicheCaptchaKey', () => {
+    return config.getFicheCaptchaKey();
+})
+
+hbs.registerHelper('getRegisterCaptchaKey', () => {
+    return config.getRegisterCaptchaKey();
+})
+
 
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/api/index'));
-
 
 // Run the App' !
 app.listen(port, () => {

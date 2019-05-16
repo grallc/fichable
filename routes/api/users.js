@@ -23,6 +23,22 @@ const PasswordToken = require('../../models/passwordToken.js');
 // @desc    Register user
 // @access  Public
 router.post('/register', (req, res) => {
+    if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+        return res.status(403).json({
+            error: `Veuillez prouver que vous n'êtes pas un robot`
+        })
+    }
+    const secretKey = process.env.REGISTER_CAPTCHA_SECRET || "6Ldc3aMUAAAAAIswGbZ_oJLy8_ZZ4Bba4vATK6Ap";
+    const verificationUrl = "https:www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+    request(verificationUrl, function (error, response, body) {
+        body = JSON.parse(body);
+        if (body.success !== undefined && !body.success) {
+            return res.status(403).json({
+                error: `Veuillez prouver que vous n'êtes pas un robot`
+            })
+        }
+    });
+
     const {
         errors,
         isValid

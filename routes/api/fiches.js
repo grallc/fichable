@@ -8,11 +8,6 @@ const validateFicheInput = require('../../validation/fiche');
 const request = require('request');
 
 router.post('/submit', (req, res) => {
-    return res.status(200).json({
-        KEY: process.env.FICHES_CAPTCHA_KEY || `6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe`,
-        SECRET: process.env.FICHES_CAPTCHA_SECRET || "6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe"
-    });
-
      if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
          return res.status(403).json({
              error: `Veuillez prouver que vous n'êtes pas un robot`

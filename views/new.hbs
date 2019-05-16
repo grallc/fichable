@@ -26,7 +26,7 @@
             <label for="content">Contenu de la fiche</label>
             <textarea placeholder="Contenu" id="ficheTextContent" name="content"></textarea>
         </div>
-        <div class="g-recaptcha" data-sitekey="{{ FICHES_CAPTCHA_KEY }}"></div>
+        <div class="g-recaptcha" data-sitekey="{{ getFicheCaptchaKey }}"></div>
         <input type="submit" id="submitFiche" value="Soumettre" />
     </form>
     </div>
