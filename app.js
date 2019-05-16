@@ -7,6 +7,9 @@ const hbs = require("hbs");
 const fs = require("fs");
 
 const validateFicheInput = require('./validation/fiche');
+const Recaptcha = require('express-recaptcha').RecaptchaV2;
+const recaptcha = new Recaptcha(process.env.FICHES_CAPTCHA_KEY || '6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj',
+            process.env.FICHES_CAPTCHA_SECRET || '6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe', {'hl': 'fr'});
 
 // MongoDB relative imports
 const mongoose = require('mongoose');
@@ -63,7 +66,6 @@ app.use(session({
     })
 }));
 
-
 // Partials' folder
 hbs.registerPartials(__dirname + "/views/partials");
 
@@ -72,85 +74,7 @@ app.set("view engine", "hbs");
 
 // index.html page
 app.get("/", function (req, res) {
-    const session = req.session;
-    Fiche.find({}).then((fiches) => {
-        if (!session.userId) {
-            for (let x = 0; x < fiches.length; x++) {
-                fiches[x].content = "";
-                fiches[x].img = "";
-            }
-        }
-        fiches = fiches.filter(item => item.status === 'PUBLISHED')
-        res.render("index", {
-            fiches,
-            pageTitle: 'Accueil',
-            userId: session.userId
-        });
-    }, (e) => {
-        res.render("index", {
-            fichesError: e.message,
-            pageTitle: 'Accueil'
-        })
-    });
-
-});
-
-// /fiches/ pages
-app.get('/fiches/:ficheId', (req, res) => {
-    if (req.params.ficheId) {
-        const ficheId = req.params.ficheId
-        if (ficheId === 'new') {
-            res.render("new", {
-                pageTitle: "Nouvelle fiche"
-            });
-        }
-    }
-});
-
-// /fiches/ pages
-app.get('/fiches', (req, res) => {
-    Fiche.find({}).then((fiches) => {
-        res.render("fiches", {
-            fiches,
-            pageTitle: 'Toutes les fiches'
-        });
-    }, (e) => {
-        res.render("fiches", {
-            fichesError: e.message,
-            pageTitle: 'Toutes les fiches'
-        })
-    });
-});
-
-app.post('/fiches/submit', (req, res) => {
-    const session = req.session;
-    if (!session.userId) {
-        return res.status(403).json({
-            error: `Vous n'êtes pas connecté`
-        })
-    }
-
-    const {
-        errors,
-        isValid
-    } = validateFicheInput(req.body);
-
-    // check validation
-    if (!isValid) {
-        return res.status(403).json(errors);
-    }
-
-    const newFiche = new Fiche({
-        title: req.body.title,
-        description: req.body.description,
-        _creator: session.userId
-    });
-    newFiche.save()
-
-    return res.status(200).json({
-        success: `La fiche a bien été créée et sera publiée après validation`
-    })
-
+    res.redirect('/fiches');
 });
 
 
@@ -161,7 +85,8 @@ app.get('/profile', (req, res) => {
     });
 });
 
-app.use('/api', require('./routes/api/index'));
+app.use('/', require('./routes/api/index'));
+
 // Run the App' !
 app.listen(port, () => {
     console.log(`Server is up on port ${port}`);

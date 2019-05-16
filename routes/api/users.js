@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 const Validator = require('validator');

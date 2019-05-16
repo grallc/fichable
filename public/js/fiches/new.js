@@ -1,12 +1,30 @@
-console.log('1234')
+$(function () {
+    $("#submitFiche").on("click", function (event) {
+        event.preventDefault();
 
-
-function submitFiche() {
-    document.getElementById("#createFicheForm").addEventListener("submit", function(e){
-        console.log('1235')
-        alert("Hello! I am an alert box!!");
-        if(!isValid){
-            e.preventDefault();    //stop form from submitting
+        var fiche = {
+            title: $("#ficheTitle").val().trim(),
+            description: $("#ficheDescription").val().trim(),
+            textContent: $("#ficheTextContent").val().trim()
         }
-    })
-}
+
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/fiches/submit');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(user));
+        xhr.responseType = 'json';
+
+        xhr.addEventListener('readystatechange', function () { // On gère ici une requête asynchrone
+
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
+                $('#loginInfo').html("Vous êtes désormais connecté ! Redirection en cours...").css('color', '#9BC53D')
+            } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
+                alert(xhr.status);
+                if (xhr.response && xhr.response.password) {
+                    $('#loginInfo').html(xhr.response.password).css('color', '#9BC53D')
+                }
+            }
+        });
+    });
+});

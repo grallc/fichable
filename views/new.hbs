@@ -2,21 +2,22 @@
 
 <body>
     {{> header}}
+    <script src='../../js/fiches/new' type='text/javascript' ></script>
     <h4>Créer une fiche</h4>
-    <form method="POST" action="/fiches/submit">
+    <form>
         <div class='formItem'>
-            <label for="title">Titre</label>
-            <input type="text" name="title" placeholder="Titre" id="submitTitle" required>
+            <label for="fitle">Titre</label>
+            <input type="text" name="title" placeholder="Titre" id="ficheTitle" required>
         </div>
         <div class="formItem">
             <label for="description">Description de la fiche (quelques lignes)</label>
-            <textarea placeholder="Description" id="submitDescription" name="description" required></textarea>
+            <textarea placeholder="Description" id="ficheDescription" name="description" required></textarea>
         </div <div class="formItem">
         <label for="content">Contenu de la fiche</label>
-        <textarea placeholder="Contenu" id="submitTextContent" name="content"></textarea>
+        <textarea placeholder="Contenu" id="ficheTextContent" name="content"></textarea>
         </div>
-
-        <input type="submit" value="Soumettre" />
+              <div class="g-recaptcha" data-sitekey="6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj"></div>
+        <input type="submitFiche" value="Soumettre" />
     </form>
     </div>
     {{> footer}}
