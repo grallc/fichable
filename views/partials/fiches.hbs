@@ -1,9 +1,4 @@
 {{#each fiches}}
-{{#if this.userLikes includeZero=true}}
-	<p>I like</p>
-{{/if}}
-<p>{{ this.likesLength }}</p>
-
 <div class="card mb-3" style="width: 70vw; min-height: 250px;">
 	<div class="col-md-3 thumbFiche">
 		<h2>{{ this.level }}</h2>
@@ -16,7 +11,12 @@
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
 				Voir la fiche
 			</button>
-			<i class="fal fa-thumbs-up"></i>
+			{{#if this.userLikes includeZero=true}}
+				<i class="far fa-thumbs-up"></i>
+			{{else}}
+				<i class="fas fa-thumbs-up"></i>
+			{{/if}}
+			<p>{{ this.likesLength }}</p>
 		</div>
 	</div>
 </div>
@@ -35,11 +35,11 @@
 			</div>
 			<div class="modal-body">
 				{{#if ../userId includeZero=true}}
-				<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
-				<br>
-				{{ this.content }}
+					<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
+					<br>
+					{{ this.content }}
 				{{ else }}
-				<p>Vous devez être connecté pour voir les fiches !</p>
+					<p>Vous devez être connecté pour voir les fiches !</p>
 				{{/if}}
 			</div>
 			<div class="modal-footer">

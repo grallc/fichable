@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const async = require('async');
 
 const mongoose = require('mongoose');
 require('../models/fiche');
@@ -28,18 +29,17 @@ router.get('/', (req, res) => {
     Fiche.find({}).then((fiches) => {
         fiches = fiches.filter(item => item.status === 'PUBLISHED')
 
-        let processedFiches = 0;
 
-        for (let x = 0; x < fiches.length; x++) {
+        async.forEachOf(fiches, (value, key, callback) => {
             if (!session.userId) {
-                fiches[x].content = "";
-                fiches[x].img = "";
+                fiches[key].content = "";
+                fiches[key].img = "";
             }
 
             Like.find({
-                ficheId: fiches[x]._id
+                ficheId: fiches[key]._id
             }).then((likes) => {
-                fiches[x].likesLength = 12
+                fiches[key].likesLength = likes.length
                 if (likes.length) {
                     for (let x = 0; x < likes.length; x++) {
                         if (likes[x].userId = session.userId) {
@@ -47,25 +47,29 @@ router.get('/', (req, res) => {
                         }
                     }
                 }
-            }, (e) => {
+            }).catch((e) => {
                 console.log(e);
             })
-
-            processedFiches++;
-        }
-        if (processedFiches >= fiches.length) {
+            callback(null)
+        }, (err) => {
+            if(err) {
+                return console.log(err.message)
+            }
             res.render("index", {
                 fiches,
                 pageTitle: 'Accueil',
                 userId: session.userId,
             });
-        }
-    }, (e) => {
-        res.render("index", {
-            fichesError: e.message,
-            pageTitle: 'Accueil'
         })
+
+    }, (e) => {
+        
     });
 });
+
+
+const processFiches = async(fiches) => {
+
+}
 
 module.exports = router;
