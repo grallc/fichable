@@ -2,9 +2,10 @@
 
 <body>
     {{> header}}
-    <script src='../../js/fiches/new' type='text/javascript' ></script>
+    <script src='../../js/fiches/fiches.js' type='text/javascript'></script>
     <h4>Créer une fiche</h4>
-    <form>
+    <p id="ficheInfo"></p>
+    <form id="ficheForm">
         <div class='formItem'>
             <label for="fitle">Titre</label>
             <input type="text" name="title" placeholder="Titre" id="ficheTitle" required>
@@ -12,12 +13,13 @@
         <div class="formItem">
             <label for="description">Description de la fiche (quelques lignes)</label>
             <textarea placeholder="Description" id="ficheDescription" name="description" required></textarea>
-        </div <div class="formItem">
-        <label for="content">Contenu de la fiche</label>
-        <textarea placeholder="Contenu" id="ficheTextContent" name="content"></textarea>
         </div>
-              <div class="g-recaptcha" data-sitekey="6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj"></div>
-        <input type="submitFiche" value="Soumettre" />
+        <div class="formItem">
+            <label for="content">Contenu de la fiche</label>
+            <textarea placeholder="Contenu" id="ficheTextContent" name="content"></textarea>
+        </div>
+        <div class="g-recaptcha" data-sitekey="6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj"></div>
+        <input type="submit" id="submitFiche" value="Soumettre" />
     </form>
     </div>
     {{> footer}}

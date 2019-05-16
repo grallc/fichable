@@ -2,46 +2,33 @@ const express = require('express');
 const router = express.Router();
 
 const mongoose = require('mongoose');
+require('../../models/fiche');
 const Fiche = mongoose.model('Fiche');
-
-// /fiches/ pages
-router.get('/:ficheId', (req, res) => {
-    if (req.params.ficheId) {
-        const ficheId = req.params.ficheId
-        if (ficheId === 'new') {
-            res.render("new", {
-                pageTitle: "Nouvelle fiche"
-            });
-        }
-    }
-});
-
-// /fiches/ pages
-router.get('/', (req, res) => {
-    const session = req.session;
-    Fiche.find({}).then((fiches) => {
-        if (!session.userId) {
-            for (let x = 0; x < fiches.length; x++) {
-                fiches[x].content = "";
-                fiches[x].img = "";
-            }
-        }
-        fiches = fiches.filter(item => item.status === 'PUBLISHED')
-        res.render("index", {
-            fiches,
-            pageTitle: 'Accueil',
-            userId: session.userIdn,
-            captcha: res.recaptcha
-        });
-    }, (e) => {
-        res.render("index", {
-            fichesError: e.message,
-            pageTitle: 'Accueil'
-        })
-    });
-});
+const validateFicheInput = require('../../validation/fiche');
+const request = require('request');
 
 router.post('/submit', (req, res) => {
+    console.log(req.body)
+    if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+        return res.status(403).json({
+            error: `Veuillez prouver que vous n'êtes pas un robot`
+        })
+    }
+    // Put your secret key here.
+    var secretKey = "6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe";
+    // req.connection.remoteAddress will provide IP address of connected user.
+    var verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + ' 6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe' + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+    // Hitting GET request to the URL, Google will respond with success or error scenario.
+    request(verificationUrl, function (error, response, body) {
+        body = JSON.parse(body);
+        // Success will be true or false depending upon captcha validation.
+        if (body.success !== undefined && !body.success) {
+            return res.status(403).json({
+                error: `Veuillez prouver que vous n'êtes pas un robot`
+            })
+        }
+    });
+
     const session = req.session;
     if (!session.userId) {
         return res.status(403).json({

@@ -6,21 +6,13 @@ const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
 
-const validateFicheInput = require('./validation/fiche');
-const Recaptcha = require('express-recaptcha').RecaptchaV2;
-const recaptcha = new Recaptcha(process.env.FICHES_CAPTCHA_KEY || '6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj',
-            process.env.FICHES_CAPTCHA_SECRET || '6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe', {'hl': 'fr'});
-
 // MongoDB relative imports
 const mongoose = require('mongoose');
-require('./models/fiche');
-const Fiche = mongoose.model('Fiche');
 
 // Authentication relative imports
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const cors = require('cors');
-require('./models/user');
 app.use(cookieParser());
 
 // Application the port run in
@@ -37,7 +29,6 @@ if (process.env.NODE_ENV === 'production') {
 app.use(express.static(__dirname + '/public'))
 app.use(require('morgan')('dev'));
 
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
     extended: false
@@ -47,7 +38,6 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json())
 
 app.use(cors());
-
 
 // Connect the App to the Database
 mongoose
@@ -78,14 +68,10 @@ app.get("/", function (req, res) {
 });
 
 
-// profile.html page - login/signup/profile
-app.get('/profile', (req, res) => {
-    res.render("profile", {
-        pageTitle: 'Profil'
-    });
-});
 
-app.use('/', require('./routes/api/index'));
+app.use('/', require('./routes/index'));
+app.use('/api', require('./routes/api/index'));
+
 
 // Run the App' !
 app.listen(port, () => {

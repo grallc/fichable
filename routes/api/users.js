@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const ObjectId = require('mongoose').Types.ObjectId;
 const Validator = require('validator');
+require('../../models/user');
 
 const validateLoginInput = require('../../validation/login');
 const validateRegisterInput = require('../../validation/register');
@@ -17,12 +18,6 @@ const key = process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6';
 // Load models
 const User = mongoose.model('User');
 const PasswordToken = require('../../models/passwordToken.js');
-
-// @desc    Tests users route
-// @access  Public
-router.get('/test', (req, res) => res.json({
-    msg: getText('api.users.test')
-}));
 
 // @route   POST api/users/register
 // @desc    Register user
