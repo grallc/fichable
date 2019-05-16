@@ -15,40 +15,35 @@ module.exports = function validateRegisterInput(data) {
 
 
     if (Validator.isEmpty(data.name)) {
-        errors.username = "Please specify an username";
+        errors.username = "Veuillez spécifier un nom d'utilisateur";
     }
 
     if (!isValidUsername(data.username)) {
-        errors.username = "Invalid username";
+        errors.username = "Veuillez spécifier un nom d'utilisateur correct";
     }
 
     if (Validator.isEmpty(data.email)) {
-        errors.email = "Please specify an email adress";
+        errors.email = "Veuillez spécifier une adresse email";
     }
 
     if (!Validator.isEmail(data.email)) {
-        errors.email = "Invalid email adress";
+        errors.email = "Veuillez spécifier une adresse email";
     }
 
     if (Validator.isEmpty(data.password)) {
-        errors.password = "Please specify a password";
+        errors.password = "Veuillez spécifier un mot de passe";
     }
 
     if (!isValidPassword(data.password)) {
-        errors.password = "Invalid password";
+        errors.password = "Veuillez spécifier un mot de passe";
     }
 
     if (Validator.isEmpty(data.password2)) {
-        errors.password2 = "Please specify a password";
+        errors.password2 = "Veuillez spécifier un mot de passe correct";
     }
-
-    if (!isValidPassword(data.password2)) {
-        errors.password = "Invalid password confirmation";
-    }
-
 
     if (!Validator.equals(data.password, data.password2)) {
-        errors.password2 = "Passwords don't match";
+        errors.password2 = "Les mots de passe ne concordent pas";
     }
 
     return {

@@ -17,7 +17,6 @@ $(function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur.
                 $('#ficheInfo').show().html("La fiche sera postée après validation manuelle !")
             } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
-            console.log(xhr.response)
                 if (xhr.response && xhr.response[0]) {
                     for (const key in xhr.response[0]) {
                         $('#ficheError').show().html(xhr.response[0][key])

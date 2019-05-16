@@ -37,13 +37,13 @@ router.post('/register', (req, res) => {
         name: req.body.name
     }).exec().then(user => {
         if (user) {
-            errors.username = "Username already exists";
+            errors.username = "Le nom d'utilisateur est déjà utilisé";
         }
         User.findOne({
             email: req.body.email
         }).then(user => {
             if (user) {
-                errors.email = "Email already exists";
+                errors.email = "L'adresse email spéficiée est déjà utilisée";
             }
             if (errors.email || errors.username) {
                 return res.status(403).json(errors);

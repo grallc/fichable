@@ -8,21 +8,26 @@ const validateFicheInput = require('../../validation/fiche');
 const request = require('request');
 
 router.post('/submit', (req, res) => {
-    // if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
-    //     return res.status(403).json({
-    //         error: `Veuillez prouver que vous n'êtes pas un robot`
-    //     })
-    // }
-    // const secretKey = "6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe";
-    // const verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + ' 6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe' + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
-    // request(verificationUrl, function (error, response, body) {
-    //     body = JSON.parse(body);
-    //     if (body.success !== undefined && !body.success) {
-    //         return res.status(403).json({
-    //             error: `Veuillez prouver que vous n'êtes pas un robot`
-    //         })
-    //     }
-    // });
+    return res.status(200).json({
+        KEY: process.env.FICHES_CAPTCHA_KEY || `6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe`,
+        SECRET: process.env.FICHES_CAPTCHA_SECRET || "6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe"
+    });
+
+     if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
+         return res.status(403).json({
+             error: `Veuillez prouver que vous n'êtes pas un robot`
+         })
+     }
+     const secretKey = process.env.FICHES_CAPTCHA_SECRET || "6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe";
+     const verificationUrl = "https:www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
+     request(verificationUrl, function (error, response, body) {
+         body = JSON.parse(body);
+         if (body.success !== undefined && !body.success) {
+             return res.status(403).json({
+                 error: `Veuillez prouver que vous n'êtes pas un robot`
+             })
+         }
+     });
 
     const {
         errors,
@@ -35,9 +40,6 @@ router.post('/submit', (req, res) => {
         errors.push({'not_logged': `Vous n'êtes pas connecté`})
         return res.status(403).json(errors);
     }
-
-
-    // check validation
     if (!isValid) {
         return res.status(403).json(errors);
     }

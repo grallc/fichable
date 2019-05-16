@@ -17,7 +17,8 @@ router.get('/:ficheId', (req, res) => {
         const ficheId = req.params.ficheId
         if (ficheId === 'new') {
             res.render("new", {
-                pageTitle: "Nouvelle fiche"
+                pageTitle: "Nouvelle fiche",
+                FICHES_CAPTCHA_KEY: process.env.FICHES_CAPTCHA_KEY || `6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe`
             });
         }
     }
@@ -43,10 +44,14 @@ router.get('/', (req, res) => {
                 if (likes.length) {
                     for (let x = 0; x < likes.length; x++) {
                         if (likes[x].userId = session.userId) {
-                            fiches[x].userLikes = true;
+                        } else {
+                            fiches[key].userLikes = false;
                         }
                     }
+                    
                 }
+                fiches[key].userLikes = true;
+                console.log(fiches[key])
             }).catch((e) => {
                 console.log(e);
             })
