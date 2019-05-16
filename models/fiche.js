@@ -33,7 +33,6 @@ var Fiche = new Schema({
         maxLength: 1500,
         trim: true
     },
-    likes: [String],
     _creator:   {
         type: String,
         required: true
