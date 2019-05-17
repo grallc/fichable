@@ -1,4 +1,4 @@
-const getFicheCaptchaKey = () => process.env.FICHES_CAPTCHA_KEY || `6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj`;
+const getFicheCaptchaKey = () => process.env.FICHES_CAPTCHA_KEY || `6Ldj0KMUAAAAAAsxuWCndk2tO802cAYFwoFoD_zj    `;
 const getFicheCaptchaSecret = () => process.env.FICHES_CAPTCHA_SECRET || `6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe`;
 
 const getRegisterCaptchaKey = () => process.env.REGISTER_CAPTCHA_KEY || `6Ldc3aMUAAAAAJ_hZK4x_1QtA3T18dWbyjAmjCXQ`;

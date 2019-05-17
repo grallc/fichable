@@ -23,26 +23,11 @@ const PasswordToken = require('../../models/passwordToken.js');
 // @desc    Register user
 // @access  Public
 router.post('/register', (req, res) => {
-    if (req.body['g-recaptcha-response'] === undefined || req.body['g-recaptcha-response'] === '' || req.body['g-recaptcha-response'] === null) {
-        return res.status(403).json({
-            error: `Veuillez prouver que vous n'êtes pas un robot`
-        })
-    }
-    const secretKey = process.env.REGISTER_CAPTCHA_SECRET || "6Ldc3aMUAAAAAIswGbZ_oJLy8_ZZ4Bba4vATK6Ap";
-    const verificationUrl = "https:www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + req.body['g-recaptcha-response'] + "&remoteip=" + req.connection.remoteAddress;
-    request(verificationUrl, function (error, response, body) {
-        body = JSON.parse(body);
-        if (body.success !== undefined && !body.success) {
-            return res.status(403).json({
-                error: `Veuillez prouver que vous n'êtes pas un robot`
-            })
-        }
-    });
 
     const {
         errors,
         isValid
-    } = validateRegisterInput(req.body);
+    } = validateRegisterInput(req.body, req.connection);
 
     // check validation
     if (!isValid) {
@@ -53,15 +38,15 @@ router.post('/register', (req, res) => {
         name: req.body.name
     }).exec().then(user => {
         if (user) {
-            errors.username = "Le nom d'utilisateur est déjà utilisé";
+            errors.push({username: "Le nom d'utilisateur est déjà utilisé"});
         }
         User.findOne({
             email: req.body.email
         }).then(user => {
             if (user) {
-                errors.email = "L'adresse email spéficiée est déjà utilisée";
+                errors.push({email: "L'adresse email spéficiée est déjà utilisée"});
             }
-            if (errors.email || errors.username) {
+            if (errors.length > 0) {
                 return res.status(403).json(errors);
             }
             // User's URL

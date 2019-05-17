@@ -17,8 +17,7 @@ router.get('/:ficheId', (req, res) => {
         const ficheId = req.params.ficheId
         if (ficheId === 'new') {
             res.render("new", {
-                pageTitle: "Nouvelle fiche",
-                FICHES_CAPTCHA_KEY: process.env.FICHES_CAPTCHA_KEY || `6Ldj0KMUAAAAAHnXbyNqZCDHpP2mH_9Jm4vzSrqe`
+                pageTitle: "Nouvelle fiche"
             });
         }
     }
@@ -44,20 +43,31 @@ router.get('/', (req, res) => {
                 if (likes.length) {
                     for (let x = 0; x < likes.length; x++) {
                         if (likes[x].userId = session.userId) {
+                            fiches[key].userLikes = true;
+                            console.log('123')
                         } else {
+                            console.log('456')
                             fiches[key].userLikes = false;
                         }
                     }
-                    
+
+                } else {
+                    console.log('789')
+                    fiches[key].userLikes = false;
                 }
-                fiches[key].userLikes = true;
-                console.log(fiches[key])
+                // if (fiches[0].userId = session.userId) {
+                //     fiches[key].userLikes = false;
+                //     console.log('123')
+                // } else {
+                //     console.log('456')
+                //     fiches[key].userLikes = true;
+                // }
             }).catch((e) => {
                 console.log(e);
             })
             callback(null)
         }, (err) => {
-            if(err) {
+            if (err) {
                 return console.log(err.message)
             }
             res.render("index", {
@@ -68,12 +78,12 @@ router.get('/', (req, res) => {
         })
 
     }, (e) => {
-        
+
     });
 });
 
 
-const processFiches = async(fiches) => {
+const processFiches = async (fiches) => {
 
 }
 
