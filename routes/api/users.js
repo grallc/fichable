@@ -29,7 +29,13 @@ router.post('/register', (req, res) => {
         isValid
     } = validateRegisterInput(req.body, req.connection);
 
-    // check validation
+    const session = req.session;
+    if (session.userId) {
+        errors.length = 0;
+        errors.push({already_logged: "Vous êtes déjà connecté"});
+        return res.status(403).json(errors);
+    }
+    
     if (!isValid) {
         return res.status(403).json(errors);
     }
@@ -78,6 +84,13 @@ router.post('/login', (req, res) => {
         errors,
         isValid
     } = validateLoginInput(req.body);
+
+    const session = req.session;
+    if (session.userId) {
+        errors.length = 0;
+        errors.push({already_logged: "Vous êtes déjà connecté"});
+        return res.status(403).json(errors);
+    }
 
     const username = req.body.username;
     const password = req.body.password;

@@ -19,13 +19,11 @@ $(function() {
 	})
 
 	$('#password, #confirmPassword').on('keyup', () => {
-		if ($('#password').val() === $('#confirmPassword').val()) {
 			if ($('#password').val().length >= 8) {
 				$('#isValid').html('Mot de passe validé').css('color', '#9BC53D')
+			} else {
+				$('#isValid').html('Mot de passe trop faible').css('color', '#C3423F')
 			}
-		} else {
-			$('#isValid').html('Mot de passe invalide').css('color', '#C3423F')
-		}
 	})
 
 	$('#register').click(() => {

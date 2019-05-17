@@ -20,7 +20,6 @@ module.exports = function validateRegisterInput(data, connection) {
             errors.push({invalid_captcha: "Veuillez montrer que vous n'êtes pas un robot"})
         }
     });
-    console.log(data)
 
     data.name =!isEmpty(data.username) ? data.username : '';
     data.email =!isEmpty(data.email) ? data.email : '';
