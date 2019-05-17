@@ -20,6 +20,7 @@ $(function () {
             } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
                 if (xhr.response && xhr.response[0]) {                
                     for (const key in xhr.response[0]) {
+                        $('#ficheInfo').hide()
                         $('#ficheError').show().html(xhr.response[0][key])
                     }
                 }

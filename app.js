@@ -64,6 +64,17 @@ app.get("/", function (req, res) {
     res.redirect('/fiches');
 });
 
+app.use('*', (req, res, next) => {
+    hbs.registerHelper('isLoggedIn', function(options) {
+        if (req.session.userId) {
+            return options.fn(this);
+        } else {
+            return options.inverse(this);
+        }
+    });
+    next()
+});
+
 
 hbs.registerHelper('getFicheCaptchaKey', () => {
     return config.getFicheCaptchaKey();

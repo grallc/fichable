@@ -12,11 +12,7 @@
     </div>
     <div>
         <form class='form' id='registerForm'>
-            <div class="alert alert-primary" role="alert" id="registerInfo" style="display: none">
-            </div>
 
-            <div class="alert alert-danger" role="alert" id="registerError" style="display: none">
-            </div>
             <div class='formItem'>
                 <label for="username">Nom d'utilisateur</label>
                 <input type="username" name="username" id="username">
@@ -40,8 +36,12 @@
     </div>
 
     <div class='form' id='loginForm'>
-        <p id="loginInfo"></p>
         <form>
+            <div class="alert alert-primary" role="alert" id="loginInfo" style="display: none">
+            </div>
+
+            <div class="alert alert-danger" role="alert" id="loginError" style="display: none">
+            </div>
             <div class='formItem'>
                 <label for="email">Email</label>
                 <input type="email" name="username" id="loginEmail" placeholder="email@domaine.com">
