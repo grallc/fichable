@@ -16,13 +16,12 @@
             <i class="fas fa-user-circle button"></i>
             <div>
                 {{#isLoggedIn }}
-                    <a href="#" id='profile'>Profil</a>
+                    <a href="/users/profile" id='profile'>Profil</a>
                     <a href="#" id='logout'>Déconnexion</a> <br>
                 {{else}}
                     <a href="#" id='register'>S'inscrire</a>
                     <a href="#" id='login'>Se connecter</a> <br>
                 {{/isLoggedIn}}
-
             </div>
         </div>
     </div>

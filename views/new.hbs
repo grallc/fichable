@@ -4,33 +4,99 @@
     {{> header}}
     {{> navbar}}
     {{> login}}
-    <script src='../../js/fiches/fiches.js' type='text/javascript'></script>
-    <h4>Créer une fiche</h4>
 
     <div class="alert alert-primary" role="alert" id="ficheInfo" style="display: none">
     </div>
 
     <div class="alert alert-danger" role="alert" id="ficheError" style="display: none">
     </div>
+    <div class='container-fluid'>
+        <h1>Créer une fiche</h1>
+        <div class='form'>
+            <form method='POST'>
+                <div class='row'>
+                    <label for="ficheTitle">Titre de la fiche</label>
+                    <br>
+                    <input type="text" name="ficheTitle" id="ficheTitle">
+                </div>
+                <div class="row">
+                    <label for="difficulty" id='difficultyLabel'>Difficulté : 1</label>
+                    <br>
+                    <input type="range" name="difficulty" id="difficulty" value='1' min='1' max='5' step='1'>
+                </div>
+                <div class="row">
+                    <label for="level">Niveau scolaire</label>
+                    <br>
+                    <select name="level" id="level">
+                        <option value="Collège" disabled>Collège</option>
+                        <option value="6">Sixème</option>
+                        <option value="5">Cinquième</option>
+                        <option value="4">Quatrième</option>
+                        <option value="3">Troisième</option>
+                        <option value="Lycée" disabled>Lycée</option>
+                        <option value="2">Seconde</option>
+                        <option value="1" disabled>Première</option>
+                        <option value="1L">Première L</option>
+                        <option value="1S">Première S</option>
+                        <option value="1ES">Première ES</option>
+                        <option value="T" disabled>Terminale</option>
+                        <option value="TL">Terminale L</option>
+                        <option value="TS">Terminale S</option>
+                        <option value="TES">Terminale ES</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="subject">Matière</label>
+                    <br>
+                    <select name="subject" id="subject">
+                        <option value="Langues" disabled>Langues Vivantes</option>
+                        <option value="Anglais">Anglais</option>
+                        <option value="Espagnol">Espagnol</option>
+                        <option value="Italien">Italien</option>
+                        <option value="Allemand">Allemand</option>
+                        <option value="Littéraire" disabled>Littéraire</option>
+                        <option value="Français">Français</option>
+                        <option value="Philosophie">Philosophie</option>
+                        <option value="Histoire-Géographie-EMC">Histoire-Géographie-EMC</option>
+                        <option value="Scientifique" disabled>Scientifique</option>
+                        <option value="Mathématiques">Mathématiques</option>
+                        <option value="Physique-Chimie">Physique-Chimie</option>
+                        <option value="SVT">SVT</option>
+                        <option value="Sciences de l'Ingénieur">Sciences de l'Ingénieur</option>
+                        <option value="Artistique" disabled>Artistique</option>
+                        <option value="Arts Plastiques">Arts Plastiques</option>
+                        <option value="Arts Appliqués">Arts Appliqués</option>
+                        <option value="Musique">Musique</option>
+                        <option value="Spécialités" disabled>Spécialités</option>
+                        <option value="ISN">ISN</option>
+                        <option value="Spé Maths">Spé Maths</option>
+                        <option value="Spé Physique">Spé Physique</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <label for="description">Description</label>
+                    <br>
+                    <textarea name="description" id="description" placeholder="Verbes Irréguliers..." required
+                        spellcheck="true" minlength="30" maxlength="250" cols="30" rows="10"></textarea>
+                </div>
+                <!--////////////////////////////////////////////
+                    PAUL'S CODE
+                ////////////////////////////////////////////////-->
+                
 
-    <form id="ficheForm">
-        <div class='formItem'>
-            <label for="fitle">Titre</label>
-            <input type="text" name="title" placeholder="Titre" id="ficheTitle" required>
+                <!--////////////////////////////////////////////
+                    PAUL'S CODE
+                ////////////////////////////////////////////////-->
+                <div class="g-recaptcha" data-sitekey="{{ getFicheCaptchaKey }}"></div>
+                <input type="submit" value="Soumettre une fiche">
+            </form>
         </div>
-        <div class="formItem">
-            <label for="description">Description de la fiche (quelques lignes)</label>
-            <textarea placeholder="Description" id="ficheDescription" name="description" required></textarea>
-        </div>
-        <div class="formItem">
-            <label for="content">Contenu de la fiche</label>
-            <textarea placeholder="Contenu" id="ficheTextContent" name="content"></textarea>
-        </div>
-        <div class="g-recaptcha" data-sitekey="{{ getFicheCaptchaKey }}"></div>
-        <input type="submit" id="submitFiche" value="Soumettre" />
+    </div>
     </form>
     </div>
     {{> footer}}
+
+
 </body>
 
 </html>

@@ -25,11 +25,9 @@ router.get('/:ficheId', (req, res) => {
 
 // /fiches/ pages
 router.get('/', (req, res) => {
-    const session = req.session;
+    const session = req.session;/*  */
     Fiche.find({}).then((fiches) => {
         fiches = fiches.filter(item => item.status === 'PUBLISHED')
-
-
         async.forEachOf(fiches, (value, key, callback) => {
             if (!session.userId) {
                 fiches[key].content = "";
@@ -40,32 +38,22 @@ router.get('/', (req, res) => {
                 ficheId: fiches[key]._id
             }).then((likes) => {
                 fiches[key].likesLength = likes.length
-                if (likes.length) {
+                if (likes.length > 0) {
                     for (let x = 0; x < likes.length; x++) {
                         if (likes[x].userId = session.userId) {
                             fiches[key].userLikes = true;
-                            console.log('123')
                         } else {
-                            console.log('456')
                             fiches[key].userLikes = false;
                         }
                     }
 
                 } else {
-                    console.log('789')
                     fiches[key].userLikes = false;
                 }
-                // if (fiches[0].userId = session.userId) {
-                //     fiches[key].userLikes = false;
-                //     console.log('123')
-                // } else {
-                //     console.log('456')
-                //     fiches[key].userLikes = true;
-                // }
+                callback(null)
             }).catch((e) => {
                 console.log(e);
             })
-            callback(null)
         }, (err) => {
             if (err) {
                 return console.log(err.message)
@@ -74,6 +62,7 @@ router.get('/', (req, res) => {
                 fiches,
                 pageTitle: 'Accueil',
                 userId: session.userId,
+                query: req.query
             });
         })
 
@@ -81,10 +70,5 @@ router.get('/', (req, res) => {
 
     });
 });
-
-
-const processFiches = async (fiches) => {
-
-}
 
 module.exports = router;

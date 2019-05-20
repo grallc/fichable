@@ -106,7 +106,7 @@ router.post('/login', (req, res) => {
         .then(user => {
             // check for user
             if (!user) {
-                errors.not_found = "Identifiants incorrects";
+                errors.push({not_found: "Identifiants incorrects"});
                 return res.status(403).json(errors);
             }
             // check password
@@ -116,7 +116,7 @@ router.post('/login', (req, res) => {
                         req.session.userId = user._id
                         return res.status(200).end(('Vous êtes désormais connecté'));
                     } else {
-                        errors.password = "Identifiants incorrects";
+                        errors.push({password: "Identifiants incorrects"});
                         return res.status(403).json(errors);
                     }
                 })
@@ -196,68 +196,6 @@ router.get('/current', (req, res) => {
     });
 });
 
-
-// @route   GET api/users/reset
-// @desc    Send a reset password email
-// @access  Private
-// router.post('/send-mail',/*  passport.authenticate('jwt', { session: false }), */ (req, res) => {
-//     const email = req.body.email;
-//     const ip = req.body.ip;
-
-//     const errors = {};
-
-//     if(!Validator.isEmail(req.body.email)) {
-//         errors.invalid_email = getText("api.users.reset-password.invalid-email");
-//         return res.status(404).json(errors);
-//     }
-
-
-//     sendResetEmail(email, ip, (error) => {
-//         if(error) {
-//             console.log(error);
-//             return res.status(404).json({cannot_send: error});
-//          }
-//         return res.status(200).json({info: getText("api.users.reset-password.mail-sent")});
-//     });
-// });
-
-
-// @route   GET api/users/
-// @desc    Get user by provided ID and change he's password
-// @access  Private
-router.patch('/', (req, res) => {
-
-
-    const {
-        errors,
-        isValid
-    } = validateChangePasswordInput(req.body);
-    // check validation
-
-    if (!isValid) {
-        return res.status(404).json(errors);
-    }
-
-    const _id = req.body.id;
-    const password = req.body.password;
-
-    User.findById(_id).then((user) => {
-        if (!user) {
-            errors.no_user = getText('api.users.notfound');
-            return res.status(404).json(errors);
-        }
-        bcrypt.genSalt(10, (err, salt) => {
-            bcrypt.hash(password, salt, (err, hash) => {
-                if (err) throw err;
-                user.password = hash;
-                user.save()
-                    .then(user => res.json(user))
-                    .catch(err => console.log(err));
-            });
-        });
-    });
-});
-
 // @route   GET api/users/change
 // @desc    Change my password
 // @access  Private
@@ -303,94 +241,22 @@ router.patch('/change', /*  passport.authenticate('jwt', { session: false }), */
     });
 });
 
+// @route   POST api/users/logout
+// @desc    Logout user
+// @access  Public
+router.post('/logout', (req, res) => {
 
-// @route   DELETE api/user
-// @desc    Delete user and server
-// @access  Private
-router.delete('/', (req, res) => {
-        User.findOneAndRemove({
-                user: req.user.id
-            })
-            .then(() => {
-                User.findOneAndRemove({
-                        _id: req.user.id
-                    })
-                    .then(() => res.json({
-                        success: true
-                    }))
-            });
-
-    });
-
-
-// @route   GET api/users/reset
-// @desc    Get user by provided ID, verify the token and change he's password
-// @access  Private
-router.patch('/reset', (req, res) => {
-
-
-    const {
-        errors,
-        isValid
-    } = validateResetPasswordInput(req.body);
-    // check validation
-
-    if (!isValid) {
-        return res.status(404).json(errors);
-    }
-
-    const token = req.body.token;
-    const password = req.body.password;
-
-
-
-    PasswordToken.findById(token).then((token) => {
-        if (!token) {
-            errors.unknown_token = getText('api.users.reset-password.token-not-found');
-            return res.status(404).json(errors);
-        } else if (((new Date().getTime() - token.creationDate.getTime()) / 1000) > 86400) {
-            token.remove();
-            errors.token_expired = getText('api.users.reset-password.token-not-found');
-            return res.status(404).json(errors);
-        }
-        User.findById(token.tokenUserId).then((user) => {
-            if (!user) {
-                errors.unknown_user = getText('api.users.reset-password.nouser');
-                token.remove();
-                return res.status(404).json(errors);
-            }
-            bcrypt.genSalt(10, (err, salt) => {
-                bcrypt.hash(password, salt, (err, hash) => {
-                    if (err) throw err;
-                    user.password = hash;
-                    token.remove();
-
-                    PasswordToken.find().then((tokens) => {
-                        tokens.forEach(tempToken => {
-                            if ((((new Date().getTime() - tempToken.creationDate.getTime()) / 1000) > 86400) || tempToken.tokenUserId === user._id) {
-                                tempToken.remove();
-                            }
-                        });
-                    });
-
-                    PasswordToken.deleteMany({
-                        tokenUserId: user._id
-                    }, (err) => {
-                        if (err) {
-                            console.log(err);
-                        }
-                    });
-
-                    user.save()
-                        .then(user => res.json(user))
-                        .catch(err => console.log(err));
-                });
-            });
+    if (req.session) {
+        // delete session object
+        req.session.destroy((err) => {
+          if(err) {
+            return res.sendStatus(404);
+          } else {
+            return res.sendStatus(200);
+          }
         });
-
-    });
-
-
+      }
 });
+
 
 module.exports = router;

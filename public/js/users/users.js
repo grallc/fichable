@@ -20,13 +20,14 @@ $(function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
                 $('#loginInfo').show().html("Vous êtes désormais connecté ! Redirection en cours...")
                 $('#loginError').hide();
-            } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
+                setTimeout(function(){ window.location = "/"; }, 500);
+                
+            } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !.
             if (xhr.response && xhr.response[0]) {
                 for (const key in xhr.response[0]) {
                     $('#loginInfo').hide()
                     $('#loginError').show().html(xhr.response[0][key])
                 }
-                console.log(xhr.response)
             }
             }
         });
@@ -60,5 +61,12 @@ $(function () {
                 }
             }
         });
+    });
+
+    $("#logoutButton").on("click", function (event) {
+        event.preventDefault();
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', '/api/users/logout');
     });
 });

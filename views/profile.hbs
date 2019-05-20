@@ -4,9 +4,49 @@
     <p id="loginInfoMessage"></p>
     {{> header}}
     {{> login }}
-    {{> footer}}
+    {{> navbar}}
+    <div class='container-fluid'>
+        <div class='profileContainer'>
+            <div id='profileImage'>
+                <img src='' alt='Photo de profil'>
+            </div>
+            <h4>Lucas Mahé</h4>
+            <div class='container'>
+                <h1>Mon Profil sur Fichable</h1>
+                <div id='profileInformations'>
+                    <p>Nom d'utilisateur : {{user.username}}</p>
+                    <p>Adresse email : {{user.email}}</p>
+                    <p>Inscrit le : {{formatDate user.registrationDate}}</p>
+                    <br />
+                    <h5>Changer mon mot de passe</h5>
+                    <form id="changePasswordForm">
+                        <div class='formItem'>
+                            <label for="fitle">Mot de passe actuel</label>
+                            <input type="text" name="currentPassword" id="currentPassword" required>
+                        </div>
+                        <div class="formItem">
+                            <label for="newPassword">Nouveau mot de passe</label>
+                            <input type="text" name="newPassword" id="newPassword" required>
 
+                        </div>
+                        <div class="formItem">
+                            <label for="content">Confirmation du mot de passe</label>
+                            <input type="text" name="confirmPassword" id="confirmPassword" required>
+                        </div>
+                        <input type="submit" id="submitFiche" value="Soumettre" />
+                    </form>
+                </div>
+
+                <h1>Mes Fiches ({{ fiches.length }})</h1>
+                <div class='container' id='grid'>
+                    {{> fiches }}
+                </div>
+            </div>
+        </div>
+    </div>
+    {{> footer}}
     <script src="../js/users/login.js"></script>
 
 </body>
+
 </html>

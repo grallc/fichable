@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 	var isVisible = false
 	$('.burger').click(() => {
 		if (isVisible === false) {
@@ -19,11 +19,11 @@ $(function() {
 	})
 
 	$('#password, #confirmPassword').on('keyup', () => {
-			if ($('#password').val().length >= 8) {
-				$('#isValid').html('Mot de passe validé').css('color', '#9BC53D')
-			} else {
-				$('#isValid').html('Mot de passe trop faible').css('color', '#C3423F')
-			}
+		if ($('#password').val().length >= 8) {
+			$('#isValid').html('Mot de passe validé').css('color', '#9BC53D')
+		} else {
+			$('#isValid').html('Mot de passe trop faible').css('color', '#C3423F')
+		}
 	})
 
 	$('#register').click(() => {
@@ -36,7 +36,7 @@ $(function() {
 		$('#registerForm').css('display', 'block')
 		$('#loginForm').css('display', 'none')
 	})
-	
+
 	$('#login').click(() => {
 		$('#signup').css('transform', 'translateX(0)')
 		$('#signup').css('opacity', '1')
@@ -56,7 +56,7 @@ $(function() {
 		$('#registerForm').css('display', 'none')
 		$('#loginForm').css('display', 'block')
 	})
-	
+
 	$('#inboxRegister').click(() => {
 		$('#inboxRegister').addClass('activeLink')
 		$('#inboxRegister').removeClass('inactiveLink')
@@ -69,8 +69,15 @@ $(function() {
 	var closed = false
 
 	$('.cross').click(() => {
-			$('#signup').css('opactiy', '0')
-			$('#signup').css('transform', 'translateX(2000px)')
+		$('#signup').css('opactiy', '0')
+		$('#signup').css('transform', 'translateX(2000px)')
 	})
-	
-}) 
+
+	var range = document.getElementById('difficulty')
+	var label = document.getElementById('difficultyLabel')
+
+	range.addEventListener('change', (e) => {
+		label.innerHTML = `Difficulté : ${range.value}`
+	})
+
+})

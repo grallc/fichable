@@ -1,0 +1,11 @@
+{{#if query.info includeZero=false}}
+    <div class="alert alert-primary" role="alert" id="globalInfo">{{ getMessage query.info }}</div>
+{{else}}
+    <div class="alert alert-primary" role="alert" id="globalInfo" style="display: none"></div>
+{{/if}}
+
+{{#if query.error includeZero=false}}
+    <div class="alert alert-danger" role="alert" id="globalError">{{ getMessage query.error }}</div>
+{{else}}
+    <div class="alert alert-danger" role="alert" id="globalError" style="display: none"></div>
+{{/if}}

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+  <meta charset="utf-8">
+  <title>Editer l'image</title>
+  <!-- Les logos -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+  <!-- Bootstrap: Les icones -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- Intégrer la librairie de fenguychan -->
+  <link rel="stylesheet" href="css/cropper.css">
+  <link rel="stylesheet" href="css/main.css">
+
+</head>
+
+
+<body>
+
+  <!-- Content -->
+  <!--Le cropper-->
+  <div class="img-container">
+    <img id="image" src="picture.jpg" alt="Picture">
+  </div>
+
+
+  <!-- Toolbar -->
+  <div class="docs-buttons">
+    <!-- Mode de la souris -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="move" title="Bouger">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Mode: Bouger">
+          <span class="fa fa-arrows"></span>
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="crop" title="Mode: Rogner">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Mode: Rogner">
+          <span class="fa fa-crop"></span>
+        </span>
+      </button>
+    </div>
+    <!-- Zoom -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1" title="Zoom +">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Zoom +">
+          <span class="fa fa-search-plus"></span>
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1" title="Zoom -">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Zoom -">
+          <span class="fa fa-search-minus"></span>
+        </span>
+      </button>
+    </div>
+    <!-- Bouger -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" data-method="move" data-option="-10" data-second-option="0"
+        title="Gauche">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Gauche">
+          <span class="fa fa-arrow-left"></span>
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary" data-method="move" data-option="10" data-second-option="0"
+        title="Droite">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Droite">
+          <span class="fa fa-arrow-right"></span>
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="-10"
+        title="Monter">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Monter">
+          <span class="fa fa-arrow-up"></span>
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary" data-method="move" data-option="0" data-second-option="10"
+        title="Descendre">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Descendre">
+          <span class="fa fa-arrow-down"></span>
+        </span>
+      </button>
+    </div>
+    <!-- Tourner -->
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45" title="Rotate Left">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Tourne vers la gauche de 45°">
+          <span class="fa fa-rotate-left"></span>
+        </span>
+      </button>
+      <button type="button" class="btn btn-primary" data-method="rotate" data-option="45" title="Rotate Right">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Tourne vers la droite de 45°">
+          <span class="fa fa-rotate-right"></span>
+        </span>
+      </button>
+    </div>
+    <!-- Reset&Import -->
+    <div class="btn-group">
+      <!-- Reset -->
+      <button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Reset">
+          <!-- changer le logo -->
+          <span class="fa fa-refresh"></span>
+        </span>
+        <!-- Import -->
+      </button>
+      <label class="btn btn-primary btn-upload" for="inputImage" title="Changer l'image">
+        <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Changer l'image">
+          <!-- changer le logo -->
+          <span class="fa fa-upload"></span>
+        </span>
+      </label>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-primary" data-method="getCroppedCanvas">
+        <span class="docs-tooltip" data-toggle="tooltip" title="Rendu">
+          Rendu
+        </span>
+      </button>
+    </div>
+
+    <!-- Afficher l'image dans un modal -->
+    <div class="modal fade docs-cropped" id="getCroppedCanvasModal" aria-hidden="true"
+      aria-labelledby="getCroppedCanvasTitle" role="dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!-- Afficher l'image -->
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div>
+    </div><!-- /.modal -->
+
+    <div class="docs-toggles">
+      <!-- <h3>Toggles:</h3> -->
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" class="sr-only" id="aspectRatio0" name="aspectRatio" value="1.7777777777777777">
+          <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
+            16:9
+          </span>
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio" value="1.3333333333333333">
+          <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
+            4:3
+          </span>
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1">
+          <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
+            1:1
+          </span>
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio" value="0.6666666666666666">
+          <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
+            2:3
+          </span>
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="NaN">
+          <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
+            Free
+          </span>
+        </label>
+      </div>
+    </div><!-- /.docs-toggles -->
+  </div><!-- /.docs-buttons -->
+
+
+  <!-- Scripts -->
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <!-- bootstrap: les icones -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!-- intégrer le code de fendguychan -->
+  <script src="js/cropper.js"></script>
+
+  <script src="js/main.js"></script>
+</body>
+
+</html>

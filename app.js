@@ -6,6 +6,7 @@ const path = require("path");
 const hbs = require("hbs");
 const fs = require("fs");
 const config = require('./config')
+const moment = require('moment')
 
 // MongoDB relative imports
 const mongoose = require('mongoose');
@@ -71,6 +72,20 @@ app.use('*', (req, res, next) => {
         } else {
             return options.inverse(this);
         }
+    });
+    hbs.registerHelper('formatDate', function(dateString) {
+        return new hbs.SafeString(
+            moment(dateString).format("DD/MM/YYYY à HH:mm")
+        );
+    });
+    hbs.registerHelper('getMessage', function(id) {
+        let message;
+        switch(id) {
+            case `15`:
+                message = `Vous n'êtes pas connecté`
+                break;
+        }
+        return new hbs.SafeString(message);
     });
     next()
 });

@@ -1,0 +1,23 @@
+
+/* Pour le container */
+.img-container{
+  min-height: 200px;
+  max-height: 500px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+/* Pour le modal */
+.docs-cropped .modal-body {
+  text-align: center;
+}
+.docs-cropped .modal-body > img,
+.docs-cropped .modal-body > canvas {
+  max-width: 100%;
+}
+
+/* Un espace entre la barre d'outils et les toggles*/
+.docs-toggles{
+  margin-top: 10px;
+}
