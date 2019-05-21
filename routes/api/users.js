@@ -9,6 +9,7 @@ require('../../models/user');
 
 const validateLoginInput = require('../../validation/login');
 const validateRegisterInput = require('../../validation/register');
+const validateChangePasswordInput = require('../../validation/change-password');
 
 // Load Email Reset utilities
 //const sendResetEmail = require('../../utils/forget_password/send-email');
@@ -17,7 +18,6 @@ const key = process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6';
 
 // Load models
 const User = mongoose.model('User');
-const PasswordToken = require('../../models/passwordToken.js');
 
 // @route   POST api/users/register
 // @desc    Register user
@@ -92,7 +92,7 @@ router.post('/login', (req, res) => {
         return res.status(403).json(errors);
     }
 
-    const username = req.body.username;
+    const username = req.body.username.toLowerCase();
     const password = req.body.password;
     var credentials = {};
     if (username.includes("@")) {
@@ -123,17 +123,6 @@ router.post('/login', (req, res) => {
         })
 });
 
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
-router.get('/current', (req, res) => {
-    res.json({
-        id: req.user.id,
-        name: req.user.name,
-        email: req.user.email
-    });
-});
-
 // @route   GET api/users/
 // @desc    List all users
 // @access  Private
@@ -153,38 +142,6 @@ router.get('/', (req, res) => {
         .catch(err => res.status(404).json(err));
 });
 
-
-
-// @route   GET api/users/:id
-// @desc    Get a user from its ID
-// @access  Private
-router.get('/:id', (req, res) => {
-    const errors = {};
-
-    if (!req.params.id || !ObjectId.isValid(req.params.id)) {
-        errors.invalid_id = getText("api.users.get-user.invalid-id");
-        return res.status(404).json(errors);
-
-    }
-
-    User.findById(req.params.id)
-        .then(user => {
-            if (!user) {
-                errors.no_user = getText("api.users.get-user.no-user");
-                return res.status(404).json(errors);
-            }
-            res.json({
-                id: user.id,
-                username: user.name,
-                email: user.email,
-                registerDate: user.registerDate
-            });
-        })
-        .catch(err => res.status(404).json(err));
-});
-
-
-
 // @route   GET api/users/current
 // @desc    Return current user
 // @access  Private
@@ -199,26 +156,29 @@ router.get('/current', (req, res) => {
 // @route   GET api/users/change
 // @desc    Change my password
 // @access  Private
-router.patch('/change', /*  passport.authenticate('jwt', { session: false }), */ (req, res) => {
-
-
+router.patch('/change', (req, res) => {
     const {
         errors,
         isValid
     } = validateChangePasswordInput(req.body);
     // check validation
 
-    if (!isValid) {
+    const session = req.session;
+    if (!session.userId) {
+        errors.length = 0;
+        errors.push({not_logged: "Vous n'êtes connecté"});
+        return res.status(403).json(errors);
+    } else if (!isValid) {
         return res.status(404).json(errors);
     }
 
-    const _id = req.body.id;
+    const _id = session.userId;
     const currentPassword = req.body.currentPassword;
     const newPassword = req.body.newPassword;
 
     User.findById(_id).then((user) => {
         if (!user) {
-            errors.no_user = getText('api.users.notfound');
+            errors.push({no_user: "Utilisateur introuvable"});
             return res.status(404).json(errors);
         }
 
@@ -234,7 +194,7 @@ router.patch('/change', /*  passport.authenticate('jwt', { session: false }), */
                     });
                 });
             } else {
-                errors.incorrect_password = getText('api.users.change-password.incorrect-password');
+                errors.push({incorrect_password: "Mot de passe incorrect"});
                 return res.status(404).json(errors);
             }
         });
@@ -245,7 +205,6 @@ router.patch('/change', /*  passport.authenticate('jwt', { session: false }), */
 // @desc    Logout user
 // @access  Public
 router.post('/logout', (req, res) => {
-
     if (req.session) {
         // delete session object
         req.session.destroy((err) => {

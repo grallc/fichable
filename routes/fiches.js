@@ -19,6 +19,15 @@ router.get('/:ficheId', (req, res) => {
             res.render("new", {
                 pageTitle: "Nouvelle fiche"
             });
+            // if (req.session.userId) {
+            //     res.render("new", {
+            //         pageTitle: "Nouvelle fiche"
+            //     });
+            // } else {
+            //     res.redirect('/fiches?error=15')
+            // }
+        } else {
+            res.redirect('/fiches?error=404')
         }
     }
 });

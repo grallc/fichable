@@ -10,7 +10,7 @@
 
     <div class="alert alert-danger" role="alert" id="ficheError" style="display: none">
     </div>
-    <div class='container-fluid'>
+    <div class='container'>
         <h1>Créer une fiche</h1>
         <div class='form'>
             <form method='POST'>
@@ -79,10 +79,152 @@
                     <textarea name="description" id="description" placeholder="Verbes Irréguliers..." required
                         spellcheck="true" minlength="30" maxlength="250" cols="30" rows="10"></textarea>
                 </div>
+                <div class="row">
+                    <label for="description">Contenu (textuel)</label>
+                    <br>
+                    <textarea name="content" id="content" placeholder="Écrivez le contenu de la fiche"
+                        spellcheck="true" minlength="30" maxlength="250" cols="30" rows="10"></textarea>
+                </div>
                 <!--////////////////////////////////////////////
                     PAUL'S CODE
                 ////////////////////////////////////////////////-->
-                
+
+                <div class="img-container">
+                    <img id="image" src="../../new/picture.jpeg" alt="Picture">
+                </div>
+
+                <!-- Toolbar -->
+                <div class="docs-buttons">
+                    <!-- Mode de la souris -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="move"
+                            title="Bouger">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Mode: Bouger">
+                                <span class="fas fa-arrows-alt"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="setDragMode" data-option="crop"
+                            title="Mode: Rogner">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Mode: Rogner">
+                                <span class="fa fa-crop"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- Zoom -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="zoom" data-option="0.1"
+                            title="Zoom +">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Zoom +">
+                                <span class="fa fa-search-plus"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="zoom" data-option="-0.1"
+                            title="Zoom -">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Zoom -">
+                                <span class="fa fa-search-minus"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- Bouger -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="-10"
+                            data-second-option="0" title="Gauche">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Gauche">
+                                <span class="fa fa-arrow-left"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="10"
+                            data-second-option="0" title="Droite">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Droite">
+                                <span class="fa fa-arrow-right"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="0"
+                            data-second-option="-10" title="Monter">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Monter">
+                                <span class="fa fa-arrow-up"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="move" data-option="0"
+                            data-second-option="10" title="Descendre">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Descendre">
+                                <span class="fa fa-arrow-down"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- Tourner -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" data-method="rotate" data-option="-45"
+                            title="Rotate Left">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Tourne vers la gauche de 45°">
+                                <span class="fas fa-undo"></span>
+                            </span>
+                        </button>
+                        <button type="button" class="btn btn-primary" data-method="rotate" data-option="45"
+                            title="Rotate Right">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Tourne vers la droite de 45°">
+                                <span class="fas fa-redo"></span>
+                            </span>
+                        </button>
+                    </div>
+                    <!-- Reset&Import -->
+                    <div class="btn-group">
+                        <!-- Reset -->
+                        <button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Reset">
+                                <!-- changer le logo -->
+                                <span class="fas fa-sync"></span>
+                            </span>
+                            <!-- Import -->
+                        </button>
+                        <label class="btn btn-primary btn-upload" for="inputImage" title="Changer l'image">
+                            <input type="file" class="sr-only" id="inputImage" name="file" accept=".jpg,.jpeg,.png">
+                            <span class="docs-tooltip" data-toggle="tooltip" title="Changer l'image">
+                                <!-- changer le logo -->
+                                <span class="fa fa-upload"></span>
+                            </span>
+                        </label>
+                    </div>
+
+                    <div class="docs-toggles">
+                        <!-- <h3>Toggles:</h3> -->
+                        <div class="btn-group" data-toggle="buttons">
+                            <label class="btn btn-primary active">
+                                <input type="radio" class="sr-only" id="aspectRatio0" name="aspectRatio"
+                                    value="1.7777777777777777">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 16 / 9">
+                                    16:9
+                                </span>
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" class="sr-only" id="aspectRatio1" name="aspectRatio"
+                                    value="1.3333333333333333">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 4 / 3">
+                                    4:3
+                                </span>
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" class="sr-only" id="aspectRatio2" name="aspectRatio" value="1">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 1 / 1">
+                                    1:1
+                                </span>
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" class="sr-only" id="aspectRatio3" name="aspectRatio"
+                                    value="0.6666666666666666">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: 2 / 3">
+                                    2:3
+                                </span>
+                            </label>
+                            <label class="btn btn-primary">
+                                <input type="radio" class="sr-only" id="aspectRatio4" name="aspectRatio" value="NaN">
+                                <span class="docs-tooltip" data-toggle="tooltip" title="aspectRatio: NaN">
+                                    Free
+                                </span>
+                            </label>
+                        </div>
+                    </div><!-- /.docs-toggles -->
+                </div><!-- /.docs-buttons -->
 
                 <!--////////////////////////////////////////////
                     PAUL'S CODE

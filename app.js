@@ -66,23 +66,32 @@ app.get("/", function (req, res) {
 });
 
 app.use('*', (req, res, next) => {
-    hbs.registerHelper('isLoggedIn', function(options) {
+    hbs.registerHelper('isLoggedIn', function (options) {
         if (req.session.userId) {
             return options.fn(this);
         } else {
             return options.inverse(this);
         }
     });
-    hbs.registerHelper('formatDate', function(dateString) {
+    hbs.registerHelper('formatDate', function (dateString) {
         return new hbs.SafeString(
             moment(dateString).format("DD/MM/YYYY à HH:mm")
         );
     });
-    hbs.registerHelper('getMessage', function(id) {
+    hbs.registerHelper('getMessage', function (id) {
         let message;
-        switch(id) {
+        switch (id) {
             case `15`:
                 message = `Vous n'êtes pas connecté`
+                break;
+            case `16`:
+                message = `Vous avez bien été déconnecté`
+                break;
+            case `17`:
+                message = `Une erreur est survenue lors de la déconnexion. Veuillez réessayer.`
+                break;
+            case `404`:
+                message = `Page introuvable`
                 break;
         }
         return new hbs.SafeString(message);
@@ -98,7 +107,6 @@ hbs.registerHelper('getFicheCaptchaKey', () => {
 hbs.registerHelper('getRegisterCaptchaKey', () => {
     return config.getRegisterCaptchaKey();
 })
-
 
 app.use('/', require('./routes/index'));
 app.use('/api', require('./routes/api/index'));

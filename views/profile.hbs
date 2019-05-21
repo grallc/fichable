@@ -5,7 +5,7 @@
     {{> header}}
     {{> login }}
     {{> navbar}}
-    <div class='container-fluid'>
+    <div class='container'>
         <div class='profileContainer'>
             <div id='profileImage'>
                 <img src='' alt='Photo de profil'>
@@ -13,6 +13,12 @@
             <h4>Lucas Mahé</h4>
             <div class='container'>
                 <h1>Mon Profil sur Fichable</h1>
+                <div class="alert alert-primary" role="alert" id="profileInfo" style="display: none">
+                </div>
+
+                <div class="alert alert-danger" role="alert" id="profileError" style="display: none">
+                </div>
+
                 <div id='profileInformations'>
                     <p>Nom d'utilisateur : {{user.username}}</p>
                     <p>Adresse email : {{user.email}}</p>
@@ -33,7 +39,7 @@
                             <label for="content">Confirmation du mot de passe</label>
                             <input type="text" name="confirmPassword" id="confirmPassword" required>
                         </div>
-                        <input type="submit" id="submitFiche" value="Soumettre" />
+                        <input type="submit" id="submitPasswordChange" value="Soumettre" />
                     </form>
                 </div>
 

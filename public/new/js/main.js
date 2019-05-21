@@ -11,6 +11,7 @@ $(function () {
 
   // Options puor les toggles
   $('.docs-toggles').on('change', 'input', function () {
+    console.log('dezzdzdz')
     var $this = $(this);
     var name = $this.attr('name');
     var type = $this.prop('type');
@@ -71,6 +72,4 @@ $(function () {
   } else {
     $inputImage.prop('disabled', true).parent().addClass('disabled');
   }
-
-
 });

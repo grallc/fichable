@@ -46,12 +46,13 @@
 			<div class="modal-footer">
 				{{ this.likesLength }}
 				<i class="fas fa-heart"></i>
-
-				{{#if this.userLikes includeZero=false}}
-					<button type="button" class="btn btn-secondary like" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette
-					fiche</button>
-				{{else}}
-					<button type="button" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+				{{#if ../userId includeZero=true}}
+					{{#if this.userLikes includeZero=false}}
+						<button type="button" class="btn btn-secondary like" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette
+						fiche</button>
+					{{else}}
+						<button type="button" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+					{{/if}}.
 				{{/if}}
 				<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la
 					fenêtre</button>

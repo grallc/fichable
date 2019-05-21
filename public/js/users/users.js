@@ -66,7 +66,18 @@ $(function () {
     $("#logoutButton").on("click", function (event) {
         event.preventDefault();
         var xhr = new XMLHttpRequest();
-
         xhr.open('POST', '/api/users/logout');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.responseType = 'json';
+        xhr.send();
+
+        xhr.addEventListener('readystatechange', function () { // On gère ici une requête asynchrone
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
+                window.location = "/fiches?info=16";
+            } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !.
+                window.location = "/fiches?error=15";
+            }
+        });
     });
+    
 });
