@@ -13,41 +13,35 @@
     <div class='container'>
         <h1>Créer une fiche</h1>
         <div class='form'>
-            <form method='POST'>
+            <form id="ficheForm"> 
                 <div class='row'>
                     <label for="ficheTitle">Titre de la fiche</label>
-                    <br>
-                    <input type="text" name="ficheTitle" id="ficheTitle">
-                </div>
-                <div class="row">
-                    <label for="difficulty" id='difficultyLabel'>Difficulté : 1</label>
-                    <br>
-                    <input type="range" name="difficulty" id="difficulty" value='1' min='1' max='5' step='1'>
+                    <input type="text" name="title" id="ficheTitle">
                 </div>
                 <div class="row">
                     <label for="level">Niveau scolaire</label>
-                    <br>
                     <select name="level" id="level">
                         <option value="Collège" disabled>Collège</option>
-                        <option value="6">Sixème</option>
-                        <option value="5">Cinquième</option>
-                        <option value="4">Quatrième</option>
-                        <option value="3">Troisième</option>
+                        <option value="Sixième">Sixème</option>
+                        <option value="Cinquième">Cinquième</option>
+                        <option value="Quatrième">Quatrième</option>
+                        <option value="Troisième">Troisième</option>
                         <option value="Lycée" disabled>Lycée</option>
-                        <option value="2">Seconde</option>
-                        <option value="1" disabled>Première</option>
-                        <option value="1L">Première L</option>
-                        <option value="1S">Première S</option>
-                        <option value="1ES">Première ES</option>
-                        <option value="T" disabled>Terminale</option>
-                        <option value="TL">Terminale L</option>
-                        <option value="TS">Terminale S</option>
-                        <option value="TES">Terminale ES</option>
+                        <option value="Seconde">Seconde</option>
+                        <option value="Première" disabled>Première</option>
+                        <option value="Première L">Première L</option>
+                        <option value="Première S">Première S</option>
+                        <option value="Première ES">Première ES</option>
+                        <option value="Première STI2D">Première STI2D</option>
+                        <option value="Terminale" disabled>Terminale</option>
+                        <option value="Terminale L">Terminale L</option>
+                        <option value="Terminale S">Terminale S</option>
+                        <option value="Terminale ES">Terminale ES</option>
+                        <option value="Terminale STI2D">Terminale STI2D</option>
                     </select>
                 </div>
                 <div class="row">
                     <label for="subject">Matière</label>
-                    <br>
                     <select name="subject" id="subject">
                         <option value="Langues" disabled>Langues Vivantes</option>
                         <option value="Anglais">Anglais</option>
@@ -57,33 +51,31 @@
                         <option value="Littéraire" disabled>Littéraire</option>
                         <option value="Français">Français</option>
                         <option value="Philosophie">Philosophie</option>
-                        <option value="Histoire-Géographie-EMC">Histoire-Géographie-EMC</option>
+                        <option value="HG">Histoire-Géographie-EMC</option>
                         <option value="Scientifique" disabled>Scientifique</option>
                         <option value="Mathématiques">Mathématiques</option>
-                        <option value="Physique-Chimie">Physique-Chimie</option>
+                        <option value="PC">Physique-Chimie</option>
                         <option value="SVT">SVT</option>
-                        <option value="Sciences de l'Ingénieur">Sciences de l'Ingénieur</option>
+                        <option value="SI">Sciences de l'Ingénieur</option>
                         <option value="Artistique" disabled>Artistique</option>
-                        <option value="Arts Plastiques">Arts Plastiques</option>
-                        <option value="Arts Appliqués">Arts Appliqués</option>
+                        <option value="ArtsP">Arts Plastiques</option>
+                        <option value="ArtsApp">Arts Appliqués</option>
                         <option value="Musique">Musique</option>
                         <option value="Spécialités" disabled>Spécialités</option>
                         <option value="ISN">ISN</option>
-                        <option value="Spé Maths">Spé Maths</option>
-                        <option value="Spé Physique">Spé Physique</option>
+                        <option value="SpéM">Spé Maths</option>
+                        <option value="SpéP">Spé Physique</option>
                     </select>
                 </div>
                 <div class="row">
                     <label for="description">Description</label>
-                    <br>
                     <textarea name="description" id="description" placeholder="Verbes Irréguliers..." required
-                        spellcheck="true" minlength="30" maxlength="250" cols="30" rows="10"></textarea>
+                        spellcheck="true" minlength="5" maxlength="250" cols="30" rows="10"></textarea>
                 </div>
                 <div class="row">
                     <label for="description">Contenu (textuel)</label>
-                    <br>
                     <textarea name="content" id="content" placeholder="Écrivez le contenu de la fiche"
-                        spellcheck="true" minlength="30" maxlength="250" cols="30" rows="10"></textarea>
+                        spellcheck="true" minlength="30" maxlength="2500" cols="30" rows="10"></textarea>
                 </div>
                 <!--////////////////////////////////////////////
                     PAUL'S CODE
@@ -230,7 +222,7 @@
                     PAUL'S CODE
                 ////////////////////////////////////////////////-->
                 <div class="g-recaptcha" data-sitekey="{{ getFicheCaptchaKey }}"></div>
-                <input type="submit" value="Soumettre une fiche">
+                <input type="submit" id="submitFiche" value="Soumettre une fiche">
             </form>
         </div>
     </div>

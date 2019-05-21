@@ -11,6 +11,8 @@ module.exports = function validateFicheInput(data, connection) {
     data.title = !isEmpty(data.title) ? data.title : '';
     data.description = !isEmpty(data.description) ? data.description : '';
     data.content = !isEmpty(data.content) ? data.content : '';
+    data.level = !isEmpty(data.level) ? data.level : '';
+    data.subject = !isEmpty(data.subject) ? data.subject : '';
 
     const secretKey = config.getFicheCaptchaSecret();
     const verificationUrl = "https://www.google.com/recaptcha/api/siteverify?secret=" + secretKey + "&response=" + data.captcha + "&remoteip=" + connection.remoteAddress;
@@ -28,6 +30,14 @@ module.exports = function validateFicheInput(data, connection) {
 
     if (Validator.isEmpty(data.title)) {
         errors.push({no_title: "Veuillez spéficier le titre"});
+    }
+
+    if (Validator.isEmpty(data.subject)) {
+        errors.push({no_subject: "Veuillez spéficier la matière"});
+    }
+
+    if (Validator.isEmpty(data.subject)) {
+        errors.push({no_level: "Veuillez spéficier la classe"});
     }
 
     if (Validator.isEmpty(data.description)) {

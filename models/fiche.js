@@ -40,6 +40,14 @@ var Fiche = new Schema({
     status: {
         type: String,
         default: 'WAITING'
+    },
+    level: {
+        type: String,
+        default: 'Terminale S'
+    },
+    subject: {
+        type: String,
+        default: 'Mathématiques'
     }
 });
 

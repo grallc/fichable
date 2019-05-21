@@ -8,7 +8,6 @@ const Fiche = mongoose.model('Fiche');
 require('../models/like');
 const Like = mongoose.model('Like');
 
-
 const validateFicheInput = require('../validation/fiche');
 
 // /fiches/ pages
@@ -16,16 +15,13 @@ router.get('/:ficheId', (req, res) => {
     if (req.params.ficheId) {
         const ficheId = req.params.ficheId
         if (ficheId === 'new') {
-            res.render("new", {
-                pageTitle: "Nouvelle fiche"
-            });
-            // if (req.session.userId) {
-            //     res.render("new", {
-            //         pageTitle: "Nouvelle fiche"
-            //     });
-            // } else {
-            //     res.redirect('/fiches?error=15')
-            // }
+            if (req.session.userId) {
+                res.render("new", {
+                    pageTitle: "Nouvelle fiche"
+                });
+            } else {
+                res.redirect('/fiches?error=15')
+            }
         } else {
             res.redirect('/fiches?error=404')
         }
@@ -34,9 +30,9 @@ router.get('/:ficheId', (req, res) => {
 
 // /fiches/ pages
 router.get('/', (req, res) => {
-    const session = req.session;/*  */
+    const session = req.session; /*  */
     Fiche.find({}).then((fiches) => {
-        fiches = fiches.filter(item => item.status === 'PUBLISHED')
+        //fiches = fiches.filter(item => item.status === 'PUBLISHED')
         async.forEachOf(fiches, (value, key, callback) => {
             if (!session.userId) {
                 fiches[key].content = "";

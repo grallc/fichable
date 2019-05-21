@@ -15,4 +15,12 @@ router.get("/license", function (req, res) {
     })
 });
 
+// index.html page
+router.get("/us", function (req, res) {
+    res.render("about/us", {
+        pageTitle: 'À propos - Les Créateurs de Fichable'
+    })
+});
+
+
 module.exports = router;

@@ -17,6 +17,9 @@ $(function () {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur
                 $('#profileInfo').show().html("Votre mot de passe a bien été changé !")
                 $('#profileError').hide();
+                $('#currentPassword').val('');
+                $('#confirmPasswordChange').val('');
+                $('#newPassword').val('');
             } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !.
                 if (xhr.response && xhr.response[0]) {
                     for (const key in xhr.response[0]) {
