@@ -7,7 +7,7 @@ const Fiche = mongoose.model('Fiche');
 const validateFicheInput = require('../../validation/fiche');
 
 router.post('/submit', (req, res) => {
-    console.log(req.body)
+    console.log
     const {
         errors,
         isValid

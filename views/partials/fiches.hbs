@@ -1,1 +1,62 @@
+{{#each fiches}}
+<li class="card mb-3" style="width: 70vw; min-height: 250px;">
+	<div class="col-md-3 thumbFiche">
+		<h2>{{ this.level }}</h2>
+	</div>
+	<div class="col-md-8">
+		<div class="card-body">
+			<h5 class="card-title">{{ this.title }}</h5>
+			<h4>{{ this.subject }}</h4></a>
+			<p class="card-text">{{ this.description }}</p>
+			{{!-- <p class="card-text"><small class="text-muted">{{ this.submittedAt }}</small></p> --}}
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ficheModal-{{this._id}}">
+				Voir la fiche
+			</button>
+			<p>
+				<i class="fas fa-heart"></i>
+			<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span></p>
+		</div>
+	</div>
+</li>
 
+
+<!-- Modal -->
+<div class="modal fade" id="ficheModal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="fichaModalLabel-{{this._id}}"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="ficheModalLabel-{{ this._id}}">{{ this.title }}</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				{{#if ../userId includeZero=true}}
+					<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
+					<br>
+					{{ this.content }}
+				{{ else }}
+					<p>Vous devez être connecté pour voir les fiches !</p>
+				{{/if}}
+			</div>
+			<div class="modal-footer">
+				<p class="likes-amount-{{ this._id }}">{{ this.likesLength }}</p>
+				<i class="fas fa-heart"></i>
+				{{#if ../userId includeZero=true}}
+					{{#if this.userLikes includeZero=false}}
+						<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette
+						fiche</button>
+					{{else}}
+						<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+					{{/if}}
+				{{/if}}
+				<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la
+					fenêtre</button>
+			</div>
+		</div>
+	</div>
+</div>
+{{else}}
+<p>Aucune fiche répondant à ces critères n'a été trouvée :(</p>
+{{/each}}

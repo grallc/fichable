@@ -30,9 +30,16 @@ router.get('/:ficheId', (req, res) => {
 
 // /fiches/ pages
 router.get('/', (req, res) => {
-    const session = req.session; /*  */
+    const session = req.session;
+
     Fiche.find({}).then((fiches) => {
         //fiches = fiches.filter(item => item.status === 'PUBLISHED')
+        if(req.query.subject) {
+            fiches = fiches.filter(item => item.subject === req.query.subject)
+        }
+        if(req.query.level) {
+            fiches = fiches.filter(item => item.level === req.query.level)
+        }
         async.forEachOf(fiches, (value, key, callback) => {
             if (!session.userId) {
                 fiches[key].content = "";
