@@ -93,6 +93,9 @@ app.use('*', (req, res, next) => {
             case `404`:
                 message = `Page introuvable`
                 break;
+            case `405`:
+                message = `Page en construction`
+                break;
         }
         return new hbs.SafeString(message);
     });

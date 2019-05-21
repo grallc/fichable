@@ -12,9 +12,10 @@
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ficheModal-{{this._id}}">
 				Voir la fiche
 			</button>
-			<p>
+			<p class='likes'>
 				<i class="fas fa-heart"></i>
-			<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span></p>
+				<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span>
+			</p>
 		</div>
 	</div>
 </li>
@@ -41,14 +42,14 @@
 				{{/if}}
 			</div>
 			<div class="modal-footer">
-				<p class="likes-amount-{{ this._id }}">{{ this.likesLength }}</p>
-				<i class="fas fa-heart"></i>
+				<p class="likes-amount-{{ this._id }}">{{ this.likesLength }} <i class="fas fa-heart"></i></p>
 				{{#if ../userId includeZero=true}}
 					{{#if this.userLikes includeZero=false}}
-						<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette
-						fiche</button>
+						<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}" style="display: none"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+						<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
 					{{else}}
 						<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+						<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"  style="display: none"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
 					{{/if}}
 				{{/if}}
 				<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la

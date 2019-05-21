@@ -45,10 +45,22 @@ a:hover {
   align-items: center;
   padding: 35px 0;
 }
+.card .likes {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 2em;
+}
 .card .col-md-8 .card-body .card-title {
   font-weight: 700;
   font-size: 2.8em;
   color: #067086;
+}
+.card .col-md-8 .card-body h4 {
+  font-weight: 500;
+  font-size: 2.5em;
+  color: #63a9b7;
+  line-height: 1em;
 }
 .card .col-md-8 .card-body .card-text {
   font-size: 1.2em;
@@ -218,9 +230,10 @@ header .connect .dropdown:hover div {
 .container {
   width: 100%;
   margin: 0 auto;
-  height: 200vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  margin-top: 10vh;
   align-items: center;
   justify-content: center;
 }
@@ -259,7 +272,7 @@ header .connect .dropdown:hover div {
   align-items: center;
   justify-content: flex-start;
   padding: 10px;
-  transform: translateX(1200px);
+  transform: translateX(100vw);
   transition: 0.8s cubic-bezier(0.445, 0.05, 0.55, 0.95);
 }
 #signup .cross {
@@ -381,6 +394,47 @@ header .connect .dropdown:hover div {
   height: 90vh;
   align-items: center;
   justify-content: center;
+}
+
+#aboutContainer {
+  height: 73vh;
+}
+#aboutContainer button {
+  border: 3px solid #d8315b;
+  padding: 20px;
+  margin: 0 20px;
+  cursor: pointer;
+  font-size: 2em;
+  border-radius: 5px;
+  background: #fafafa;
+}
+
+.licenseContainer {
+  height: 73vh;
+}
+
+#licenseImg {
+  max-width: 30vw;
+  height: auto;
+  margin-bottom: 50px;
+}
+
+footer {
+  bottom: 0;
+  height: 5vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background: #d8315b;
+}
+footer p {
+  margin: 0 20px;
+  color: #fafafa;
+}
+footer p a {
+  color: #fafafa;
 }
 
 /*# sourceMappingURL=index.css.map */

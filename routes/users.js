@@ -15,6 +15,11 @@ router.get('/', (req, res) => {
     res.redirect('/');
 });
 
+// /users - redirect to /fiches
+router.get('/premium', (req, res) => {
+    res.redirect('/fiches?error=405');
+});
+
 // /users/profile - display profile
 router.get('/profile', (req, res) => {
     if (req.session.userId) {

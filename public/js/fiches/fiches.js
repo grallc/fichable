@@ -38,7 +38,7 @@ $(function () {
         }
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/likes');
+        xhr.open('POST', '/api/likes/');
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(values));
         xhr.responseType = 'json';
@@ -47,7 +47,33 @@ $(function () {
         xhr.addEventListener('readystatechange', function () { // On gère ici une requête asynchrone
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur.
                 $(`.likes-amount-` + values.fiche).text(parseInt($(`.likes-amount-` + values.fiche).html(), 10)+1)
-                $(`#likes-button-` + values.fiche).hide()
+                $(`#like-button-` + values.fiche).hide()
+                $(`#dislike-button-` + values.fiche).show()
+            }
+        });
+    });
+    
+
+    $(".dislike").click(function(event) {
+        event.preventDefault();
+
+        var values = {};
+        values = {
+            fiche: $(this).attr('fiche')
+        }
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('DELETE', '/api/likes/');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(values));
+        xhr.responseType = 'json';
+        console.log
+
+        xhr.addEventListener('readystatechange', function () { // On gère ici une requête asynchrone
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur.
+                $(`.likes-amount-` + values.fiche).text(parseInt($(`.likes-amount-` + values.fiche).html(), 10)-1)
+                $(`#dislike-button-` + values.fiche).hide()
+                $(`#like-button-` + values.fiche).show()
             }
         });
     });
