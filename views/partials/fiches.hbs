@@ -11,6 +11,14 @@
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ficheModal-{{this._id}}">
 				Voir la fiche
 			</button>
+			{{#if ../editable }}
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFicheModal-{{this._id}}">
+					<i class="fas fa-pencil-alt"></i>	Éditer la fiche
+				</button>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteFicheModal-{{this._id}}">
+					<i class="fas fa-trash-alt"></i> 	Supprimer la fiche
+				</button>
+			{{/if}}
 			<p class='likes'>
 				<i class="fas fa-heart"></i>
 				<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span>
@@ -23,7 +31,7 @@
 <!-- Modal -->
 <div class="modal fade" id="ficheModal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="fichaModalLabel-{{this._id}}"
 	aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="ficheModalLabel-{{ this._id}}">{{ this.title }}</h5>
@@ -41,16 +49,18 @@
 				{{/if}}
 			</div>
 			<div class="modal-footer">
-				<p><span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span><i class="fas fa-heart"></i></p>
-				{{#if ../userId includeZero=true}}
-					{{#if this.userLikes includeZero=false}}
-						<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}" style="display: none"><i class="fas fa-heart"></i> J'aime cette fiche</button>
-						<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
-					{{else}}
-						<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
-						<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"  style="display: none"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
+				{{#unless ../editable}}
+					<p><span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span><i class="fas fa-heart"></i></p>
+					{{#if ../userId includeZero=true}}
+						{{#if this.userLikes includeZero=false}}
+							<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}" style="display: none"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+							<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
+						{{else}}
+							<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+							<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"  style="display: none"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
+						{{/if}}
 					{{/if}}
-				{{/if}}
+				{{/unless}}
 				<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la
 					fenêtre</button>
 			</div>
