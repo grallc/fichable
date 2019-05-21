@@ -7,64 +7,68 @@ const ObjectId = require('mongoose').Types.ObjectId;
 const Validator = require('validator');
 require('../../models/user');
 
+// Validation des formulaires
 const validateLoginInput = require('../../validation/login');
 const validateRegisterInput = require('../../validation/register');
 const validateChangePasswordInput = require('../../validation/change-password');
 
-// Load Email Reset utilities
-//const sendResetEmail = require('../../utils/forget_password/send-email');
-
-const key = process.env.SECRET_OR_KEY || '{CWw)-#H$!m2fV4DzE5:+6';
-
-// Load models
+// On charge les modèles
 const User = mongoose.model('User');
 
-// @route   POST api/users/register
-// @desc    Register user
-// @access  Public
+// /api/users/register, permettant de créer un utilisateur
 router.post('/register', (req, res) => {
-
+    // On vérifie le formulaire
     const {
         errors,
         isValid
     } = validateRegisterInput(req.body, req.connection);
 
+    // L'utilisateur est déjà connecté ?
     const session = req.session;
     if (session.userId) {
+        // Il l'est, on le bloque.
         errors.length = 0;
         errors.push({already_logged: "Vous êtes déjà connecté"});
         return res.status(403).json(errors);
     }
     
+    // Des erreurs sont présentes.
     if (!isValid) {
         return res.status(403).json(errors);
     }
 
+    // On cherche les utilsateurs dadns la base de données par nom d'utilisateur
     User.findOne({
         username: req.body.username
     }).exec().then(user => {
+        // Un utilisateur existe déjà, on le bloque
         if (user) {
             errors.push({username: "Le nom d'utilisateur est déjà utilisé"});
         }
+        // Même recherche mais via email
         User.findOne({
             email: req.body.email
         }).then(user => {
+            // Un utilisateur existe déjà, on le bloque
             if (user) {
                 errors.push({email: "L'adresse email spéficiée est déjà utilisée"});
             }
+            // On affiche d'éventuelles errurs
             if (errors.length > 0) {
                 return res.status(403).json(errors);
             }
-            // User's URL
+            // On crée l'utilisateur
             const newUser = new User({
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password
             });
-
+            
+            // On hash le mot de passe
             bcrypt.genSalt(10, (err, salt) => {
                 bcrypt.hash(newUser.password, salt, (err, hash) => {
                     if (err) throw err;
+                    // On sauvegarde l'utilisateur
                     newUser.password = hash;
                     newUser.save()
                         .then(user => res.json(user))
@@ -75,10 +79,7 @@ router.post('/register', (req, res) => {
     });
 });
 
-
-// @route   GET api/users/login
-// @desc    Login User / returning JWT Token
-// @access  Public
+// Route permettant de login un utilisateur
 router.post('/login', (req, res) => {
     const {
         errors,
@@ -123,39 +124,7 @@ router.post('/login', (req, res) => {
         })
 });
 
-// @route   GET api/users/
-// @desc    List all users
-// @access  Private
-router.get('/', (req, res) => {
-    const errors = {};
-
-    User.find()
-        .then(users => {
-            if (!users) {
-                errors.no_user = getText("api.users.get-user.no-user");
-                return res.status(404).json(errors);
-            }
-            res.json({
-                users
-            });
-        })
-        .catch(err => res.status(404).json(err));
-});
-
-// @route   GET api/users/current
-// @desc    Return current user
-// @access  Private
-router.get('/current', (req, res) => {
-    res.json({
-        id: req.user.id,
-        name: req.user.name,
-        email: req.user.email
-    });
-});
-
-// @route   GET api/users/change
-// @desc    Change my password
-// @access  Private
+// ROuterp our changer le ot de passe de l'utilisateur
 router.patch('/change', (req, res) => {
     const {
         errors,
@@ -163,10 +132,11 @@ router.patch('/change', (req, res) => {
     } = validateChangePasswordInput(req.body);
     // check validation
 
+    // On vérifie s'il est connecté
     const session = req.session;
     if (!session.userId) {
         errors.length = 0;
-        errors.push({not_logged: "Vous n'êtes connecté"});
+        errors.push({not_logged: "Vous n'êtes pas connecté"});
         return res.status(403).json(errors);
     } else if (!isValid) {
         return res.status(404).json(errors);
@@ -176,12 +146,13 @@ router.patch('/change', (req, res) => {
     const currentPassword = req.body.currentPassword;
     const newPassword = req.body.newPassword;
 
+    // On cherche si l'utilisateur existe dans la BDD
     User.findById(_id).then((user) => {
         if (!user) {
             errors.push({no_user: "Utilisateur introuvable"});
             return res.status(404).json(errors);
         }
-
+        // Changement de MDP
         bcrypt.compare(currentPassword, user.password).then(isMatch => {
             if (isMatch) {
                 bcrypt.genSalt(10, (err, salt) => {
@@ -201,9 +172,7 @@ router.patch('/change', (req, res) => {
     });
 });
 
-// @route   POST api/users/logout
-// @desc    Logout user
-// @access  Public
+// Route pour déconnecter l'utilisateur
 router.post('/logout', (req, res) => {
     if (req.session) {
         // delete session object

@@ -55,20 +55,19 @@ router.delete('/', (req, res) => {
     } = validateLikeInput(req.body);
     
     // Des erreurs sont là
-    if(errors.length > 0) {
+    if(errors.length > 0 || !isValid) {
         return res.status(403).json(errors);
     }
 
+    // L'utilisaiteur est-il connecté ?
     const session = req.session;
     if (!session.userId) {
         errors.length = 0;
         errors.push({not_logged: "Vous n'êtes pas connecté"});
         return res.status(403).json(errors);
     }
-    if (!isValid) {
-        return res.status(403).json(errors);
-    }
 
+    // On supprime le like, après l'avoir recherché dans la base de données
     Like.findOneAndRemove({ficheId: req.body.fiche, userId: req.session.userId}, (error, data) => {
         if(error) {
             return res.status(500).json({
