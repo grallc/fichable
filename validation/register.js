@@ -21,7 +21,7 @@ module.exports = function validateRegisterInput(data, connection) {
         }
     });
 
-    data.name =!isEmpty(data.username) ? data.username : '';
+    data.username =!isEmpty(data.username) ? data.username : '';
     data.email =!isEmpty(data.email) ? data.email : '';
     data.password =!isEmpty(data.password) ? data.password : '';
     data.confirmPassword =!isEmpty(data.confirmPassword) ? data.confirmPassword : '';
@@ -30,7 +30,7 @@ module.exports = function validateRegisterInput(data, connection) {
         errors.push({invalid_captcha: "Veuillez montrer que vous n'êtes pas un robot"})
     }
 
-    if (Validator.isEmpty(data.name)) {
+    if (Validator.isEmpty(data.username)) {
         errors.push({no_username: "Veuillez spécifier un nom d'utilisateur"});
     }
 

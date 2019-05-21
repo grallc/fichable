@@ -6,84 +6,64 @@ require('../../models/fiche');
 const Fiche = mongoose.model('Fiche');
 const validateFicheInput = require('../../validation/fiche');
 
+// Lien API pour soumettre une nouvelle fiche
 router.post('/submit', (req, res) => {
-    console.log
+    // On commence par vérifier le formulaire
     const {
         errors,
         isValid
     } = validateFicheInput(req.body, req.connection);
     
-    if(errors.length > 0) {
-        return res.status(403).json(errors);
-    }
-
-    const session = req.session;
-    if (!session.userId) {
-        errors.length = 0;
-        errors.push({not_logged: "Vous n'êtes pas connecté"});
-        return res.status(403).json(errors);
-    }
+    // Si des erreurs sont apparues, les retourner
     if (!isValid) {
         return res.status(403).json(errors);
     }
 
+    // L'utilisateur est-il connecté ?
+    const session = req.session;
+    if (!session.userId) {
+        // Il ne l'est pas. On lui signale
+        errors.length = 0;
+        errors.push({not_logged: "Vous n'êtes pas connecté"});
+        return res.status(403).json(errors);
+    }
+
+    // On crée la nouvelle instance de la Fiche
     const newFiche = new Fiche({
         title: req.body.title,
         description: req.body.description,
-        _creator: session.userId
+        _creator: session.userId,
+        level: req.body.level,
+        subject: req.body.subject
     });
+    // On sauvegarde la fiche dans la base de données
     newFiche.save()
 
+    // On signale à l'utilisateur que tout est bon
     return res.status(200).json({
         success: `La fiche a bien été créée et sera publiée après validation`
     })
 });
 
-
+// Lien pour récupérer toutes les fiches
 router.get('/all', (req, res) => {
+    // L'utilisateur est-il connecté ?
     const session = req.session;
     if (!session.userId) {
+        // Il ne l'est pas.
         return res.status(403).json({not_logged: "Vous n'êtes pas connecté"});
     }
+
+    // On récupère toutes les fiches dans la base de données
     Fiche.find().then((fiches) => {
+        // On renvoie les fiches à l'utilisateur
         res.send({
             fiches
         });
     }, (e) => {
+        // Une erreur est survenue. On renvoie un statut 404  à l'utilisateur.
         res.status(400).send(e);
     });
-});
-
-router.post('/like', (req, res) => {
-    const {
-        errors,
-        isValid
-    } = validateFicheInput(req.body, req.connection);
-    
-    if(errors.length > 0) {
-        return res.status(403).json(errors);
-    }
-
-    const session = req.session;
-    if (!session.userId) {
-        errors.length = 0;
-        errors.push({not_logged: "Vous n'êtes pas connecté"});
-        return res.status(403).json(errors);
-    }
-    if (!isValid) {
-        return res.status(403).json(errors);
-    }
-
-    const newFiche = new Fiche({
-        title: req.body.title,
-        description: req.body.description,
-        _creator: session.userId
-    });
-    newFiche.save()
-
-    return res.status(200).json({
-        success: `La fiche a bien été créée et sera publiée après validation`
-    })
 });
 
 module.exports = router;

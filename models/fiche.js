@@ -1,25 +1,26 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+// Modèle des fiches
 var Fiche = new Schema({
-    title: {
+    title: {                                        // Intitulé de la fiche
         type: String,
         required: true,
         minlength: 3,
         trim: true
     },
-    description: {
+    description: {                                 // Description de la fiche (courte, affichée sur la page d'accueil)
         type: String,
         required: true,
         minlength: 3,
         maxLength: 300,
         trim: true
     },
-    submittedAt: {
+    submittedAt: {                                // Date de soumission de la fiche
         type: Date,
         default: Date.now()
     },
-    level: {
+    level: {                                      // Classe de la fiche
         type: String,
         default: 'Terminale S'
     },

@@ -7,15 +7,19 @@ const Fiche = mongoose.model('Fiche');
 require('../../models/like');
 const Like = mongoose.model('Like');
 
+// Permet de valider le formulaire
 const validateLikeInput = require('../../validation/like');
 
+// Route POST permettant de poster un Like
 router.post('/', (req, res) => {
+    // On vérifie si le formulaire est correct
     const {
         errors,
         isValid
     } = validateLikeInput(req.body);
-    
-    if(errors.length > 0) {
+
+    // On return les éventuelles erreurs
+    if (!isValid) {
         return res.status(403).json(errors);
     }
 
@@ -23,9 +27,6 @@ router.post('/', (req, res) => {
     if (!session.userId) {
         errors.length = 0;
         errors.push({not_logged: "Vous n'êtes pas connecté"});
-        return res.status(403).json(errors);
-    }
-    if (!isValid) {
         return res.status(403).json(errors);
     }
 

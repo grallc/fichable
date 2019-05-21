@@ -16,8 +16,9 @@ $(function () {
 
         xhr.addEventListener('readystatechange', function () { // On gère ici une requête asynchrone
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) { // Si le fichier est chargé sans erreur.
-                $('#ficheInfo').show().html("La fiche sera postée après validation manuelle !")
+                $('#ficheInfo').show().html("La fiche a bien été postée !")
                 $('#ficheError').hide()
+                setTimeout(function(){ window.location = "/"; }, 500);
             } else if (xhr.readyState === XMLHttpRequest.DONE && xhr.status != 200) { // En cas d'erreur !
                 if (xhr.response && xhr.response[0]) {
                     for (const key in xhr.response[0]) {

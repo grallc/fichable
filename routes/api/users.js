@@ -41,7 +41,7 @@ router.post('/register', (req, res) => {
     }
 
     User.findOne({
-        name: req.body.name
+        username: req.body.username
     }).exec().then(user => {
         if (user) {
             errors.push({username: "Le nom d'utilisateur est déjà utilisé"});
@@ -57,7 +57,7 @@ router.post('/register', (req, res) => {
             }
             // User's URL
             const newUser = new User({
-                name: req.body.name,
+                username: req.body.username,
                 email: req.body.email,
                 password: req.body.password
             });

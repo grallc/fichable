@@ -8,7 +8,6 @@
 			<h5 class="card-title">{{ this.title }}</h5>
 			<h4>{{ this.subject }}</h4></a>
 			<p class="card-text">{{ this.description }}</p>
-			{{!-- <p class="card-text"><small class="text-muted">{{ this.submittedAt }}</small></p> --}}
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ficheModal-{{this._id}}">
 				Voir la fiche
 			</button>
@@ -42,7 +41,7 @@
 				{{/if}}
 			</div>
 			<div class="modal-footer">
-				<p class="likes-amount-{{ this._id }}">{{ this.likesLength }} <i class="fas fa-heart"></i></p>
+				<p><span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span><i class="fas fa-heart"></i></p>
 				{{#if ../userId includeZero=true}}
 					{{#if this.userLikes includeZero=false}}
 						<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}" style="display: none"><i class="fas fa-heart"></i> J'aime cette fiche</button>
