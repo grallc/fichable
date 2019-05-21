@@ -67,4 +67,28 @@ router.get('/all', (req, res) => {
     });
 });
 
+// Route pour supprimer un like 
+router.delete('/', (req, res) => {
+    // L'utilisaiteur est-il connecté ?
+    const session = req.session;
+    if (!session.userId) {
+        return res.status(403).json({not_logged: "Vous n'êtes pas connecté"});
+    } else if(!req.body.fiche) {
+        return res.status(403).json({no_fiche: "Veuillez spécifier la fiche"});
+    }
+
+    // On supprime le like, après l'avoir recherché dans la base de données
+    Fiche.findOneAndRemove({_id: req.body.fiche, _creator: req.session.userId}, (error, data) => {
+        if(error) {
+            return res.status(500).json({
+                error
+            }) 
+        } else {
+            return res.status(200).json({
+                success: `Vous avez bien supprimé la fiche. :(`
+            })
+        }
+    })
+});
+
 module.exports = router;

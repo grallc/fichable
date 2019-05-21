@@ -1,72 +1,95 @@
 {{#each fiches}}
-<li class="card mb-3" style="width: 70vw; min-height: 250px;">
-	<div class="col-md-3 thumbFiche">
-		<h2>{{ this.level }}</h2>
-	</div>
-	<div class="col-md-8">
-		<div class="card-body">
-			<h5 class="card-title">{{ this.title }}</h5>
-			<h4>{{ this.subject }}</h4></a>
-			<p class="card-text">{{ this.description }}</p>
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ficheModal-{{this._id}}">
-				Voir la fiche
-			</button>
-			{{#if ../editable }}
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFicheModal-{{this._id}}">
-					<i class="fas fa-pencil-alt"></i>	Éditer la fiche
-				</button>
-				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteFicheModal-{{this._id}}">
-					<i class="fas fa-trash-alt"></i> 	Supprimer la fiche
-				</button>
-			{{/if}}
-			<p class='likes'>
-				<i class="fas fa-heart"></i>
-				<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span>
-			</p>
+	<li class="card mb-3" style="width: 70vw; min-height: 250px;">
+		<div class="col-md-3 thumbFiche">
+			<h2>{{ this.level }}</h2>
 		</div>
-	</div>
-</li>
-
-
-<!-- Modal -->
-<div class="modal fade" id="ficheModal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="fichaModalLabel-{{this._id}}"
-	aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="ficheModalLabel-{{ this._id}}">{{ this.title }}</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
-					<span aria-hidden="true">&times;</span>
+		<div class="col-md-8">
+			<div class="card-body">
+				<h5 class="card-title">{{ this.title }}</h5>
+				<h4>{{ this.subject }}</h4></a>
+				<p class="card-text">{{ this.description }}</p>
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ficheModal-{{this._id}}">
+					Voir la fiche
 				</button>
-			</div>
-			<div class="modal-body">
-				{{#if ../userId includeZero=true}}
-					<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
-					<br>
-					{{ this.content }}
-				{{ else }}
-					<p>Vous devez être connecté pour voir les fiches !</p>
+				{{#if ../editable }}
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editFicheModal-{{this._id}}">
+						<i class="fas fa-pencil-alt"></i>	Éditer la fiche
+					</button>
+					<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteFicheModal-{{this._id}}">
+						<i class="fas fa-trash-alt"></i> 	Supprimer la fiche
+					</button>
 				{{/if}}
+				<p class='likes'>
+					<i class="fas fa-heart"></i>
+					<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span>
+				</p>
 			</div>
-			<div class="modal-footer">
-				{{#unless ../editable}}
-					<p><span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span><i class="fas fa-heart"></i></p>
+		</div>
+	</li>
+
+
+	<!-- View Fiche Modal-->
+	<div class="modal fade" id="ficheModal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="ficheModalLabel-{{this._id}}"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ficheModalLabel-{{ this._id}}">{{ this.title }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
 					{{#if ../userId includeZero=true}}
-						{{#if this.userLikes includeZero=false}}
-							<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}" style="display: none"><i class="fas fa-heart"></i> J'aime cette fiche</button>
-							<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
-						{{else}}
-							<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
-							<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"  style="display: none"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
-						{{/if}}
+						<img src="{{ this.img }}" class="card-img" alt="{{ this.title }}">
+						<br>
+						{{ this.content }}
+					{{ else }}
+						<p>Vous devez être connecté pour voir les fiches !</p>
 					{{/if}}
-				{{/unless}}
-				<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la
-					fenêtre</button>
+				</div>
+				<div class="modal-footer">
+					{{#unless ../editable}}
+						<p class='likes'>
+							<i class="fas fa-heart"></i>
+							<span class="likes-amount-{{ this._id }}">{{ this.likesLength }}</span>
+						</p>
+						{{#if ../userId includeZero=true}}
+							{{#if this.userLikes includeZero=false}}
+								<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}" style="display: none"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+								<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
+							{{else}}
+								<button type="button" id="like-button-{{ this._id }}" class="btn btn-secondary like" fiche="{{this._id}}"><i class="fas fa-heart"></i> J'aime cette fiche</button>
+								<button type="button" id="dislike-button-{{ this._id }}" class="btn btn-secondary dislike" fiche="{{this._id}}"  style="display: none"><i class="far fa-heart"></i> Je n'aime plus cette fiche</button>
+							{{/if}}
+						{{/if}}
+					{{/unless}}
+					<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la
+						fenêtre</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+
+	<div class="modal fade" id="deleteFicheModal-{{this._id}}" tabindex="-1" role="dialog" aria-labelledby="deleteFicheModalLabel-{{this._id}}" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="ficheModalLabel-{{ this._id}}">{{ this.title }}</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Fermer">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					    <input type="checkbox" class="fiche-delete-checkbox" fiche="{{this._id}}" autocomplete="off"> Je veux supprimer la fiche
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary closeModal deleteFiche" id="deleteFicheButton-{{ this._id}}" fiche="{{this._id}}" data-dismiss="modal" disabled>Supprimer la fiche</button>
+					<button type="button" class="btn btn-secondary closeModal" data-dismiss="modal">Fermer la fenêtre</button>
+				</div>
+			</div>
+		</div>
+	</div>
 {{else}}
-<p>Aucune fiche répondant à ces critères n'a été trouvée :(</p>
+	<p>Aucune fiche répondant à ces critères n'a été trouvée :(</p>
 {{/each}}

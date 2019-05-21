@@ -35,7 +35,8 @@ router.get('/profile', (req, res) => {
                     fiches,
                     pageTitle: 'Mon Profil',
                     userId: req.session.userId,
-                    editable: true
+                    editable: true,
+                    query: req.query
                 });
             })
 

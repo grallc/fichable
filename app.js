@@ -94,6 +94,12 @@ app.use('*', (req, res, next) => {
             case `17`:
                 message = `Une erreur est survenue lors de la déconnexion. Veuillez réessayer.`
                 break;
+            case `18`:
+                message = `La fiche a bien été supprimée.`
+                break;
+            case `17`:
+                message = `Une erreur est survenue lors de la suppression. Veuillez réessayer.`
+                break;
             case `404`:
                 message = `Page introuvable`
                 break;
