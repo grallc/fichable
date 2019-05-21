@@ -34,7 +34,8 @@ router.post('/submit', (req, res) => {
         description: req.body.description,
         _creator: session.userId,
         level: req.body.level,
-        subject: req.body.subject
+        subject: req.body.subject,
+        content: req.body.content
     });
     // On sauvegarde la fiche dans la base de données
     newFiche.save()

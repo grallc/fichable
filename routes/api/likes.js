@@ -23,18 +23,22 @@ router.post('/', (req, res) => {
         return res.status(403).json(errors);
     }
 
+    // L'utilisateur est-il connecté ?
     const session = req.session;
     if (!session.userId) {
+        // Il ne l'est pas. On le bloque.
         errors.length = 0;
         errors.push({not_logged: "Vous n'êtes pas connecté"});
         return res.status(403).json(errors);
     }
 
+    // On crée une nouvelle instance de Like
     const newLike = new Like({
         ficheId: req.body.fiche,
         userId: req.session.userId,
         ip: req.headers['x-forwarded-for'] || req.connection.remoteAddress
     });
+    // On la sauvegarde
     newLike.save()
 
     return res.status(200).json({
@@ -42,12 +46,15 @@ router.post('/', (req, res) => {
     })
 });
 
+// Route pour supprimer un like 
 router.delete('/', (req, res) => {
+    /// Vérification du formulaire
     const {
         errors,
         isValid
     } = validateLikeInput(req.body);
     
+    // Des erreurs sont là
     if(errors.length > 0) {
         return res.status(403).json(errors);
     }
