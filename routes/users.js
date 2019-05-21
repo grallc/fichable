@@ -34,7 +34,7 @@ router.get('/profile', (req, res) => {
                 res.render("profile", {
                     fiches,
                     pageTitle: 'Mon Profil',
-                    user
+                    userId: req.session.userId
                 });
             })
 
