@@ -9,7 +9,7 @@ $(function () {
         });
 
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/api/fiches/submit');
+        xhr.open('POST', '/api/fiches/');
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.send(JSON.stringify(values));
         xhr.responseType = 'json';

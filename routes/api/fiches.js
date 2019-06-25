@@ -7,7 +7,7 @@ const Fiche = mongoose.model('Fiche');
 const validateFicheInput = require('../../validation/fiche');
 
 // Lien API pour soumettre une nouvelle fiche
-router.post('/submit', (req, res) => {
+router.post('/', (req, res) => {
     // On commence par vérifier le formulaire
     const {
         errors,
